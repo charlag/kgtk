@@ -8,4 +8,6 @@
  */
 
 rootProject.name = "k-gtk"
+
+include("generator")
 include("demo")

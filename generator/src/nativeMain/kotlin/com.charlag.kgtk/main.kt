@@ -14,7 +14,7 @@ fun main(args: Array<String>) {
     // TODO: remove
     val (packageName, distdir) =
             if (args.isEmpty())
-                arrayOf("com.charlag.kgtk.demo", "demo/src/nativeMain/kotlin/com.charlag.kgtk.demo")
+                arrayOf("com.charlag.kgtk.demo", "../demo/src/nativeMain/kotlin/com.charlag.kgtk.demo")
             else args
     ensureDir(Path(distdir))
 
