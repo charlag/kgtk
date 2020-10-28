@@ -3,9 +3,7 @@
 package com.charlag.kgtk
 
 import com.charlag.kgtk.generator.typelib.*
-import girepository.GIInfoType
-import girepository.GITypeTag
-import girepository.GI_FUNCTION_IS_CONSTRUCTOR
+import girepository.*
 import kotlinx.cinterop.*
 
 fun main(args: Array<String>) {
@@ -31,10 +29,6 @@ fun main(args: Array<String>) {
         class GType {}
         
         fun <T> stub(): T = TODO()
-        
-        interface InteropWrapper {
-            val cptr: CPointer<*>
-        }
         
         inline fun <reified T: CVariable> CPointer<T>.arrayToList(): List<T> {
             val result = mutableListOf<T>()
@@ -83,13 +77,37 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
     output.appendLine()
 
     for (info in repository.infos(namespace)) {
+        if (namespace == "GModule" || namespace == "xlib") continue
+
         val skippedNames = mapOf(
-                // Not needed hopefully
-                "GLib" to setOf("Array"),
+                "GLib" to setOf(
+                        // Not needed hopefully
+                        "Array", "List",
+                        // Cannot find C symbol
+                        "StatBuf"),
                 // weird VA thing
                 "GObject" to setOf("signal_set_va_marshaller"),
                 // Bad override
-                "Gio" to setOf("DataInputStream"),
+                "Gio" to setOf(
+                        "DataInputStream",
+                        // Need special header for unix
+                        "DesktopAppInfo", "DesktopAppInfoLookup", "FileDescriptorBased",
+                        "UnixConnection", "UnixCredentialsMessageClass", "UnixFDListClass",
+                        "UnixFDMessage", "UnixInputStream", "UnixMountEntry",
+                        "UnixMountMonitor", "UnixMountPoint", "UnixOutputStream",
+                        "UnixSocketAddress", "DesktopAppLaunchCallback", "SettingsBackend",
+                        "unix_mount_at", "unix_mount_compare", "unix_mount_copy",
+                        "unix_mount_for", "unix_mount_free", "unix_mount_get_device_path",
+                        "unix_mount_get_fs_type", "unix_mount_get_mount_path",
+                        "unix_mount_get_options", "unix_mount_get_root_path",
+                        "unix_mount_guess_can_eject", "unix_mount_guess_icon",
+                        "unix_mount_guess_name", "unix_mount_guess_should_display",
+                        "unix_mount_guess_symbolic_icon", "unix_mount_is_readonly",
+                        "unix_mount_is_system_internal", "unix_mount_points_changed_since",
+                        "unix_mount_points_get", "unix_mounts_changed_since", "unix_mounts_get",
+                        "keyfile_settings_backend_new", "null_settings_backend_new",
+                        "memory_settings_backend_new", "Settings",
+                ),
                 // Deprecated
                 "Gtk" to setOf(
                         "Action", "UIManager", "ActionGroup", "Alignment", "BooleanCellAccessible",
@@ -121,18 +139,53 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
                         "Unit",
                         // Is only accessible with special build of X11
                         "Plug", "Socket"),
+                "Pango" to setOf(
+                        // Cannot find symbols
+                        "IncludedModule", "Map", "MapEntry"
+                ),
+                "GdkPixbuf" to setOf(
+                        // Cannot find symbols
+                        "PixbufAnimation",
+                        "PixbufAnimationIter", "PixbufError", "PixbufFormat", "PixbufLoader",
+                        "PixbufRotation", "PixbufSimpleAnim", "PixbufSimpleAnimIter",
+                        "PixbufAlphaMode",
+                )
         )[namespace] ?: listOf()
+
+        val stubs = mapOf(
+                "GdkPixbuf" to mapOf(
+                        "Colorspace" to "enum class Colorspace {}",
+                        "InterpType" to "enum class InterpType {}",
+                        "PixbufRotation" to "enum class PixbufRotation {}",
+                        "PixbufFormat" to "enum class PixbufFormat {}",
+                        "PixbufAnimation" to "class PixbufAnimation",
+                )
+        )
 
         val generateImpls = mapOf(
-                "Gtk" to listOf("Application")
-        )[namespace] ?: listOf()
+                "Gtk" to setOf("Application"),
+                "Gio" to setOf("Application"),
+        )[namespace] ?: setOf()
 
         val name = info.name
-        if (name in skippedNames ||
+
+        val stub = stubs[namespace]?.get(name)
+        if (stub != null) {
+            output.appendLine(stub)
+            output.appendLine()
+            continue
+        }
+
+        if (name.endsWith("Private") ||
+                name in skippedNames ||
                 name.removeSuffix("Class") in skippedNames ||
-                name.removeSuffix("Private") in skippedNames ||
                 name.removeSuffix("Iface") in skippedNames
         ) continue
+
+        // A lot of problems with parsing Cairo headers
+        if (namespace == "cairo" && info !is StructInfo && name != "Content") {
+            continue
+        }
         when (info) {
             is ObjectInfo -> {
                 processObject(info, namespace, packageName, output, name in generateImpls)
@@ -211,12 +264,12 @@ inline operator fun <reified T : CVariable> CArrayPointer<T>.set(index: Int, val
 fun UInt.testFlag(flag: UInt): Boolean = this and flag == flag
 
 fun cname(namespace: String, name: String): String {
-    val prefix = when (namespace) {
-        "GObject", "GLib", "Gio" -> "G"
-        "GdkPixBuf" -> "Gdk"
-        else -> namespace
+    return when (namespace) {
+        "GObject", "GLib", "Gio" -> "G$name"
+        "GdkPixbuf" -> "Gdk$name"
+        "cairo" -> "cairo_${name.toLowerCase()}_t"
+        else -> "${namespace}$name"
     }
-    return "${prefix}$name"
 }
 
 fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String, builder: StringBuilder, generateImpls: Boolean = false) {
@@ -227,8 +280,6 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
     val interfaces = mutableListOf<String>()
     if (parent != null) {
         interfaces.add(interfaceName(parent, namespace, packageName) + "(cptr.reinterpret())")
-    } else {
-        interfaces.add("InteropWrapper")
     }
     for (int in objectInfo.interfaces) {
         interfaces += interfaceName(int, namespace, packageName)
@@ -276,14 +327,23 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
             }
         } else {
             val retType = method.returnType
+
+            val (methodName, modifier) = makeMethodName(objectInfo, method)
             val call = if (generateImpls) generateMethodCall(method, namespace, packageName)
             else "stub()"
 
-            val (methodName, modifier) = makeMethodName(objectInfo, method)
-
-            builder.appendLine("    ${modifier} fun $methodName(${paramsInDecl()}): ${serializeType(retType, namespace, packageName)} {")
-            builder.appendLine("         return $call")
-            builder.appendLine("    }")
+            if (!method.flags.testFlag(GI_FUNCTION_IS_METHOD)) {
+                val fn = """
+                |fun $methodName(${paramsInDecl()}): ${serializeType(retType, namespace, packageName)} {
+                |    return $call
+                |}
+            """.trimMargin()
+                factories.add(fn)
+            } else {
+                builder.appendLine("    $modifier fun $methodName(${paramsInDecl()}): ${serializeType(retType, namespace, packageName)} {")
+                builder.appendLine("         return $call")
+                builder.appendLine("    }")
+            }
         }
     }
     builder.appendLine("    companion object {")
@@ -323,11 +383,9 @@ fun makeMethodName(objectInfo: ObjectInfo, method: FunctionInfo): MethodDeclInfo
 }
 
 private fun generateMethodCall(method: FunctionInfo, currentNamespace: String, packageName: String): String {
-    val call = generateFunctionCall(method, currentNamespace, packageName, listOf("cptr"))
+    val preArgs = if (method.flags.testFlag(GI_FUNCTION_IS_METHOD)) listOf("cptr") else listOf()
+    val call = generateFunctionCall(method, currentNamespace, packageName, preArgs)
     val retType = method.returnType
-    if (method.name == "set_accels_for_action") {
-        println("gtk_application_set_accels_for_action: ${method.args.toList()}")
-    }
     return decorateWithKTypeConversion(retType, currentNamespace, packageName, call)
 }
 
@@ -358,37 +416,72 @@ private fun decorateWithKTypeConversion(
             val kName = serializeType(elType, currentNamespace, packageName)
             "$call.toList<${cName}>().map { ${kName}(it) }"
         }
+        GITypeTag.GI_TYPE_TAG_UTF8 -> "$call.toKString()"
+        GITypeTag.GI_TYPE_TAG_UINT32,
+        GITypeTag.GI_TYPE_TAG_INT32,
+        -> call
         else -> "/* TODO: ret tag ${retType.tag} */ $call"
     }
 }
 
-private fun generateFunctionCall(method: FunctionInfo, currentNamespace: String, packageName: String, prefixArgs: List<String> = listOf()): String {
-    val args = prefixArgs + method.args.map { arg ->
+private fun generateFunctionCall(
+        method: FunctionInfo,
+        currentNamespace: String,
+        packageName: String,
+        prefixArgs: List<String> = listOf()
+): String {
+    fun callForInterface(int: InterfaceInfo, typeName: String, argName: String): String {
+        return when (int.type) {
+            GIInfoType.GI_INFO_TYPE_OBJECT, GIInfoType.GI_INFO_TYPE_STRUCT ->
+                "$typeName.cptr(${escapeName(argName)})"
+            GIInfoType.GI_INFO_TYPE_ENUM, GIInfoType.GI_INFO_TYPE_FLAGS ->
+                argName
+            GIInfoType.GI_INFO_TYPE_INTERFACE -> "TODO(\"Passing interfaces\")"
+            else -> error("Unexpected argument type: ${int.type} for ${argName}")
+        }
+    }
 
+    val args = prefixArgs + method.args.map { arg ->
         val argType = arg.argType
         when (argType.tag) {
             GITypeTag.GI_TYPE_TAG_INTERFACE -> {
                 val int = argType.interfaceInfo!!
                 val typeName = interfaceName(int, currentNamespace, packageName)
-                when (int.type) {
-                    GIInfoType.GI_INFO_TYPE_OBJECT, GIInfoType.GI_INFO_TYPE_STRUCT ->
-                        "$typeName.cptr(${escapeName(arg.name)})"
-                    GIInfoType.GI_INFO_TYPE_ENUM, GIInfoType.GI_INFO_TYPE_FLAGS ->
-                        arg.name
-                    else -> error("Unexpected argument type: ${int.type} for ${arg.name}")
-                }
+                callForInterface(int, typeName, arg.name)
             }
             GITypeTag.GI_TYPE_TAG_ARRAY -> {
-                if (argType.paramType(0)!!.tag == GITypeTag.GI_TYPE_TAG_UTF8) {
-                    "${arg.name}.toCStringArray(this)"
-                } else {
-                    escapeName(arg.name)
+                val arrayParamType = argType.paramType(0)!!
+                when (val arrayTypeTag = arrayParamType.tag) {
+                    GITypeTag.GI_TYPE_TAG_UTF8, GITypeTag.GI_TYPE_TAG_FILENAME -> {
+                        "${arg.name}.toCStringArray(this)"
+                    }
+                    GITypeTag.GI_TYPE_TAG_INTERFACE -> {
+                        val int = arrayParamType.interfaceInfo!!
+                        val intName = interfaceName(int, currentNamespace, packageName)
+                        """allocArray(${arg.name}.size) { ${callForInterface(int, intName, "${arg.name}[it]")} }"""
+                    }
+                    else -> {
+                        "/* TODO: param array $arrayTypeTag */" + escapeName(arg.name)
+                    }
                 }
             }
             else -> escapeName(arg.name)
         }
     }
-    return "memScoped { ${method.symbol}(${args.joinToString(", ")})!! }"
+    val throws = method.flags.testFlag(GI_FUNCTION_THROWS)
+    if (throws) {
+        val argsWithError = args + "_err.ptr"
+        return """
+            memScoped {
+                val _err = allocPointerTo<GError>()
+                val _result = ${method.symbol}(${argsWithError.joinToString(", ")})
+                if (_err.value != null) { g_error_free(_err.value); error("GError") }
+                _result!!
+            }
+        """.trimIndent()
+    } else {
+        return "memScoped { ${method.symbol}(${args.joinToString(", ")})!! }"
+    }
 }
 
 tailrec fun ObjectInfo.getOrInheritsMethod(methodName: String, types: List<TypeInfo>): FunctionInfo? {
@@ -442,7 +535,9 @@ fun processEnum(enum: EnumInfo, namespace: String, packageName: String, builder:
 fun processStruct(struct: StructInfo, namespace: String, packageName: String, builder: StringBuilder) {
     val name = struct.name
     val cName = cname(namespace, name)
-    builder.appendLine("class $name(private val cptr: CPointer<$cName>) /* struct */ {")
+    // Kotlin randomly maps structs to either pointers or structs themselves (especially in this
+    // macro land of GLib) so we take exactly the struct name.
+    builder.appendLine("class $name(private val cptr: CPointer<cnames.structs._$cName>) /* struct */ {")
     for (method in struct.methods) {
         val retType = method.returnType
 
@@ -459,7 +554,7 @@ fun processStruct(struct: StructInfo, namespace: String, packageName: String, bu
         builder.appendLine("    }")
     }
     builder.appendLine("    companion object {")
-    builder.appendLine("        fun cptr(obj: ${name}): CPointer<$cName> = obj.cptr")
+    builder.appendLine("        fun cptr(obj: ${name}): CPointer<cnames.structs._$cName> = obj.cptr")
     builder.appendLine("    }")
     builder.appendLine("}")
     builder.appendLine()

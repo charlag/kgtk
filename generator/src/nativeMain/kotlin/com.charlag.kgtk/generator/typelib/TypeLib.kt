@@ -86,8 +86,8 @@ class ArgInfo(private val instance: CPointer<GIArgInfo>) : CallableInfo(instance
 }
 
 open class RegisteredTypeInfo(private val instance: CPointer<GITypeInfo>) : BaseInfo(instance) {
-    val typeName: String
-        get() = g_registered_type_info_get_type_name(instance)!!.toKString()
+    val typeName: String?
+        get() = g_registered_type_info_get_type_name(instance)?.toKString()
     val gtype: GType
         get() = g_registered_type_info_get_g_type(instance)
 }
