@@ -3,6 +3,7 @@
 package com.charlag.kgtk
 
 import com.charlag.kgtk.generator.typelib.*
+import girepository.GIInfoType
 import girepository.GITypeTag
 import girepository.GI_FUNCTION_IS_CONSTRUCTOR
 import kotlinx.cinterop.*
@@ -23,7 +24,15 @@ fun main(args: Array<String>) {
     val prelude = """
         package ${packageName}.prelude 
         
+        import kotlinx.cinterop.CPointer
+        
         class GType {}
+        
+        fun <T> stub(): T = TODO()
+        
+        interface InteropWrapper {
+            val cptr: CPointer<*>
+        }
         """.trimIndent()
     writeFile(Path(distdir).append("prelude.kt"), prelude)
 
@@ -36,19 +45,70 @@ fun main(args: Array<String>) {
 private fun processNamespace(repository: Repository, namespace: String, packageName: String): String {
     val output = StringBuilder()
     output.appendLine("// Namespace: $namespace")
-    output.appendLine("package $packageName.${namespace.toLowerCase()}\n")
-    output.appendLine("import $packageName.prelude.*\n")
+    output.appendLine("package $packageName.${namespace.toLowerCase()}")
+    output.appendLine()
+    output.appendLine("import $packageName.prelude.*")
+    output.appendLine("import gtk3.*")
+    output.appendLine("import kotlinx.cinterop.*")
+    output.appendLine("import com.charlag.kgtk.demo.prelude.GType")
+    output.appendLine()
+
     for (info in repository.infos(namespace)) {
-        val skippedNames = listOf(
-                "Array", // We will bridge it on our own
-                "signal_set_va_marshaller", // v-style vararg? no, thanks!
-                "DataInputStream" // read_byte() has different type than parent
-        )
+        val skippedNames = mapOf(
+                // Not needed hopefully
+                "GLib" to setOf("Array"),
+                // weird VA thing
+                "GObject" to setOf("signal_set_va_marshaller"),
+                // Bad override
+                "Gio" to setOf("DataInputStream"),
+                // Deprecated
+                "Gtk" to setOf(
+                        "Action", "UIManager", "ActionGroup", "Alignment", "BooleanCellAccessible",
+                        "Arrow", "ArrowAccessible", "ButtonAccessible", "LinkButtonAccessible",
+                        "MenuButtonAccessible", "RadioButtonAccessible", "ScaleButtonAccessible",
+                        "GtkNumerableIcon", "ActionEntry", "ContainerAccessible",
+                        "ContainerCellAccessible", "TreeViewAccessible", "CellAccessible",
+                        "CheckMenuItemAccessible", "ComboBoxAccessible", "EntryAccessible",
+                        "EntryIconAccessible", "ExpanderAccessible", "FlowBoxAccessible",
+                        "FlowBoxChildAccessible", "FrameAccessible", "HeaderBarAccessible",
+                        "IconViewAccessible", "ImageAccessible", "ImageAccessible",
+                        "LabelAccessible", "LevelBarAccessible", "WindowAccessible",
+                        "ListBoxRowAccessible", "LockButtonAccessible", "MenuAccessible",
+                        "MenuItemAccessible", "MenuShellAccessible",  "NotebookAccessible",
+                        "NotebookPageAccessible", "PanedAccessible", "PopovwerAccessible",
+                        "ProgressBarAccessible", "RadioMenuItemAccessible", "RangeAccessible",
+                        "RecentAction", "RendererCellAccessible", "ScaleAccessible",
+                        "ScrolledWindowAccessible", "SpinButtonAccessible", "SpinnerAccessible",
+                        "StackAccessible", "StatusbarAccessible", "SwitchAccessible",
+                        "TextCellAccessible", "TextViewAccessible", "ThemingEnginePrivate",
+                        "ToggleAction", "ToggleButtonAccessible", "ToplevelAccessible",
+                        "TreeViewAccessible", "WidgetAccessible", "CellAccessible",
+                        "CellAccessibleParent", "ComboBoxAccessible",
+                        "EntryAccessible", "EntryIconAccessible", "ExpanderAccessible",
+                        "FlowBoxAccessible", "FlowBoxChildAccessible", "FrameAccessible",
+                        "HeaderBarAccessible", "IconViewAccessible", "RadioAction",
+                        "ImageCellAccessible", "ListBoxAccessible", "PopoverAccessible",
+                        // skip for now
+                        "Unit",
+                        // incompatible overrides, maybe should implement by hand
+                        "MenuItem", "MenuButton", "CheckMenuItem", "Toolbar",
+                        // Is only accessible with special build of X11
+                        "Plug", "Socket"),
+        )[namespace] ?: listOf()
+
+        val generateImpls = mapOf(
+                "Gtk" to listOf("Application")
+        )[namespace] ?: listOf()
+
         val name = info.name
-        if (name in skippedNames) continue
+        if (name in skippedNames ||
+                name.removeSuffix("Class") in skippedNames ||
+                name.removeSuffix("Private") in skippedNames ||
+                name.removeSuffix("Iface") in skippedNames
+        ) continue
         when (info) {
             is ObjectInfo -> {
-                processObject(info, namespace, packageName, output)
+                processObject(info, namespace, packageName, output, name in generateImpls)
             }
             is FunctionInfo -> {
                 processFunction(info, namespace, packageName, output)
@@ -123,13 +183,25 @@ inline operator fun <reified T : CVariable> CArrayPointer<T>.set(index: Int, val
 
 fun UInt.testFlag(flag: UInt): Boolean = this and flag == flag
 
-fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String, builder: StringBuilder) {
+fun cname(namespace: String, name: String): String {
+    val prefix = when (namespace) {
+        "GObject" -> "G"
+        "GdkPixBuf" -> "Gdk"
+        else -> namespace
+    }
+    return "${prefix}$name"
+}
+
+fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String, builder: StringBuilder, generateImpls: Boolean = false) {
     val objectName = objectInfo.name
-    builder.append("open class $objectName()")
+    val cStructName = cname(namespace, objectName)
+    builder.append("open class $objectName internal constructor (private val cptr: CPointer<$cStructName>)")
     val parent = objectInfo.parent
     val interfaces = mutableListOf<String>()
     if (parent != null) {
-        interfaces.add(interfaceName(parent, namespace, packageName) + "()")
+        interfaces.add(interfaceName(parent, namespace, packageName) + "(cptr.reinterpret())")
+    } else {
+        interfaces.add("InteropWrapper")
     }
     for (int in objectInfo.interfaces) {
         interfaces += interfaceName(int, namespace, packageName)
@@ -158,57 +230,70 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
     for (method in objectInfo.methods) {
         val cName = method.name
         val name = cName.let(::escapeName)
-        val params = mutableListOf<String>()
+        val params = mutableListOf<Pair<String, String>>()
         for (param in method.args) {
             val paramType = param.argType
             val paramTypeName = serializeType(paramType, namespace, packageName)
-            val paramName = escapeName(param.name)
-            params += "$paramName:  $paramTypeName"
+            params += param.name to paramTypeName
         }
+        fun paramsInDecl(): String = params.joinToString(separator = ", ") { (name, type) -> "${escapeName(name)}: $type" }
         if (method.flags.testFlag(GI_FUNCTION_IS_CONSTRUCTOR)) {
             if (name == "new") {
                 if (params.isNotEmpty()) { // empty case handled by primary)
-                    builder.appendLine("    constructor(${params.joinToString(", ")}) : this() {}")
+                    val call = if (generateImpls) generateFunctionCall(method, namespace, packageName) else "stub<CPointer<$cStructName>>()"
+                    builder.appendLine("    constructor(${paramsInDecl()}) : this($call)")
                 }
             } else {
-                factories.add("fun $name(${params.joinToString(", ")}): $objectName { TODO() }")
+                factories.add("fun $name(${paramsInDecl()}): $objectName { TODO() } // ${method.symbol}")
             }
         } else {
             val retType = method.returnType
 
             val argTypes = method.args.map { it.argType }.toList()
             val modifier = if (parent?.getOrInheritsMethod(cName, argTypes) != null) "override " else ""
-            builder.appendLine("    ${modifier}open fun $name(${params.joinToString(", ")}): ${serializeType(retType, namespace, packageName)} { TODO() }")
+            val call = if (generateImpls) generateMethodCall(method, namespace, packageName)
+            else "stub()"
+            builder.appendLine("    ${modifier}open fun $name(${paramsInDecl()}): ${serializeType(retType, namespace, packageName)} {")
+            builder.appendLine("         return $call")
+            builder.appendLine("    }")
         }
     }
-    // Virtual functions are signals?
-
-//    val vfuncN = g_object_info_get_n_vfuncs(objectInfo)
-//    for (i in 0 until vfuncN) {
-//        val vfunc = g_object_info_get_vfunc(objectInfo, i)
-//        val name = g_base_info_get_name(vfunc)!!.toKString().let(::escapeName)
-//        val paramsN = g_callable_info_get_n_args(vfunc)
-//        val params = mutableListOf<String>()
-//        for (c in 0 until paramsN) {
-//            val param = g_callable_info_get_arg(vfunc, c)
-//            val paramType = g_arg_info_get_type(param)!!
-//            val paramTypeName = serializeType(paramType, namespace, packageName)
-//            val paramName = g_base_info_get_name(param)!!.toKString().let(::escapeName)
-//            params += "$paramName:  $paramTypeName"
-//        }
-//        val retType = g_callable_info_get_return_type(vfunc)!!
-//        builder.appendLine("    override fun $name(${params.joinToString(", ")}): ${serializeType(retType, namespace, packageName)} { TODO() }")
-//    }
-
-    if (factories.isNotEmpty()) {
-        builder.appendLine("    companion object {")
-        for (factory in factories) {
-            builder.append("        ")
-            builder.appendLine(factory)
-        }
-        builder.appendLine("    }")
+    builder.appendLine("    companion object {")
+    val gtype = objectInfo.gtype
+    builder.appendLine("        const val G_TYPE: gtk3.GType = ${gtype}UL")
+    builder.appendLine("        fun cptr(obj: $objectName): CPointer<$cStructName> = obj.cptr")
+    for (factory in factories) {
+        builder.append("        ")
+        builder.appendLine(factory)
     }
+    builder.appendLine("    }")
     builder.appendLine("}\n")
+}
+
+private fun generateMethodCall(method: FunctionInfo, currentNamespace: String, packageName: String): String {
+    return generateFunctionCall(method, currentNamespace, packageName, listOf("cptr"))
+}
+
+private fun generateFunctionCall(method: FunctionInfo, currentNamespace: String, packageName: String, prefixArgs: List<String> = listOf()): String {
+    val args = prefixArgs + method.args.map { arg ->
+
+        val argType = arg.argType
+        when (argType.tag) {
+            GITypeTag.GI_TYPE_TAG_INTERFACE -> {
+                val int = argType.interfaceInfo!!
+                val typeName = interfaceName(int, currentNamespace, packageName)
+                when (int.type) {
+                    GIInfoType.GI_INFO_TYPE_OBJECT, GIInfoType.GI_INFO_TYPE_STRUCT ->
+                        "$typeName.cptr(${escapeName(arg.name)})"
+                    GIInfoType.GI_INFO_TYPE_ENUM, GIInfoType.GI_INFO_TYPE_FLAGS ->
+                        arg.name
+                    else -> error("Unexpected argument type: ${int.type} for ${arg.name}")
+                }
+            }
+            else -> escapeName(arg.name)
+        }
+    }
+    return "${method.symbol}(${args.joinToString(", ")})!!"
 }
 
 tailrec fun ObjectInfo.getOrInheritsMethod(methodName: String, types: List<TypeInfo>): FunctionInfo? {
@@ -242,24 +327,32 @@ fun processInterface(int: InterfaceInfo, namespace: String, packageName: String,
 
 fun processEnum(enum: EnumInfo, namespace: String, packageName: String, builder: StringBuilder) {
     val name = enum.name
-    val cases = mutableListOf<String>()
-    for (value in enum.values) {
-        val valueName = value.name.let {
-            if (it == "name") "gname" else it
-        }
-        cases += escapeName(valueName)
-    }
-    builder.appendLine("enum class $name {")
-    for (case in cases) {
-        builder.appendLine("    $case,")
-    }
-    builder.appendLine("}\n")
+    builder.appendLine("typealias $name = ${cname(namespace, name)}")
+    builder.appendLine()
+//    val cases = mutableListOf<String>()
+//    val notAllowedNames = setOf("name", "suspend", "value", "open", "external", "private")
+//    for (value in enum.values) {
+//        val valueName = value.name.let {
+//            if (it in notAllowedNames) "g$it" else it
+//        }
+//        cases += "${escapeName(valueName)}(${value.value})"
+//    }
+//    builder.appendLine("enum class ${name}(val value: gint64) {")
+//    for (case in cases) {
+//        builder.appendLine("    $case,")
+//    }
+//    builder.appendLine("}\n")
 }
 
 fun processStruct(struct: StructInfo, namespace: String, packageName: String, builder: StringBuilder) {
     val name = struct.name
-    // TODO: everything
-    builder.appendLine("class $name /* struct */ {}\n")
+    val cName = cname(namespace, name)
+    builder.appendLine("class $name(private val cptr: CPointer<$cName>) /* struct */ {")
+    builder.appendLine("    companion object {")
+    builder.appendLine("        fun cptr(obj: ${name}): CPointer<$cName> = obj.cptr")
+    builder.appendLine("    }")
+    builder.appendLine("}")
+    builder.appendLine()
 }
 
 private fun escapeName(thing: String): String {

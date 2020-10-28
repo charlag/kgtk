@@ -72,6 +72,7 @@ open class CallableInfo(private val instance: CPointer<GICallableInfo>) : BaseIn
 
 class FunctionInfo(private val instance: CPointer<GIFunctionInfo>) : CallableInfo(instance) {
     val flags: GIFunctionInfoFlags get() = g_function_info_get_flags(instance)
+    val symbol: String get() = g_function_info_get_symbol(instance)?.toKString() ?: ""
 }
 
 class CallbackInfo(private val instance: CPointer<GICallbackInfo>) : CallableInfo(instance)
@@ -87,6 +88,8 @@ class ArgInfo(private val instance: CPointer<GIArgInfo>) : CallableInfo(instance
 open class RegisteredTypeInfo(private val instance: CPointer<GITypeInfo>) : BaseInfo(instance) {
     val typeName: String
         get() = g_registered_type_info_get_type_name(instance)!!.toKString()
+    val gtype: GType
+        get() = g_registered_type_info_get_g_type(instance)
 }
 
 class ObjectInfo(private val instance: CPointer<GIObjectInfo>) : RegisteredTypeInfo(instance) {
@@ -136,7 +139,7 @@ class TypeInfo(private val instance: CPointer<GITypeInfo>) : BaseInfo(instance) 
     }
 }
 
-class StructInfo(private val instance: CPointer<GIStructInfo>) : BaseInfo(instance)
+class StructInfo(private val instance: CPointer<GIStructInfo>) : RegisteredTypeInfo(instance)
 
 class EnumInfo(private val instance: CPointer<GIEnumInfo>) : BaseInfo(instance) {
     val values: Sequence<ValueInfo>
@@ -146,13 +149,15 @@ class EnumInfo(private val instance: CPointer<GIEnumInfo>) : BaseInfo(instance) 
         }
 }
 
-class ValueInfo(private val instance: CPointer<GIValueInfo>) : BaseInfo(instance)
+class ValueInfo(private val instance: CPointer<GIValueInfo>) : BaseInfo(instance) {
+    val value: gint64 get() = g_value_info_get_value(instance)
+}
 
 class ConstantInfo(private val instance: CPointer<GIConstantInfo>) : BaseInfo(instance) {
     val constantType: TypeInfo get() = TypeInfo(g_constant_info_get_type(instance)!!)
 }
 
-class UnionInfo(private val instance: CPointer<GIUnionInfo>): BaseInfo(instance)
+class UnionInfo(private val instance: CPointer<GIUnionInfo>) : BaseInfo(instance)
 
 private fun CPointer<CPointerVar<gcharVar>>.iterate(): Sequence<CPointer<gcharVar>> {
     var i = -1

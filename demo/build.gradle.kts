@@ -3,6 +3,11 @@ plugins {
 }
 
 kotlin {
+    sourceSets {
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes")
+        }
+    }
     linuxX64("native") {
         binaries {
             executable {
