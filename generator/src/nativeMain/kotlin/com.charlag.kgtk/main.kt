@@ -24,7 +24,9 @@ fun main(args: Array<String>) {
     val prelude = """
         package ${packageName}.prelude 
         
-        import kotlinx.cinterop.CPointer
+        import gtk3.GList
+        import gtk3.gcharVar
+        import kotlinx.cinterop.*
         
         class GType {}
         
@@ -32,6 +34,33 @@ fun main(args: Array<String>) {
         
         interface InteropWrapper {
             val cptr: CPointer<*>
+        }
+        
+        inline fun <reified T: CVariable> CPointer<T>.arrayToList(): List<T> {
+            val result = mutableListOf<T>()
+            var index = 0
+            while (true) {
+                result += this.get(index)
+                if (result == null) {
+                    break
+                } else {
+                    index++
+                }
+            }
+            return result
+        }
+        
+        fun CPointerVar<gcharVar>.toKString() = value?.toKString() ?: ""
+        
+        fun <D : CPointed> CPointer<GList>.toList(): List<CPointer<D>> {
+            val values = mutableListOf<CPointer<D>>()
+            var current: CPointer<GList>? = this
+            while (current?.pointed?.data != null) {
+                val data: COpaquePointer = current.pointed.data!!
+                values.add(data.reinterpret<D>())
+                current = current.pointed.next
+            }
+            return values
         }
         """.trimIndent()
     writeFile(Path(distdir).append("prelude.kt"), prelude)
@@ -74,7 +103,7 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
                         "IconViewAccessible", "ImageAccessible", "ImageAccessible",
                         "LabelAccessible", "LevelBarAccessible", "WindowAccessible",
                         "ListBoxRowAccessible", "LockButtonAccessible", "MenuAccessible",
-                        "MenuItemAccessible", "MenuShellAccessible",  "NotebookAccessible",
+                        "MenuItemAccessible", "MenuShellAccessible", "NotebookAccessible",
                         "NotebookPageAccessible", "PanedAccessible", "PopovwerAccessible",
                         "ProgressBarAccessible", "RadioMenuItemAccessible", "RangeAccessible",
                         "RecentAction", "RendererCellAccessible", "ScaleAccessible",
@@ -90,8 +119,6 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
                         "ImageCellAccessible", "ListBoxAccessible", "PopoverAccessible",
                         // skip for now
                         "Unit",
-                        // incompatible overrides, maybe should implement by hand
-                        "MenuItem", "MenuButton", "CheckMenuItem", "Toolbar",
                         // Is only accessible with special build of X11
                         "Plug", "Socket"),
         )[namespace] ?: listOf()
@@ -185,7 +212,7 @@ fun UInt.testFlag(flag: UInt): Boolean = this and flag == flag
 
 fun cname(namespace: String, name: String): String {
     val prefix = when (namespace) {
-        "GObject" -> "G"
+        "GObject", "GLib", "Gio" -> "G"
         "GdkPixBuf" -> "Gdk"
         else -> namespace
     }
@@ -242,18 +269,19 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
                 if (params.isNotEmpty()) { // empty case handled by primary)
                     val call = if (generateImpls) generateFunctionCall(method, namespace, packageName) else "stub<CPointer<$cStructName>>()"
                     builder.appendLine("    constructor(${paramsInDecl()}) : this($call)")
+                    builder.appendLine()
                 }
             } else {
                 factories.add("fun $name(${paramsInDecl()}): $objectName { TODO() } // ${method.symbol}")
             }
         } else {
             val retType = method.returnType
-
-            val argTypes = method.args.map { it.argType }.toList()
-            val modifier = if (parent?.getOrInheritsMethod(cName, argTypes) != null) "override " else ""
             val call = if (generateImpls) generateMethodCall(method, namespace, packageName)
             else "stub()"
-            builder.appendLine("    ${modifier}open fun $name(${paramsInDecl()}): ${serializeType(retType, namespace, packageName)} {")
+
+            val (methodName, modifier) = makeMethodName(objectInfo, method)
+
+            builder.appendLine("    ${modifier} fun $methodName(${paramsInDecl()}): ${serializeType(retType, namespace, packageName)} {")
             builder.appendLine("         return $call")
             builder.appendLine("    }")
         }
@@ -270,8 +298,68 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
     builder.appendLine("}\n")
 }
 
+data class MethodDeclInfo(val name: String, val modifiers: String)
+
+fun makeMethodName(objectInfo: ObjectInfo, method: FunctionInfo): MethodDeclInfo {
+    val gName = method.name
+    // Incompatible override
+    val replacements = mapOf(
+            "Gtk.Switch.get_state" to "get_switch_state",
+            "Gtk.MenuButton.set_direction" to "set_arrow_direction",
+            "Gtk.MenuButton.get_direction" to "get_arrow_direction",
+            "Gtk.MenuItem.activate" to "activate_menu",
+            "Gtk.ToolPalette.get_style" to "get_palette_style",
+            "Gtk.ToolPalette.set_style" to "set_palette_style",
+            "Gtk.Toolbar.get_style" to "get_toolbar_style",
+            "Gtk.Toolbar.set_style" to "set_toolbar_style",
+    )
+    val replacementName = replacements["${objectInfo.namespace}.${objectInfo.name}.${method.name}"]
+    val name = replacementName ?: escapeName(gName)
+
+    val modifier = if (replacementName == null &&
+            objectInfo.parent?.getOrInheritsMethod(gName, method.args.toList().map { it.argType }) != null
+    ) "override" else "open"
+    return MethodDeclInfo(name, modifier)
+}
+
 private fun generateMethodCall(method: FunctionInfo, currentNamespace: String, packageName: String): String {
-    return generateFunctionCall(method, currentNamespace, packageName, listOf("cptr"))
+    val call = generateFunctionCall(method, currentNamespace, packageName, listOf("cptr"))
+    val retType = method.returnType
+    if (method.name == "set_accels_for_action") {
+        println("gtk_application_set_accels_for_action: ${method.args.toList()}")
+    }
+    return decorateWithKTypeConversion(retType, currentNamespace, packageName, call)
+}
+
+private fun decorateWithKTypeConversion(
+        retType: TypeInfo,
+        currentNamespace: String,
+        packageName: String,
+        call: String
+): String {
+    return when (retType.tag) {
+        GITypeTag.GI_TYPE_TAG_INTERFACE -> {
+            val int = retType.interfaceInfo!!
+            val typeName = interfaceName(int, currentNamespace, packageName)
+            when (val intType = int.type) {
+                GIInfoType.GI_INFO_TYPE_OBJECT -> "${typeName}($call)"
+                else -> "/* TODO: ret int $intType*/ $call"
+            }
+        }
+        GITypeTag.GI_TYPE_TAG_VOID -> call
+        GITypeTag.GI_TYPE_TAG_BOOLEAN -> "$call != 0"
+        GITypeTag.GI_TYPE_TAG_ARRAY -> {
+            "$call.arrayToList().map { it.toKString() }"
+        }
+        GITypeTag.GI_TYPE_TAG_GLIST -> {
+            val elType = retType.paramType(0)!!
+            val name = if (elType.tag == GITypeTag.GI_TYPE_TAG_INTERFACE) elType.interfaceInfo!!.name else elType.name
+            val cName = cname(elType.namespace, name)
+            val kName = serializeType(elType, currentNamespace, packageName)
+            "$call.toList<${cName}>().map { ${kName}(it) }"
+        }
+        else -> "/* TODO: ret tag ${retType.tag} */ $call"
+    }
 }
 
 private fun generateFunctionCall(method: FunctionInfo, currentNamespace: String, packageName: String, prefixArgs: List<String> = listOf()): String {
@@ -290,10 +378,17 @@ private fun generateFunctionCall(method: FunctionInfo, currentNamespace: String,
                     else -> error("Unexpected argument type: ${int.type} for ${arg.name}")
                 }
             }
+            GITypeTag.GI_TYPE_TAG_ARRAY -> {
+                if (argType.paramType(0)!!.tag == GITypeTag.GI_TYPE_TAG_UTF8) {
+                    "${arg.name}.toCStringArray(this)"
+                } else {
+                    escapeName(arg.name)
+                }
+            }
             else -> escapeName(arg.name)
         }
     }
-    return "${method.symbol}(${args.joinToString(", ")})!!"
+    return "memScoped { ${method.symbol}(${args.joinToString(", ")})!! }"
 }
 
 tailrec fun ObjectInfo.getOrInheritsMethod(methodName: String, types: List<TypeInfo>): FunctionInfo? {
@@ -348,6 +443,21 @@ fun processStruct(struct: StructInfo, namespace: String, packageName: String, bu
     val name = struct.name
     val cName = cname(namespace, name)
     builder.appendLine("class $name(private val cptr: CPointer<$cName>) /* struct */ {")
+    for (method in struct.methods) {
+        val retType = method.returnType
+
+        val argTypes = method.args.map { it.argType }.toList()
+        val call =
+//                if (generateImpls) generateMethodCall(method, namespace, packageName)
+//        else
+                "stub()"
+        val paramsInDecl = method.args.joinToString(", ") {
+            "${escapeName(it.name)}: ${serializeType(it.argType, namespace, packageName)}"
+        }
+        builder.appendLine("    fun ${escapeName(method.name)}(${paramsInDecl}): ${serializeType(retType, namespace, packageName)} {")
+        builder.appendLine("         return $call")
+        builder.appendLine("    }")
+    }
     builder.appendLine("    companion object {")
     builder.appendLine("        fun cptr(obj: ${name}): CPointer<$cName> = obj.cptr")
     builder.appendLine("    }")
@@ -375,7 +485,7 @@ private fun interfaceName(int: BaseInfo, currentNamespace: String, packageName: 
 }
 
 private fun serializeType(type: TypeInfo, namespace: String, packageName: String): String {
-    return when (val typeTag = type.tag) {
+    return when (type.tag) {
         GITypeTag.GI_TYPE_TAG_VOID -> "Unit"
         GITypeTag.GI_TYPE_TAG_BOOLEAN -> "Boolean"
         GITypeTag.GI_TYPE_TAG_INT8 -> "Byte"
@@ -393,7 +503,7 @@ private fun serializeType(type: TypeInfo, namespace: String, packageName: String
         GITypeTag.GI_TYPE_TAG_FILENAME -> "String"
         GITypeTag.GI_TYPE_TAG_ARRAY -> {
             val param = type.paramType(0)!!
-            "Array<${serializeType(param, namespace, packageName)}>"
+            "List<${serializeType(param, namespace, packageName)}>"
         }
         GITypeTag.GI_TYPE_TAG_GLIST, GITypeTag.GI_TYPE_TAG_GSLIST -> {
             val param = type.paramType(0)!!

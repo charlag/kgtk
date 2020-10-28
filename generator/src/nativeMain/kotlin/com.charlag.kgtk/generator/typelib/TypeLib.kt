@@ -81,7 +81,7 @@ class ArgInfo(private val instance: CPointer<GIArgInfo>) : CallableInfo(instance
     val argType: TypeInfo get() = TypeInfo(g_arg_info_get_type(instance)!!)
 
     override fun toString(): String {
-        return "ArgInfo(name=$name)"
+        return "ArgInfo(name=$name,argType=$argType)"
     }
 }
 
@@ -139,7 +139,13 @@ class TypeInfo(private val instance: CPointer<GITypeInfo>) : BaseInfo(instance) 
     }
 }
 
-class StructInfo(private val instance: CPointer<GIStructInfo>) : RegisteredTypeInfo(instance)
+class StructInfo(private val instance: CPointer<GIStructInfo>) : RegisteredTypeInfo(instance) {
+    val methods: Sequence<FunctionInfo>
+        get() = getSequence(g_struct_info_get_n_methods(instance)) {
+            val ptr = g_struct_info_get_method(instance, it)!!
+            FunctionInfo(ptr)
+        }
+}
 
 class EnumInfo(private val instance: CPointer<GIEnumInfo>) : BaseInfo(instance) {
     val values: Sequence<ValueInfo>
