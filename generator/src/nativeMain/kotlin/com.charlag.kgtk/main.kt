@@ -8,17 +8,48 @@ import kotlinx.cinterop.*
 
 fun main(args: Array<String>) {
     if (args.size < 2) {
-        println("Usage: generate [packagename] [distdir]")
+        println("Usage: generator [packagename] [distdir]")
     }
-    // TODO: remove
-    val (packageName, distdir) =
-            if (args.isEmpty())
-                arrayOf("com.charlag.kgtk.demo", "../demo/src/nativeMain/kotlin/com.charlag.kgtk.demo")
-            else args
-    ensureDir(Path(distdir))
 
     val repository = Repository()
     repository.require("Gtk", "3.0", 0u)
+
+    if (args.firstOrNull() == "--query") {
+        val definition = args.getOrNull(1) ?: run {
+            print("No param for query")
+            return
+        }
+        val (namespace, clazz, method) = definition.split('.', limit = 3)
+        val objectInfo = repository.infos(namespace).find { it.name == clazz } as? ObjectInfo
+                ?: run {
+                    println("No such class: ${clazz}")
+                    return
+                }
+        val methodInfo = objectInfo.findMethod(method) ?: run {
+            println("No such method: ${method}")
+            return
+        }
+        println("$methodInfo")
+        return
+    } else {
+        // TODO: remove
+        val (packageName, distdir) =
+                if (args.isEmpty())
+                    arrayOf("com.charlag.kgtk.demo", "../demo/src/nativeMain/kotlin/com.charlag.kgtk.demo")
+                else args
+        ensureDir(Path(distdir))
+
+
+        writePrelude(packageName, distdir)
+
+        for (namespace in repository.loadedNamespaces) {
+            val output = processNamespace(repository, namespace, packageName)
+            writeFile(Path(distdir).append("$namespace.kt"), output)
+        }
+    }
+}
+
+private fun writePrelude(packageName: String, distdir: String) {
     val prelude = """
         package ${packageName}.prelude 
         
@@ -26,9 +57,11 @@ fun main(args: Array<String>) {
         import gtk3.gcharVar
         import kotlinx.cinterop.*
         
-        class GType {}
+        class GType {
+            val cValue: gtk3.GType get() = TODO()
+        }
         
-        fun <T> stub(): T = TODO()
+        fun <T> stub(message: String = "stub!"): T = TODO(message)
         
         inline fun <reified T: CVariable> CPointer<T>.arrayToList(): List<T> {
             val result = mutableListOf<T>()
@@ -56,18 +89,22 @@ fun main(args: Array<String>) {
             }
             return values
         }
+        
+        class OutParam<T>(var value: T?)
+        
+        fun Boolean.asGboolean(): Int = if (this) 1 else 0
+        
+        interface InteropWrapper {
+            val rawPtr: COpaquePointer
+        }
         """.trimIndent()
     writeFile(Path(distdir).append("prelude.kt"), prelude)
-
-    for (namespace in repository.loadedNamespaces) {
-        val output = processNamespace(repository, namespace, packageName)
-        writeFile(Path(distdir).append("$namespace.kt"), output)
-    }
 }
 
 private fun processNamespace(repository: Repository, namespace: String, packageName: String): String {
     val output = StringBuilder()
     output.appendLine("// Namespace: $namespace")
+    output.appendLine("""@file:Suppress("RemoveRedundantBackticks", "UNUSED_PARAMETER", "FunctionName", "RedundantUnitReturnType", "unused", "RemoveRedundantQualifierName")""")
     output.appendLine("package $packageName.${namespace.toLowerCase()}")
     output.appendLine()
     output.appendLine("import $packageName.prelude.*")
@@ -159,11 +196,14 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
                         "PixbufRotation" to "enum class PixbufRotation {}",
                         "PixbufFormat" to "enum class PixbufFormat {}",
                         "PixbufAnimation" to "class PixbufAnimation",
+                ),
+                "cairo" to mapOf(
+                        "Content" to "typealias Content = cairo_content_t",
                 )
         )
 
         val generateImpls = mapOf(
-                "Gtk" to setOf("Application"),
+                "Gtk" to setOf("Application", "Window", "Widget", "ApplicationWindow"),
                 "Gio" to setOf("Application"),
         )[namespace] ?: setOf()
 
@@ -220,8 +260,7 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
 }
 
 fun processUnion(info: UnionInfo, namespace: String, packageName: String, output: StringBuilder) {
-    output.appendLine("// Union ")
-    output.appendLine("enum class ${info.name} {}\n")
+    generateStructWrapper(info.name, info.methods, "union", namespace, packageName, output)
 }
 
 private fun processConstant(info: ConstantInfo, namespace: String, packageName: String, output: StringBuilder) {
@@ -267,10 +306,24 @@ fun cname(namespace: String, name: String): String {
     return when (namespace) {
         "GObject", "GLib", "Gio" -> "G$name"
         "GdkPixbuf" -> "Gdk$name"
-        "cairo" -> "cairo_${name.toLowerCase()}_t"
+        "cairo" -> when (name) {
+            "Context" -> "cairo"
+            "FontOptions" -> "cairo_font_options_t"
+            else -> "cairo_${name.toLowerCase()}"
+        }
         else -> "${namespace}$name"
     }
 }
+
+val customMethods = mapOf(
+        "Gtk.Widget.add_tick_callback" to "// TODO: method add_tick_callback()",
+        "Gtk.Widget.render_icon" to " // TODO: method render_icon(), int in typelib, enum is C ",
+        "Gtk.Widget.render_icon_pixbuf" to " // TODO: method render_icon_pixbuf(), int in typelib, enum is C ",
+        "Gtk.Window.set_default_icon_list" to "// TODO method set_default_icon_list(), passing lists",
+        "Gtk.Window.set_icon_list" to "// TODO method set_icon_list(), passing lists",
+)
+
+val constructorCast = setOf("Gtk.Window.new", "Gtk.ApplicationWindow.new")
 
 fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String, builder: StringBuilder, generateImpls: Boolean = false) {
     val objectName = objectInfo.name
@@ -284,10 +337,12 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
     for (int in objectInfo.interfaces) {
         interfaces += interfaceName(int, namespace, packageName)
     }
+    interfaces.add("InteropWrapper")
     if (interfaces.isNotEmpty()) {
         builder.append(interfaces.joinToString(separator = ", ", prefix = " : "))
     }
     builder.appendLine(" {")
+    builder.appendLine("    override val rawPtr: COpaquePointer = cptr")
 
     // We don't need fields, everything should have a getter anyway, it's usually a parent or
     // some private info
@@ -307,6 +362,12 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
     val factories = mutableListOf<String>()
     for (method in objectInfo.methods) {
         val cName = method.name
+        val customMethod = customMethods["$namespace.$objectName.$cName"]
+        if (customMethod != null) {
+            builder.appendLine(customMethod)
+            continue
+        }
+
         val name = cName.let(::escapeName)
         val params = mutableListOf<Pair<String, String>>()
         for (param in method.args) {
@@ -319,7 +380,9 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
             if (name == "new") {
                 if (params.isNotEmpty()) { // empty case handled by primary)
                     val call = if (generateImpls) generateFunctionCall(method, namespace, packageName) else "stub<CPointer<$cStructName>>()"
-                    builder.appendLine("    constructor(${paramsInDecl()}) : this($call)")
+                    val cast = if ("$namespace.$objectName.$name" in constructorCast)
+                        ".reinterpret()" else ""
+                    builder.appendLine("    constructor(${paramsInDecl()}) : this($call$cast)")
                     builder.appendLine()
                 }
             } else {
@@ -346,6 +409,11 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
             }
         }
     }
+
+    for (signal in objectInfo.signals) {
+        builder.appendLine("    // signal: ${signal.name} ${signal.args.toList()}")
+    }
+
     builder.appendLine("    companion object {")
     val gtype = objectInfo.gtype
     builder.appendLine("        const val G_TYPE: gtk3.GType = ${gtype}UL")
@@ -400,7 +468,8 @@ private fun decorateWithKTypeConversion(
             val int = retType.interfaceInfo!!
             val typeName = interfaceName(int, currentNamespace, packageName)
             when (val intType = int.type) {
-                GIInfoType.GI_INFO_TYPE_OBJECT -> "${typeName}($call)"
+                GIInfoType.GI_INFO_TYPE_OBJECT, GIInfoType.GI_INFO_TYPE_STRUCT -> "${typeName}($call)"
+                GIInfoType.GI_INFO_TYPE_INTERFACE -> "${typeName}.Erased($call)"
                 else -> "/* TODO: ret int $intType*/ $call"
             }
         }
@@ -411,8 +480,16 @@ private fun decorateWithKTypeConversion(
         }
         GITypeTag.GI_TYPE_TAG_GLIST -> {
             val elType = retType.paramType(0)!!
-            val name = if (elType.tag == GITypeTag.GI_TYPE_TAG_INTERFACE) elType.interfaceInfo!!.name else elType.name
-            val cName = cname(elType.namespace, name)
+            val name: String
+            val namespace: String
+            if (elType.tag == GITypeTag.GI_TYPE_TAG_INTERFACE) {
+                name = elType.interfaceInfo!!.name
+                namespace = elType.interfaceInfo!!.namespace
+            } else {
+                name = elType.name
+                namespace = elType.namespace
+            }
+            val cName = cname(namespace, name)
             val kName = serializeType(elType, currentNamespace, packageName)
             "$call.toList<${cName}>().map { ${kName}(it) }"
         }
@@ -432,16 +509,23 @@ private fun generateFunctionCall(
 ): String {
     fun callForInterface(int: InterfaceInfo, typeName: String, argName: String): String {
         return when (int.type) {
-            GIInfoType.GI_INFO_TYPE_OBJECT, GIInfoType.GI_INFO_TYPE_STRUCT ->
+            GIInfoType.GI_INFO_TYPE_OBJECT,
+            GIInfoType.GI_INFO_TYPE_STRUCT,
+            GIInfoType.GI_INFO_TYPE_UNION ->
                 "$typeName.cptr(${escapeName(argName)})"
-            GIInfoType.GI_INFO_TYPE_ENUM, GIInfoType.GI_INFO_TYPE_FLAGS ->
+            GIInfoType.GI_INFO_TYPE_ENUM,
+            GIInfoType.GI_INFO_TYPE_FLAGS ->
                 argName
-            GIInfoType.GI_INFO_TYPE_INTERFACE -> "TODO(\"Passing interfaces\")"
-            else -> error("Unexpected argument type: ${int.type} for ${argName}")
+            GIInfoType.GI_INFO_TYPE_INTERFACE -> "stub(\"Passing interfaces\")"
+            GIInfoType.GI_INFO_TYPE_CALLBACK -> "stub(\"Passing callbacks\")"
+            else -> error("Unexpected argument type: ${int.type} for ${argName} in ${method.name}")
         }
     }
 
     val args = prefixArgs + method.args.map { arg ->
+        if (arg.direction != GIDirection.GI_DIRECTION_IN) {
+            return@map "stub(\"non-in param\")"
+        }
         val argType = arg.argType
         when (argType.tag) {
             GITypeTag.GI_TYPE_TAG_INTERFACE -> {
@@ -465,6 +549,8 @@ private fun generateFunctionCall(
                     }
                 }
             }
+            GITypeTag.GI_TYPE_TAG_BOOLEAN -> "${arg.name}.asGboolean()"
+            GITypeTag.GI_TYPE_TAG_GTYPE -> "${arg.name}.cValue"
             else -> escapeName(arg.name)
         }
     }
@@ -510,7 +596,17 @@ fun processFunction(function: FunctionInfo, namespace: String, packageName: Stri
 
 fun processInterface(int: InterfaceInfo, namespace: String, packageName: String, builder: StringBuilder) {
     // TODO: everything
-    builder.appendLine("interface ${int.name} {}\n")
+    val name = int.name
+    builder.appendLine("interface $name : InteropWrapper {")
+    builder.appendLine("    companion object {")
+    builder.appendLine("        fun cptr(obj: $name): CPointer<GActionGroup> = obj.rawPtr.reinterpret()")
+    builder.appendLine("    }")
+    builder.appendLine()
+    builder.appendLine("    class Erased(private val cptr: CPointer<${cname(namespace, name)}>) : $name {")
+    builder.appendLine("        override val rawPtr: COpaquePointer = cptr")
+    builder.appendLine("    }")
+    builder.appendLine("}")
+    builder.appendLine()
 }
 
 fun processEnum(enum: EnumInfo, namespace: String, packageName: String, builder: StringBuilder) {
@@ -533,12 +629,28 @@ fun processEnum(enum: EnumInfo, namespace: String, packageName: String, builder:
 }
 
 fun processStruct(struct: StructInfo, namespace: String, packageName: String, builder: StringBuilder) {
-    val name = struct.name
+    generateStructWrapper(struct.name, struct.methods, "struct", namespace, packageName, builder)
+}
+
+fun structPointerName(namespace: String, name: String): String {
+    // typedef is not a struct
+    return if (namespace == "Gdk" && name == "Rectangle") {
+        return "CPointer<GdkRectangle>"
+    } else if (namespace == "cairo" && name == "FontOptions") {
+        return "CPointer<cairo_font_options_t>"
+    } else {
+        "CPointer<cnames.structs._${cname(namespace, name)}>"
+    }
+}
+
+fun generateStructWrapper(name: String, methods: Sequence<FunctionInfo>, gKind: String,
+                          namespace: String, packageName: String, builder: StringBuilder) {
     val cName = cname(namespace, name)
     // Kotlin randomly maps structs to either pointers or structs themselves (especially in this
     // macro land of GLib) so we take exactly the struct name.
-    builder.appendLine("class $name(private val cptr: CPointer<cnames.structs._$cName>) /* struct */ {")
-    for (method in struct.methods) {
+    val ptrType = structPointerName(namespace, name)
+    builder.appendLine("class $name(private val cptr: $ptrType) /* $gKind */ {")
+    for (method in methods) {
         val retType = method.returnType
 
         val argTypes = method.args.map { it.argType }.toList()
@@ -554,7 +666,7 @@ fun processStruct(struct: StructInfo, namespace: String, packageName: String, bu
         builder.appendLine("    }")
     }
     builder.appendLine("    companion object {")
-    builder.appendLine("        fun cptr(obj: ${name}): CPointer<cnames.structs._$cName> = obj.cptr")
+    builder.appendLine("        fun cptr(obj: ${name}): $ptrType = obj.cptr")
     builder.appendLine("    }")
     builder.appendLine("}")
     builder.appendLine()

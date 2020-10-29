@@ -2,3 +2,13 @@ headers = girepository.h
 compilerOpts.linux = -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/local/lib/glib-2.0/include -I/usr/lib64/glib-2.0/include
 linkerOpts.linux = -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu
 strictEnums = GITypeTag
+
+---
+
+gboolean gi_is_registered_type_info(GIBaseInfo *info) {
+    return GI_IS_REGISTERED_TYPE_INFO(info);
+}
+
+gboolean gi_is_type_info(GIBaseInfo *info) {
+    return GI_IS_TYPE_INFO(info);
+}

@@ -58,7 +58,8 @@ open class BaseInfo(private val instance: CPointer<GIBaseInfo>) {
         get() = g_base_info_get_name(instance)?.toKString() ?: ""
     val namespace: String
         get() = g_base_info_get_namespace(instance)!!.toKString()
-    val type: GIInfoType get() = g_base_info_get_type(instance)
+    val type: GIInfoType
+        get() = g_base_info_get_type(instance)
 }
 
 open class CallableInfo(private val instance: CPointer<GICallableInfo>) : BaseInfo(instance) {
@@ -73,15 +74,28 @@ open class CallableInfo(private val instance: CPointer<GICallableInfo>) : BaseIn
 class FunctionInfo(private val instance: CPointer<GIFunctionInfo>) : CallableInfo(instance) {
     val flags: GIFunctionInfoFlags get() = g_function_info_get_flags(instance)
     val symbol: String get() = g_function_info_get_symbol(instance)?.toKString() ?: ""
+
+    override fun toString(): String {
+        return "FunctionInfo(name=$name,symbol=${symbol},args=${args.toList()},ret=${returnType})"
+    }
 }
 
 class CallbackInfo(private val instance: CPointer<GICallbackInfo>) : CallableInfo(instance)
 
 class ArgInfo(private val instance: CPointer<GIArgInfo>) : CallableInfo(instance) {
     val argType: TypeInfo get() = TypeInfo(g_arg_info_get_type(instance)!!)
+    val direction: GIDirection get() = g_arg_info_get_direction(instance)
+    val transfer: GITransfer get() = g_arg_info_get_ownership_transfer(instance)
+    val scope: GIScopeType get() = g_arg_info_get_scope(instance)
+    val mayBeNull: Boolean get() = g_arg_info_may_be_null(instance) != 0
+    val isCallerAllocates: Boolean get() = g_arg_info_is_caller_allocates(instance) != 0
+    val isOptional: Boolean get() = g_arg_info_is_optional(instance) != 0
+    val isReturnValue: Boolean get() = g_arg_info_is_return_value(instance) != 0
 
     override fun toString(): String {
-        return "ArgInfo(name=$name,argType=$argType)"
+        return "ArgInfo(name=$name,argType=$argType,direction=$direction,transfer=$transfer," +
+                "scope=$scope,mayBeNull=$mayBeNull,isCallerAllocates=$isCallerAllocates," +
+                "isOptional=$isOptional,isReturnValue=$isReturnValue)"
     }
 }
 
@@ -110,6 +124,11 @@ class ObjectInfo(private val instance: CPointer<GIObjectInfo>) : RegisteredTypeI
             val ptr = g_object_info_get_field(instance, it)!!
             FieldInfo(ptr)
         }
+    val signals: Sequence<SignalInfo>
+        get() = getSequence(g_object_info_get_n_signals(instance)) {
+            val ptr = g_object_info_get_signal(instance, it)!!
+            SignalInfo(ptr)
+        }
 
     fun findMethod(name: String): FunctionInfo? {
         return g_object_info_find_method(instance, name)?.let(::FunctionInfo)
@@ -120,7 +139,12 @@ class ObjectInfo(private val instance: CPointer<GIObjectInfo>) : RegisteredTypeI
     }
 }
 
-class InterfaceInfo(private val instance: CPointer<GIInterfaceInfo>) : RegisteredTypeInfo(instance)
+class InterfaceInfo(private val instance: CPointer<GIInterfaceInfo>) : RegisteredTypeInfo(instance) {
+    val isRegistered: Boolean get() = gi_is_registered_type_info(instance) != 0
+    override fun toString(): String {
+        return "InterfaceInfo(name=$name,isRegistered=${isRegistered},type=${type})"
+    }
+}
 
 class FieldInfo(private val instance: CPointer<GIFieldInfo>) : BaseInfo(instance) {
     val fieldType: TypeInfo
@@ -131,11 +155,13 @@ class TypeInfo(private val instance: CPointer<GITypeInfo>) : BaseInfo(instance) 
     val tag: GITypeTag get() = g_type_info_get_tag(instance)
     val interfaceInfo: InterfaceInfo?
         get() = g_type_info_get_interface(instance)?.let(::InterfaceInfo)
+    val isPointer: Boolean
+        get() = g_type_info_is_pointer(instance) != 0
 
     fun paramType(at: Int): TypeInfo? = g_type_info_get_param_type(instance, at)?.let(::TypeInfo)
 
     override fun toString(): String {
-        return "TypeInfo(name=$name,tag=$tag)"
+        return "TypeInfo(name=$name,tag=$tag,interfaceInfo=$interfaceInfo},isPointer=${isPointer})"
     }
 }
 
@@ -163,7 +189,15 @@ class ConstantInfo(private val instance: CPointer<GIConstantInfo>) : BaseInfo(in
     val constantType: TypeInfo get() = TypeInfo(g_constant_info_get_type(instance)!!)
 }
 
-class UnionInfo(private val instance: CPointer<GIUnionInfo>) : BaseInfo(instance)
+class UnionInfo(private val instance: CPointer<GIUnionInfo>) : RegisteredTypeInfo(instance) {
+    val methods: Sequence<FunctionInfo>
+        get() = getSequence(g_union_info_get_n_methods(instance)) {
+            val ptr = g_union_info_get_method(instance, it)!!
+            FunctionInfo(ptr)
+        }
+}
+
+class SignalInfo(private val instance: CPointer<GISignalInfo>) : CallableInfo(instance)
 
 private fun CPointer<CPointerVar<gcharVar>>.iterate(): Sequence<CPointer<gcharVar>> {
     var i = -1
