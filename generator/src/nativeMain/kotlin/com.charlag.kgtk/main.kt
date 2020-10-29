@@ -84,16 +84,18 @@ private fun writePrelude(packageName: String, distdir: String) {
             val result = mutableListOf<T>()
             var index = 0
             while (true) {
-                result += this.get(index)
-                if (result == null) {
+                val el = this.get(index)
+                @Suppress("SENSELESS_COMPARISON")
+                if (el == null) {
                     break
                 } else {
+                    result += el
                     index++
                 }
             }
             return result
         }
-        
+                
         fun CPointerVar<gcharVar>.toKString() = value?.toKString() ?: ""
         
         fun <D : CPointed> CPointer<GList>.toList(): List<CPointer<D>> {
