@@ -36,3 +36,8 @@ kotlin {
         }
     }
 }
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>().forEach {
+    println("task $it")
+    it.dependsOn(":generator:runDebugExecutableNative")
+}

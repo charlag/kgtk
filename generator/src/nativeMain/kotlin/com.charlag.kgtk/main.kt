@@ -232,6 +232,7 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
                 "Gtk" to setOf(
                         "Application", "Window", "Widget", "ApplicationWindow",
                         "Button", "ButtonBox", "Container", "Dialog", "MessageDialog",
+                        "Box", "Label",
                 ),
                 "Gio" to setOf("Application"),
         )[namespace] ?: setOf()
@@ -360,7 +361,8 @@ val methodNeedsCast = setOf("Gtk.Window.new", "Gtk.ApplicationWindow.new",
         "Gtk.Button.new", "Gtk.ButtonBox.new",
         "Gtk.Button.new_from_icon_name", "Gtk.Button.new_from_stock", "Gtk.Button.new_with_label",
         "Gtk.Button.new_with_mnemonic", "Gtk.Dialog.new", "Gtk.Dialog.get_action_area",
-        "Gtk.Dialog.get_content_area", "Gtk.Dialog.get_header_bar")
+        "Gtk.Dialog.get_content_area", "Gtk.Dialog.get_header_bar", "Gtk.Box.new", "Gtk.Label.new",
+        "Gtk.Label.new_with_mnemonic")
 
 //val additonalConstructors = mapOf("Gtk.Message")
 
@@ -541,6 +543,7 @@ private fun decorateWithKTypeConversion(
             when (val intType = int.type) {
                 GIInfoType.GI_INFO_TYPE_OBJECT, GIInfoType.GI_INFO_TYPE_STRUCT -> "${typeName}($call$cast)"
                 GIInfoType.GI_INFO_TYPE_INTERFACE -> "${typeName}.Erased($call$cast)"
+                GIInfoType.GI_INFO_TYPE_ENUM -> call
                 else -> "/* TODO: ret int $intType*/ $call"
             }
         }
