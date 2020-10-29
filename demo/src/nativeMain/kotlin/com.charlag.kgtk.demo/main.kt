@@ -17,6 +17,7 @@ fun main(args: Array<String>) {
         window.setDefaultSize(300, 300)
 
         val box = Box(Orientation.GTK_ORIENTATION_VERTICAL, 40)
+        box.setAllMargins(60)
         window.add(box)
 
         var count = 0
@@ -34,10 +35,20 @@ fun main(args: Array<String>) {
         box.add(label)
         box.add(button)
 
+        val linkButton = LinkButton("https://kotlinlang.org")
+        box.add(linkButton)
+
         redraw()
 
         window.showAll()
     }
 
     app.run(args.size, args.toList())
+}
+
+fun Widget.setAllMargins(margin: Int) {
+    setMarginLeft(margin)
+    setMarginRight(margin)
+    setMarginTop(margin)
+    setMarginBottom(margin)
 }

@@ -232,7 +232,7 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
                 "Gtk" to setOf(
                         "Application", "Window", "Widget", "ApplicationWindow",
                         "Button", "ButtonBox", "Container", "Dialog", "MessageDialog",
-                        "Box", "Label",
+                        "Box", "Label", "LinkButton",
                 ),
                 "Gio" to setOf("Application"),
         )[namespace] ?: setOf()
@@ -362,7 +362,7 @@ val methodNeedsCast = setOf("Gtk.Window.new", "Gtk.ApplicationWindow.new",
         "Gtk.Button.new_from_icon_name", "Gtk.Button.new_from_stock", "Gtk.Button.new_with_label",
         "Gtk.Button.new_with_mnemonic", "Gtk.Dialog.new", "Gtk.Dialog.get_action_area",
         "Gtk.Dialog.get_content_area", "Gtk.Dialog.get_header_bar", "Gtk.Box.new", "Gtk.Label.new",
-        "Gtk.Label.new_with_mnemonic")
+        "Gtk.Label.new_with_mnemonic", "Gtk.LinkButton.new", "Gtk.LinkButton.new_with_label")
 
 //val additonalConstructors = mapOf("Gtk.Message")
 
