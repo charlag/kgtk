@@ -54,6 +54,8 @@ private fun writePrelude(packageName: String, distdir: String) {
         package ${packageName}.prelude 
         
         import gtk3.GList
+        import gtk3.G_CONNECT_SWAPPED
+        import gtk3.g_signal_connect_data
         import gtk3.gcharVar
         import kotlinx.cinterop.*
         
@@ -96,6 +98,13 @@ private fun writePrelude(packageName: String, distdir: String) {
         
         interface InteropWrapper {
             val rawPtr: COpaquePointer
+        }
+        
+        fun do_connect(ptr: CPointer<*>, signal: String, cb: () -> Unit) {
+            val stableRef = StableRef.create(cb)
+            g_signal_connect_data(ptr, signal, staticCFunction<COpaquePointer, Unit> { lambdaPtr ->
+                lambdaPtr.asStableRef<() -> Unit>().get()()
+            }.reinterpret(), stableRef.asCPointer(), null, G_CONNECT_SWAPPED)
         }
         """.trimIndent()
     writeFile(Path(distdir).append("prelude.kt"), prelude)
@@ -411,7 +420,11 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
     }
 
     for (signal in objectInfo.signals) {
-        builder.appendLine("    // signal: ${signal.name} ${signal.args.toList()}")
+        val camelName = kebabToCamel(signal.name).capitalize()
+        builder.appendLine("    fun setOn${camelName}(cb: () -> Unit) {")
+        builder.appendLine("        do_connect(cptr, \"${signal.name}\", cb)")
+        builder.appendLine("    }")
+        builder.appendLine()
     }
 
     builder.appendLine("    companion object {")
@@ -448,6 +461,22 @@ fun makeMethodName(objectInfo: ObjectInfo, method: FunctionInfo): MethodDeclInfo
             objectInfo.parent?.getOrInheritsMethod(gName, method.args.toList().map { it.argType }) != null
     ) "override" else "open"
     return MethodDeclInfo(name, modifier)
+}
+
+private fun kebabToCamel(text: String): String {
+    val builder = StringBuilder()
+    var nextUp = false
+    for (char in text) {
+        if (char == '-') {
+            nextUp = true
+        } else if (nextUp) {
+            nextUp = false
+            builder.append(char.toUpperCase())
+        } else {
+            builder.append(char)
+        }
+    }
+    return builder.toString()
 }
 
 private fun generateMethodCall(method: FunctionInfo, currentNamespace: String, packageName: String): String {
