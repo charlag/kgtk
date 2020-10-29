@@ -405,7 +405,6 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
             continue
         }
 
-        val name = cName.let(::escapeName)
         val params = mutableListOf<Pair<String, String>>()
         for (param in method.args) {
             val paramType = param.argType
@@ -413,14 +412,14 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
             params += param.name to paramTypeName
         }
         fun paramsInDecl(): String = params.joinToString(separator = ", ") { (name, type) -> "${escapeName(name)}: $type" }
-        val cast = if ("$namespace.$objectName.$name" in methodNeedsCast)
+        val cast = if ("$namespace.$objectName.${cName}" in methodNeedsCast)
             ".reinterpret()" else ""
 
         if (method.flags.testFlag(GI_FUNCTION_IS_CONSTRUCTOR)) {
             val call = if (generateImpls) generateFunctionCall(method, namespace, packageName) else "stub<CPointer<$cStructName>>()"
 
 
-            if (name == "new") {
+            if (cName == "new") {
                 if (params.isNotEmpty()) {
                     builder.appendLine("    constructor(${paramsInDecl()}) : this($call$cast)")
                     builder.appendLine()
@@ -429,7 +428,7 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
                     builder.appendLine()
                 }
             } else {
-                factories.add("fun $name(${paramsInDecl()}): $objectName = ${objectName}($call$cast) ")
+                factories.add("fun ${method.kName}(${paramsInDecl()}): $objectName = ${objectName}($call$cast) ")
             }
         } else {
             val retType = method.returnType
@@ -479,29 +478,34 @@ fun makeMethodName(objectInfo: ObjectInfo, method: FunctionInfo): MethodDeclInfo
     val gName = method.name
     // Incompatible override
     val replacements = mapOf(
-            "Gtk.Switch.get_state" to "get_switch_state",
-            "Gtk.MenuButton.set_direction" to "set_arrow_direction",
-            "Gtk.MenuButton.get_direction" to "get_arrow_direction",
-            "Gtk.MenuItem.activate" to "activate_menu",
-            "Gtk.ToolPalette.get_style" to "get_palette_style",
-            "Gtk.ToolPalette.set_style" to "set_palette_style",
-            "Gtk.Toolbar.get_style" to "get_toolbar_style",
-            "Gtk.Toolbar.set_style" to "set_toolbar_style",
+            "Gtk.Switch.get_state" to "getSwitchState",
+            "Gtk.MenuButton.get_direction" to "getArrowDirection",
+            "Gtk.MenuButton.set_direction" to "setArrowDirection",
+            "Gtk.MenuItem.activate" to "activateMenu",
+            "Gtk.ToolPalette.get_style" to "getPaletteStyle",
+            "Gtk.ToolPalette.set_style" to "setPaletteStyle",
+            "Gtk.Toolbar.get_style" to "getToolbarStyle",
+            "Gtk.Toolbar.set_style" to "setToolbarStyle",
     )
     val replacementName = replacements["${objectInfo.namespace}.${objectInfo.name}.${method.name}"]
-    val name = replacementName ?: escapeName(gName)
+    val name = replacementName ?: method.kName
 
     val modifier = if (replacementName == null &&
-            objectInfo.parent?.getOrInheritsMethod(gName, method.args.toList().map { it.argType }) != null
+            ((name == "toString" && method.args.none()) ||
+                    objectInfo.parent?.getOrInheritsMethod(gName, method.args.toList().map { it.argType }) != null)
     ) "override" else "open"
     return MethodDeclInfo(name, modifier)
 }
 
-private fun kebabToCamel(text: String): String {
+private fun kebabToCamel(text: String): String = separatorToCamel('-', text)
+
+private fun snakeToCamel(text: String): String = separatorToCamel('_', text)
+
+private fun separatorToCamel(separator: Char, text: String): String {
     val builder = StringBuilder()
     var nextUp = false
     for (char in text) {
-        if (char == '-') {
+        if (char == separator) {
             nextUp = true
         } else if (nextUp) {
             nextUp = false
@@ -566,6 +570,8 @@ private fun decorateWithKTypeConversion(
         else -> "/* TODO: ret tag ${retType.tag} */ $call"
     }
 }
+
+val FunctionInfo.kName: String get() = escapeName(snakeToCamel(this.name))
 
 private fun generateFunctionCall(
         method: FunctionInfo,
@@ -658,7 +664,7 @@ fun processFunction(function: FunctionInfo, namespace: String, packageName: Stri
         val paramName = escapeName(param.name)
         "$paramName:  $paramTypeName"
     }
-    val name = escapeName(function.name)
+    val name = function.kName
     val retType = function.returnType
     builder.appendLine("fun $name(${params.joinToString(", ")}): ${serializeType(retType, namespace, packageName)} = TODO()")
 }
@@ -730,7 +736,9 @@ fun generateStructWrapper(name: String, methods: Sequence<FunctionInfo>, gKind: 
         val paramsInDecl = method.args.joinToString(", ") {
             "${escapeName(it.name)}: ${serializeType(it.argType, namespace, packageName)}"
         }
-        builder.appendLine("    fun ${escapeName(method.name)}(${paramsInDecl}): ${serializeType(retType, namespace, packageName)} {")
+        val methodName = method.kName
+        val modifier = if (methodName == "toString") "override " else ""
+        builder.appendLine("    ${modifier}fun ${methodName}(${paramsInDecl}): ${serializeType(retType, namespace, packageName)} {")
         builder.appendLine("         return $call")
         builder.appendLine("    }")
     }
