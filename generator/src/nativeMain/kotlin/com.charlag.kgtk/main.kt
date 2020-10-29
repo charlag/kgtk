@@ -31,6 +31,23 @@ fun main(args: Array<String>) {
         }
         println("$methodInfo")
         return
+    } else if (args.firstOrNull() == "--query-all") {
+        val definition = args.getOrNull(1) ?: run {
+            print("No param for query")
+            return
+        }
+        val (namespace, clazz) = definition.split('.', limit = 2)
+        val objectInfo = repository.infos(namespace).find { it.name == clazz } as? ObjectInfo
+                ?: run {
+                    println("No such class: ${clazz}")
+                    return
+                }
+        for (method in objectInfo.methods) {
+            println(method)
+        }
+        for (vfunc in objectInfo.vfuncs) {
+            println(vfunc)
+        }
     } else {
         // TODO: remove
         val (packageName, distdir) =
@@ -59,9 +76,7 @@ private fun writePrelude(packageName: String, distdir: String) {
         import gtk3.gcharVar
         import kotlinx.cinterop.*
         
-        class GType {
-            val cValue: gtk3.GType get() = TODO()
-        }
+        class GType(val cValue: gtk3.GType)
         
         fun <T> stub(message: String = "stub!"): T = TODO(message)
         
@@ -212,7 +227,10 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
         )
 
         val generateImpls = mapOf(
-                "Gtk" to setOf("Application", "Window", "Widget", "ApplicationWindow"),
+                "Gtk" to setOf(
+                        "Application", "Window", "Widget", "ApplicationWindow",
+                        "Button", "ButtonBox", "Container", "Dialog", "MessageDialog",
+                ),
                 "Gio" to setOf("Application"),
         )[namespace] ?: setOf()
 
@@ -330,9 +348,19 @@ val customMethods = mapOf(
         "Gtk.Widget.render_icon_pixbuf" to " // TODO: method render_icon_pixbuf(), int in typelib, enum is C ",
         "Gtk.Window.set_default_icon_list" to "// TODO method set_default_icon_list(), passing lists",
         "Gtk.Window.set_icon_list" to "// TODO method set_icon_list(), passing lists",
+        "Gtk.Button.new_from_icon_name" to "// TODO: constructor new_from_icon_name(), int in typelib, enum in C",
+        "Gtk.Container.forall" to "// TODO: method forall(), user_data param",
+        "Gtk.Container.foreach" to "// TODO: method foreach(), user_data param",
+        "Gtk.Container.set_focus_chain" to "// TODO: method set_focus_chain(), passing lists",
 )
 
-val constructorCast = setOf("Gtk.Window.new", "Gtk.ApplicationWindow.new")
+val methodNeedsCast = setOf("Gtk.Window.new", "Gtk.ApplicationWindow.new",
+        "Gtk.Button.new", "Gtk.ButtonBox.new",
+        "Gtk.Button.new_from_icon_name", "Gtk.Button.new_from_stock", "Gtk.Button.new_with_label",
+        "Gtk.Button.new_with_mnemonic", "Gtk.Dialog.new", "Gtk.Dialog.get_action_area",
+        "Gtk.Dialog.get_content_area", "Gtk.Dialog.get_header_bar")
+
+//val additonalConstructors = mapOf("Gtk.Message")
 
 fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String, builder: StringBuilder, generateImpls: Boolean = false) {
     val objectName = objectInfo.name
@@ -385,23 +413,29 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
             params += param.name to paramTypeName
         }
         fun paramsInDecl(): String = params.joinToString(separator = ", ") { (name, type) -> "${escapeName(name)}: $type" }
+        val cast = if ("$namespace.$objectName.$name" in methodNeedsCast)
+            ".reinterpret()" else ""
+
         if (method.flags.testFlag(GI_FUNCTION_IS_CONSTRUCTOR)) {
+            val call = if (generateImpls) generateFunctionCall(method, namespace, packageName) else "stub<CPointer<$cStructName>>()"
+
+
             if (name == "new") {
-                if (params.isNotEmpty()) { // empty case handled by primary)
-                    val call = if (generateImpls) generateFunctionCall(method, namespace, packageName) else "stub<CPointer<$cStructName>>()"
-                    val cast = if ("$namespace.$objectName.$name" in constructorCast)
-                        ".reinterpret()" else ""
+                if (params.isNotEmpty()) {
                     builder.appendLine("    constructor(${paramsInDecl()}) : this($call$cast)")
+                    builder.appendLine()
+                } else {
+                    builder.appendLine("    constructor() : this($call$cast)")
                     builder.appendLine()
                 }
             } else {
-                factories.add("fun $name(${paramsInDecl()}): $objectName { TODO() } // ${method.symbol}")
+                factories.add("fun $name(${paramsInDecl()}): $objectName = ${objectName}($call$cast) ")
             }
         } else {
             val retType = method.returnType
 
             val (methodName, modifier) = makeMethodName(objectInfo, method)
-            val call = if (generateImpls) generateMethodCall(method, namespace, packageName)
+            val call = if (generateImpls) generateMethodCall(objectInfo, method, namespace, packageName)
             else "stub()"
 
             if (!method.flags.testFlag(GI_FUNCTION_IS_METHOD)) {
@@ -479,26 +513,28 @@ private fun kebabToCamel(text: String): String {
     return builder.toString()
 }
 
-private fun generateMethodCall(method: FunctionInfo, currentNamespace: String, packageName: String): String {
+private fun generateMethodCall(objectInfo: ObjectInfo, method: FunctionInfo, currentNamespace: String, packageName: String): String {
     val preArgs = if (method.flags.testFlag(GI_FUNCTION_IS_METHOD)) listOf("cptr") else listOf()
     val call = generateFunctionCall(method, currentNamespace, packageName, preArgs)
     val retType = method.returnType
-    return decorateWithKTypeConversion(retType, currentNamespace, packageName, call)
+    val cast = if ("${currentNamespace}.${objectInfo.name}.${method.name}" in methodNeedsCast) ".reinterpret()" else ""
+    return decorateWithKTypeConversion(retType, currentNamespace, packageName, call, cast)
 }
 
 private fun decorateWithKTypeConversion(
         retType: TypeInfo,
         currentNamespace: String,
         packageName: String,
-        call: String
+        call: String,
+        cast: String,
 ): String {
     return when (retType.tag) {
         GITypeTag.GI_TYPE_TAG_INTERFACE -> {
             val int = retType.interfaceInfo!!
             val typeName = interfaceName(int, currentNamespace, packageName)
             when (val intType = int.type) {
-                GIInfoType.GI_INFO_TYPE_OBJECT, GIInfoType.GI_INFO_TYPE_STRUCT -> "${typeName}($call)"
-                GIInfoType.GI_INFO_TYPE_INTERFACE -> "${typeName}.Erased($call)"
+                GIInfoType.GI_INFO_TYPE_OBJECT, GIInfoType.GI_INFO_TYPE_STRUCT -> "${typeName}($call$cast)"
+                GIInfoType.GI_INFO_TYPE_INTERFACE -> "${typeName}.Erased($call$cast)"
                 else -> "/* TODO: ret int $intType*/ $call"
             }
         }
@@ -526,6 +562,7 @@ private fun decorateWithKTypeConversion(
         GITypeTag.GI_TYPE_TAG_UINT32,
         GITypeTag.GI_TYPE_TAG_INT32,
         -> call
+        GITypeTag.GI_TYPE_TAG_GTYPE -> "GType(${call})"
         else -> "/* TODO: ret tag ${retType.tag} */ $call"
     }
 }
@@ -572,6 +609,9 @@ private fun generateFunctionCall(
                         val int = arrayParamType.interfaceInfo!!
                         val intName = interfaceName(int, currentNamespace, packageName)
                         """allocArray(${arg.name}.size) { ${callForInterface(int, intName, "${arg.name}[it]")} }"""
+                    }
+                    GITypeTag.GI_TYPE_TAG_INT32 -> {
+                        "${arg.name}.toIntArray().toCValues()"
                     }
                     else -> {
                         "/* TODO: param array $arrayTypeTag */" + escapeName(arg.name)
@@ -722,7 +762,7 @@ private fun interfaceName(int: BaseInfo, currentNamespace: String, packageName: 
 
 private fun serializeType(type: TypeInfo, namespace: String, packageName: String): String {
     return when (type.tag) {
-        GITypeTag.GI_TYPE_TAG_VOID -> "Unit"
+        GITypeTag.GI_TYPE_TAG_VOID -> if (type.isPointer) "Any" else "Unit"
         GITypeTag.GI_TYPE_TAG_BOOLEAN -> "Boolean"
         GITypeTag.GI_TYPE_TAG_INT8 -> "Byte"
         GITypeTag.GI_TYPE_TAG_UINT8 -> "UByte"

@@ -82,6 +82,12 @@ class FunctionInfo(private val instance: CPointer<GIFunctionInfo>) : CallableInf
 
 class CallbackInfo(private val instance: CPointer<GICallbackInfo>) : CallableInfo(instance)
 
+class VFuncInfo(private val instance: CPointer<GIVFuncInfo>) : CallableInfo(instance) {
+    override fun toString(): String {
+        return "VFuncInfo(name=$name)"
+    }
+}
+
 class ArgInfo(private val instance: CPointer<GIArgInfo>) : CallableInfo(instance) {
     val argType: TypeInfo get() = TypeInfo(g_arg_info_get_type(instance)!!)
     val direction: GIDirection get() = g_arg_info_get_direction(instance)
@@ -128,6 +134,11 @@ class ObjectInfo(private val instance: CPointer<GIObjectInfo>) : RegisteredTypeI
         get() = getSequence(g_object_info_get_n_signals(instance)) {
             val ptr = g_object_info_get_signal(instance, it)!!
             SignalInfo(ptr)
+        }
+    val vfuncs: Sequence<VFuncInfo>
+        get() = getSequence(g_object_info_get_n_vfuncs(instance)) {
+            val ptr = g_object_info_get_vfunc(instance, it)!!
+            VFuncInfo(ptr)
         }
 
     fun findMethod(name: String): FunctionInfo? {
