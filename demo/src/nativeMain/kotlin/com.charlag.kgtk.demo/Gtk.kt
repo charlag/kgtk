@@ -109,7 +109,7 @@ open class AboutDialog internal constructor (private val cptr: CPointer<GtkAbout
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4702400UL
+        const val G_TYPE: gtk3.GType = 30874000UL
         fun cptr(obj: AboutDialog): CPointer<GtkAboutDialog> = obj.cptr
     }
 }
@@ -168,7 +168,7 @@ open class AccelGroup internal constructor (private val cptr: CPointer<GtkAccelG
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4555792UL
+        const val G_TYPE: gtk3.GType = 31394864UL
         fun cptr(obj: AccelGroup): CPointer<GtkAccelGroup> = obj.cptr
         fun fromAccelClosure(closure: com.charlag.kgtk.demo.gobject.Closure): AccelGroup {
     return stub()
@@ -224,7 +224,7 @@ open class AccelLabel internal constructor (private val cptr: CPointer<GtkAccelL
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4169136UL
+        const val G_TYPE: gtk3.GType = 30833072UL
         fun cptr(obj: AccelLabel): CPointer<GtkAccelLabel> = obj.cptr
     }
 }
@@ -242,7 +242,7 @@ open class AccelMap internal constructor (private val cptr: CPointer<GtkAccelMap
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4127296UL
+        const val G_TYPE: gtk3.GType = 31619584UL
         fun cptr(obj: AccelMap): CPointer<GtkAccelMap> = obj.cptr
         fun addEntry(accel_path: String, accel_key: UInt, accel_mods: com.charlag.kgtk.demo.gdk.ModifierType): Unit {
     return stub()
@@ -299,9 +299,6 @@ typealias AccelMapForeach = (data:  Any, accel_path:  String, accel_key:  UInt, 
 
 open class Accessible internal constructor (private val cptr: CPointer<GtkAccessible>) : com.charlag.kgtk.demo.atk.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun connectWidgetDestroyed(): Unit {
-         return stub()
-    }
     open fun getWidget(): Widget {
          return stub()
     }
@@ -309,7 +306,7 @@ open class Accessible internal constructor (private val cptr: CPointer<GtkAccess
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4153552UL
+        const val G_TYPE: gtk3.GType = 31693568UL
         fun cptr(obj: Accessible): CPointer<GtkAccessible> = obj.cptr
     }
 }
@@ -337,7 +334,7 @@ open class ActionBar internal constructor (private val cptr: CPointer<GtkActionB
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4455232UL
+        const val G_TYPE: gtk3.GType = 31653520UL
         fun cptr(obj: ActionBar): CPointer<GtkActionBar> = obj.cptr
     }
 }
@@ -349,6 +346,16 @@ class ActionBarClass(private val cptr: CPointer<cnames.structs._GtkActionBarClas
 }
 
 interface Actionable : InteropWrapper {
+    fun getActionName(): String = stub("Actionable default impl")
+
+    fun getActionTargetValue(): com.charlag.kgtk.demo.glib.Variant = stub("Actionable default impl")
+
+    fun setActionName(action_name: String): Unit = stub("Actionable default impl")
+
+    fun setActionTargetValue(target_value: com.charlag.kgtk.demo.glib.Variant): Unit = stub("Actionable default impl")
+
+    fun setDetailedActionName(detailed_action_name: String): Unit = stub("Actionable default impl")
+
     companion object {
         fun cptr(obj: Actionable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -384,9 +391,6 @@ open class Adjustment internal constructor (private val cptr: CPointer<GtkAdjust
     override val rawPtr: COpaquePointer = cptr
     constructor(value: Double, lower: Double, upper: Double, step_increment: Double, page_increment: Double, page_size: Double) : this(stub<CPointer<GtkAdjustment>>())
 
-    open fun changed(): Unit {
-         return stub()
-    }
     open fun clampPage(lower: Double, upper: Double): Unit {
          return stub()
     }
@@ -432,9 +436,6 @@ open class Adjustment internal constructor (private val cptr: CPointer<GtkAdjust
     open fun setValue(value: Double): Unit {
          return stub()
     }
-    open fun valueChanged(): Unit {
-         return stub()
-    }
     fun setOnChanged(cb: () -> Unit) {
         do_connect(cptr, "changed", cb)
     }
@@ -444,7 +445,7 @@ open class Adjustment internal constructor (private val cptr: CPointer<GtkAdjust
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5186448UL
+        const val G_TYPE: gtk3.GType = 31818272UL
         fun cptr(obj: Adjustment): CPointer<GtkAdjustment> = obj.cptr
     }
 }
@@ -458,6 +459,12 @@ class AdjustmentClass(private val cptr: CPointer<cnames.structs._GtkAdjustmentCl
 typealias Align = GtkAlign
 
 interface AppChooser : InteropWrapper {
+    fun getAppInfo(): com.charlag.kgtk.demo.gio.AppInfo = stub("AppChooser default impl")
+
+    fun getContentType(): String = stub("AppChooser default impl")
+
+    fun refresh(): Unit = stub("AppChooser default impl")
+
     companion object {
         fun cptr(obj: AppChooser): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -503,7 +510,7 @@ open class AppChooserButton internal constructor (private val cptr: CPointer<Gtk
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5113856UL
+        const val G_TYPE: gtk3.GType = 31705632UL
         fun cptr(obj: AppChooserButton): CPointer<GtkAppChooserButton> = obj.cptr
     }
 }
@@ -528,7 +535,7 @@ open class AppChooserDialog internal constructor (private val cptr: CPointer<Gtk
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5063856UL
+        const val G_TYPE: gtk3.GType = 31694208UL
         fun cptr(obj: AppChooserDialog): CPointer<GtkAppChooserDialog> = obj.cptr
         fun newForContentType(parent: Window, flags: DialogFlags, content_type: String): AppChooserDialog = AppChooserDialog(stub<CPointer<GtkAppChooserDialog>>()) 
     }
@@ -593,7 +600,7 @@ open class AppChooserWidget internal constructor (private val cptr: CPointer<Gtk
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 3963008UL
+        const val G_TYPE: gtk3.GType = 31209680UL
         fun cptr(obj: AppChooserWidget): CPointer<GtkAppChooserWidget> = obj.cptr
     }
 }
@@ -608,9 +615,6 @@ open class Application internal constructor (private val cptr: CPointer<GtkAppli
     override val rawPtr: COpaquePointer = cptr
     constructor(application_id: String, flags: com.charlag.kgtk.demo.gio.ApplicationFlags) : this(memScoped { gtk_application_new(application_id, flags)!! })
 
-    open fun addAccelerator(accelerator: String, action_name: String, parameter: com.charlag.kgtk.demo.glib.Variant): Unit {
-         return memScoped { gtk_application_add_accelerator(cptr, accelerator, action_name, com.charlag.kgtk.demo.glib.Variant.cptr(parameter))!! }
-    }
     open fun addWindow(window: Window): Unit {
          return memScoped { gtk_application_add_window(cptr, Window.cptr(window))!! }
     }
@@ -650,9 +654,6 @@ open class Application internal constructor (private val cptr: CPointer<GtkAppli
     open fun prefersAppMenu(): Boolean {
          return memScoped { gtk_application_prefers_app_menu(cptr)!! } != 0
     }
-    open fun removeAccelerator(action_name: String, parameter: com.charlag.kgtk.demo.glib.Variant): Unit {
-         return memScoped { gtk_application_remove_accelerator(cptr, action_name, com.charlag.kgtk.demo.glib.Variant.cptr(parameter))!! }
-    }
     open fun removeWindow(window: Window): Unit {
          return memScoped { gtk_application_remove_window(cptr, Window.cptr(window))!! }
     }
@@ -681,7 +682,7 @@ open class Application internal constructor (private val cptr: CPointer<GtkAppli
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5065776UL
+        const val G_TYPE: gtk3.GType = 31476096UL
         fun cptr(obj: Application): CPointer<GtkApplication> = obj.cptr
     }
 }
@@ -714,7 +715,7 @@ open class ApplicationWindow internal constructor (private val cptr: CPointer<Gt
          return memScoped { gtk_application_window_set_show_menubar(cptr, show_menubar.asGboolean())!! }
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4828608UL
+        const val G_TYPE: gtk3.GType = 31251184UL
         fun cptr(obj: ApplicationWindow): CPointer<GtkApplicationWindow> = obj.cptr
     }
 }
@@ -737,7 +738,7 @@ open class AspectFrame internal constructor (private val cptr: CPointer<GtkAspec
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5489664UL
+        const val G_TYPE: gtk3.GType = 31456240UL
         fun cptr(obj: AspectFrame): CPointer<GtkAspectFrame> = obj.cptr
     }
 }
@@ -776,12 +777,6 @@ open class Assistant internal constructor (private val cptr: CPointer<GtkAssista
     open fun getPageHasPadding(page: Widget): Boolean {
          return stub()
     }
-    open fun getPageHeaderImage(page: Widget): com.charlag.kgtk.demo.gdkpixbuf.Pixbuf {
-         return stub()
-    }
-    open fun getPageSideImage(page: Widget): com.charlag.kgtk.demo.gdkpixbuf.Pixbuf {
-         return stub()
-    }
     open fun getPageTitle(page: Widget): String {
          return stub()
     }
@@ -818,12 +813,6 @@ open class Assistant internal constructor (private val cptr: CPointer<GtkAssista
     open fun setPageHasPadding(page: Widget, has_padding: Boolean): Unit {
          return stub()
     }
-    open fun setPageHeaderImage(page: Widget, pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): Unit {
-         return stub()
-    }
-    open fun setPageSideImage(page: Widget, pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): Unit {
-         return stub()
-    }
     open fun setPageTitle(page: Widget, title: String): Unit {
          return stub()
     }
@@ -854,7 +843,7 @@ open class Assistant internal constructor (private val cptr: CPointer<GtkAssista
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4831968UL
+        const val G_TYPE: gtk3.GType = 31257712UL
         fun cptr(obj: Assistant): CPointer<GtkAssistant> = obj.cptr
     }
 }
@@ -881,7 +870,7 @@ open class Bin internal constructor (private val cptr: CPointer<GtkBin>) : Conta
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4701248UL
+        const val G_TYPE: gtk3.GType = 30727200UL
         fun cptr(obj: Bin): CPointer<GtkBin> = obj.cptr
     }
 }
@@ -998,7 +987,7 @@ open class Box internal constructor (private val cptr: CPointer<GtkBox>) : Conta
          return memScoped { gtk_box_set_spacing(cptr, spacing)!! }
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 3962384UL
+        const val G_TYPE: gtk3.GType = 30848384UL
         fun cptr(obj: Box): CPointer<GtkBox> = obj.cptr
     }
 }
@@ -1010,6 +999,26 @@ class BoxClass(private val cptr: CPointer<cnames.structs._GtkBoxClass>) /* struc
 }
 
 interface Buildable : InteropWrapper {
+    fun addChild(builder: Builder, child: com.charlag.kgtk.demo.gobject.Object, type: String): Unit = stub("Buildable default impl")
+
+    fun constructChild(builder: Builder, `name`: String): com.charlag.kgtk.demo.gobject.Object = stub("Buildable default impl")
+
+    fun customFinished(builder: Builder, child: com.charlag.kgtk.demo.gobject.Object, tagname: String, data: Any): Unit = stub("Buildable default impl")
+
+    fun customTagEnd(builder: Builder, child: com.charlag.kgtk.demo.gobject.Object, tagname: String, data: Any): Unit = stub("Buildable default impl")
+
+    fun customTagStart(builder: Builder, child: com.charlag.kgtk.demo.gobject.Object, tagname: String, parser: com.charlag.kgtk.demo.glib.MarkupParser, data: Any): Boolean = stub("Buildable default impl")
+
+    fun getInternalChild(builder: Builder, childname: String): com.charlag.kgtk.demo.gobject.Object = stub("Buildable default impl")
+
+    fun getName(): String = stub("Buildable default impl")
+
+    fun parserFinished(builder: Builder): Unit = stub("Buildable default impl")
+
+    fun setBuildableProperty(builder: Builder, `name`: String, value: com.charlag.kgtk.demo.gobject.Value): Unit = stub("Buildable default impl")
+
+    fun setName(`name`: String): Unit = stub("Buildable default impl")
+
     companion object {
         fun cptr(obj: Buildable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1090,7 +1099,7 @@ open class Builder internal constructor (private val cptr: CPointer<GtkBuilder>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4293808UL
+        const val G_TYPE: gtk3.GType = 30705568UL
         fun cptr(obj: Builder): CPointer<GtkBuilder> = obj.cptr
         fun newFromFile(filename: String): Builder = Builder(stub<CPointer<GtkBuilder>>()) 
         fun newFromResource(resource_path: String): Builder = Builder(stub<CPointer<GtkBuilder>>()) 
@@ -1116,20 +1125,11 @@ open class Button internal constructor (private val cptr: CPointer<GtkButton>) :
     open fun clicked(): Unit {
          return memScoped { gtk_button_clicked(cptr)!! }
     }
-    open fun enter(): Unit {
-         return memScoped { gtk_button_enter(cptr)!! }
-    }
-    open fun getAlignment(xalign: Float, yalign: Float): Unit {
-         return memScoped { gtk_button_get_alignment(cptr, stub("non-in param"), stub("non-in param"))!! }
-    }
     open fun getAlwaysShowImage(): Boolean {
          return memScoped { gtk_button_get_always_show_image(cptr)!! } != 0
     }
     open fun getEventWindow(): com.charlag.kgtk.demo.gdk.Window {
          return com.charlag.kgtk.demo.gdk.Window(memScoped { gtk_button_get_event_window(cptr)!! })
-    }
-    override fun getFocusOnClick(): Boolean {
-         return memScoped { gtk_button_get_focus_on_click(cptr)!! } != 0
     }
     open fun getImage(): Widget {
          return Widget(memScoped { gtk_button_get_image(cptr)!! })
@@ -1143,29 +1143,11 @@ open class Button internal constructor (private val cptr: CPointer<GtkButton>) :
     open fun getRelief(): ReliefStyle {
          return memScoped { gtk_button_get_relief(cptr)!! }
     }
-    open fun getUseStock(): Boolean {
-         return memScoped { gtk_button_get_use_stock(cptr)!! } != 0
-    }
     open fun getUseUnderline(): Boolean {
          return memScoped { gtk_button_get_use_underline(cptr)!! } != 0
     }
-    open fun leave(): Unit {
-         return memScoped { gtk_button_leave(cptr)!! }
-    }
-    open fun pressed(): Unit {
-         return memScoped { gtk_button_pressed(cptr)!! }
-    }
-    open fun released(): Unit {
-         return memScoped { gtk_button_released(cptr)!! }
-    }
-    open fun setAlignment(xalign: Float, yalign: Float): Unit {
-         return memScoped { gtk_button_set_alignment(cptr, xalign, yalign)!! }
-    }
     open fun setAlwaysShowImage(always_show: Boolean): Unit {
          return memScoped { gtk_button_set_always_show_image(cptr, always_show.asGboolean())!! }
-    }
-    override fun setFocusOnClick(focus_on_click: Boolean): Unit {
-         return memScoped { gtk_button_set_focus_on_click(cptr, focus_on_click.asGboolean())!! }
     }
     open fun setImage(image: Widget): Unit {
          return memScoped { gtk_button_set_image(cptr, Widget.cptr(image))!! }
@@ -1178,9 +1160,6 @@ open class Button internal constructor (private val cptr: CPointer<GtkButton>) :
     }
     open fun setRelief(relief: ReliefStyle): Unit {
          return memScoped { gtk_button_set_relief(cptr, relief)!! }
-    }
-    open fun setUseStock(use_stock: Boolean): Unit {
-         return memScoped { gtk_button_set_use_stock(cptr, use_stock.asGboolean())!! }
     }
     open fun setUseUnderline(use_underline: Boolean): Unit {
          return memScoped { gtk_button_set_use_underline(cptr, use_underline.asGboolean())!! }
@@ -1210,9 +1189,8 @@ open class Button internal constructor (private val cptr: CPointer<GtkButton>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4328304UL
+        const val G_TYPE: gtk3.GType = 31360592UL
         fun cptr(obj: Button): CPointer<GtkButton> = obj.cptr
-        fun newFromStock(stock_id: String): Button = Button(memScoped { gtk_button_new_from_stock(stock_id)!! }.reinterpret()) 
         fun newWithLabel(label: String): Button = Button(memScoped { gtk_button_new_with_label(label)!! }.reinterpret()) 
         fun newWithMnemonic(label: String): Button = Button(memScoped { gtk_button_new_with_mnemonic(label)!! }.reinterpret()) 
     }
@@ -1241,7 +1219,7 @@ open class ButtonBox internal constructor (private val cptr: CPointer<GtkButtonB
          return memScoped { gtk_button_box_set_layout(cptr, layout_style)!! }
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5287552UL
+        const val G_TYPE: gtk3.GType = 31549952UL
         fun cptr(obj: ButtonBox): CPointer<GtkButtonBox> = obj.cptr
     }
 }
@@ -1339,7 +1317,7 @@ open class Calendar internal constructor (private val cptr: CPointer<GtkCalendar
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5289600UL
+        const val G_TYPE: gtk3.GType = 31281920UL
         fun cptr(obj: Calendar): CPointer<GtkCalendar> = obj.cptr
     }
 }
@@ -1494,7 +1472,7 @@ open class CellArea internal constructor (private val cptr: CPointer<GtkCellArea
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4314224UL
+        const val G_TYPE: gtk3.GType = 31127408UL
         fun cptr(obj: CellArea): CPointer<GtkCellArea> = obj.cptr
     }
 }
@@ -1516,7 +1494,7 @@ open class CellAreaBox internal constructor (private val cptr: CPointer<GtkCellA
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4553888UL
+        const val G_TYPE: gtk3.GType = 32363616UL
         fun cptr(obj: CellAreaBox): CPointer<GtkCellAreaBox> = obj.cptr
     }
 }
@@ -1575,7 +1553,7 @@ open class CellAreaContext internal constructor (private val cptr: CPointer<GtkC
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5678224UL
+        const val G_TYPE: gtk3.GType = 30520992UL
         fun cptr(obj: CellAreaContext): CPointer<GtkCellAreaContext> = obj.cptr
     }
 }
@@ -1589,6 +1567,12 @@ class CellAreaContextClass(private val cptr: CPointer<cnames.structs._GtkCellAre
 typealias CellCallback = (renderer:  CellRenderer, data:  Any) -> Boolean
 
 interface CellEditable : InteropWrapper {
+    fun editingDone(): Unit = stub("CellEditable default impl")
+
+    fun removeWidget(): Unit = stub("CellEditable default impl")
+
+    fun startEditing(event: com.charlag.kgtk.demo.gdk.Event): Unit = stub("CellEditable default impl")
+
     companion object {
         fun cptr(obj: CellEditable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1605,6 +1589,24 @@ class CellEditableIface(private val cptr: CPointer<cnames.structs._GtkCellEditab
 }
 
 interface CellLayout : InteropWrapper {
+    fun addAttribute(cell: CellRenderer, attribute: String, column: Int): Unit = stub("CellLayout default impl")
+
+    fun clear(): Unit = stub("CellLayout default impl")
+
+    fun clearAttributes(cell: CellRenderer): Unit = stub("CellLayout default impl")
+
+    fun getArea(): CellArea = stub("CellLayout default impl")
+
+    fun getCells(): List<CellRenderer> = stub("CellLayout default impl")
+
+    fun packEnd(cell: CellRenderer, expand: Boolean): Unit = stub("CellLayout default impl")
+
+    fun packStart(cell: CellRenderer, expand: Boolean): Unit = stub("CellLayout default impl")
+
+    fun reorder(cell: CellRenderer, position: Int): Unit = stub("CellLayout default impl")
+
+    fun setCellDataFunc(cell: CellRenderer, func: CellLayoutDataFunc, func_data: Any, destroy: com.charlag.kgtk.demo.glib.DestroyNotify): Unit = stub("CellLayout default impl")
+
     companion object {
         fun cptr(obj: CellLayout): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1660,9 +1662,6 @@ open class CellRenderer internal constructor (private val cptr: CPointer<GtkCell
     open fun getSensitive(): Boolean {
          return stub()
     }
-    open fun getSize(widget: Widget, cell_area: com.charlag.kgtk.demo.gdk.Rectangle, x_offset: Int, y_offset: Int, width: Int, height: Int): Unit {
-         return stub()
-    }
     open fun getState(widget: Widget, cell_state: CellRendererState): StateFlags {
          return stub()
     }
@@ -1705,7 +1704,7 @@ open class CellRenderer internal constructor (private val cptr: CPointer<GtkCell
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5113296UL
+        const val G_TYPE: gtk3.GType = 32482640UL
         fun cptr(obj: CellRenderer): CPointer<GtkCellRenderer> = obj.cptr
     }
 }
@@ -1723,7 +1722,7 @@ open class CellRendererAccel internal constructor (private val cptr: CPointer<Gt
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4175952UL
+        const val G_TYPE: gtk3.GType = 32507152UL
         fun cptr(obj: CellRendererAccel): CPointer<GtkCellRendererAccel> = obj.cptr
     }
 }
@@ -1754,7 +1753,7 @@ open class CellRendererCombo internal constructor (private val cptr: CPointer<Gt
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4907008UL
+        const val G_TYPE: gtk3.GType = 32593344UL
         fun cptr(obj: CellRendererCombo): CPointer<GtkCellRendererCombo> = obj.cptr
     }
 }
@@ -1772,7 +1771,7 @@ open class CellRendererPixbuf internal constructor (private val cptr: CPointer<G
     constructor() : this(stub<CPointer<GtkCellRendererPixbuf>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5204928UL
+        const val G_TYPE: gtk3.GType = 31895568UL
         fun cptr(obj: CellRendererPixbuf): CPointer<GtkCellRendererPixbuf> = obj.cptr
     }
 }
@@ -1788,7 +1787,7 @@ open class CellRendererProgress internal constructor (private val cptr: CPointer
     constructor() : this(stub<CPointer<GtkCellRendererProgress>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4899888UL
+        const val G_TYPE: gtk3.GType = 30769664UL
         fun cptr(obj: CellRendererProgress): CPointer<GtkCellRendererProgress> = obj.cptr
     }
 }
@@ -1804,7 +1803,7 @@ open class CellRendererSpin internal constructor (private val cptr: CPointer<Gtk
     constructor() : this(stub<CPointer<GtkCellRendererSpin>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4009536UL
+        const val G_TYPE: gtk3.GType = 31021616UL
         fun cptr(obj: CellRendererSpin): CPointer<GtkCellRendererSpin> = obj.cptr
     }
 }
@@ -1820,7 +1819,7 @@ open class CellRendererSpinner internal constructor (private val cptr: CPointer<
     constructor() : this(stub<CPointer<GtkCellRendererSpinner>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5537360UL
+        const val G_TYPE: gtk3.GType = 31577552UL
         fun cptr(obj: CellRendererSpinner): CPointer<GtkCellRendererSpinner> = obj.cptr
     }
 }
@@ -1845,7 +1844,7 @@ open class CellRendererText internal constructor (private val cptr: CPointer<Gtk
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4175696UL
+        const val G_TYPE: gtk3.GType = 32506896UL
         fun cptr(obj: CellRendererText): CPointer<GtkCellRendererText> = obj.cptr
     }
 }
@@ -1883,7 +1882,7 @@ open class CellRendererToggle internal constructor (private val cptr: CPointer<G
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4874400UL
+        const val G_TYPE: gtk3.GType = 31179376UL
         fun cptr(obj: CellRendererToggle): CPointer<GtkCellRendererToggle> = obj.cptr
     }
 }
@@ -1910,12 +1909,6 @@ open class CellView internal constructor (private val cptr: CPointer<GtkCellView
     open fun getModel(): TreeModel {
          return stub()
     }
-    open fun getSizeOfRow(path: TreePath, requisition: Requisition): Boolean {
-         return stub()
-    }
-    open fun setBackgroundColor(color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return stub()
-    }
     open fun setBackgroundRgba(rgba: com.charlag.kgtk.demo.gdk.RGBA): Unit {
          return stub()
     }
@@ -1932,7 +1925,7 @@ open class CellView internal constructor (private val cptr: CPointer<GtkCellView
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4270304UL
+        const val G_TYPE: gtk3.GType = 32112144UL
         fun cptr(obj: CellView): CPointer<GtkCellView> = obj.cptr
         fun newWithContext(area: CellArea, context: CellAreaContext): CellView = CellView(stub<CPointer<GtkCellView>>()) 
         fun newWithMarkup(markup: String): CellView = CellView(stub<CPointer<GtkCellView>>()) 
@@ -1952,7 +1945,7 @@ open class CheckButton internal constructor (private val cptr: CPointer<GtkCheck
     constructor() : this(stub<CPointer<GtkCheckButton>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5065248UL
+        const val G_TYPE: gtk3.GType = 31883072UL
         fun cptr(obj: CheckButton): CPointer<GtkCheckButton> = obj.cptr
         fun newWithLabel(label: String): CheckButton = CheckButton(stub<CPointer<GtkCheckButton>>()) 
         fun newWithMnemonic(label: String): CheckButton = CheckButton(stub<CPointer<GtkCheckButton>>()) 
@@ -1995,7 +1988,7 @@ open class CheckMenuItem internal constructor (private val cptr: CPointer<GtkChe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5329728UL
+        const val G_TYPE: gtk3.GType = 31062272UL
         fun cptr(obj: CheckMenuItem): CPointer<GtkCheckMenuItem> = obj.cptr
         fun newWithLabel(label: String): CheckMenuItem = CheckMenuItem(stub<CPointer<GtkCheckMenuItem>>()) 
         fun newWithMnemonic(label: String): CheckMenuItem = CheckMenuItem(stub<CPointer<GtkCheckMenuItem>>()) 
@@ -2087,7 +2080,7 @@ open class Clipboard internal constructor (private val cptr: CPointer<GtkClipboa
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5305616UL
+        const val G_TYPE: gtk3.GType = 30931456UL
         fun cptr(obj: Clipboard): CPointer<GtkClipboard> = obj.cptr
         fun get(selection: com.charlag.kgtk.demo.gdk.Atom): Clipboard {
     return stub()
@@ -2121,28 +2114,10 @@ open class ColorButton internal constructor (private val cptr: CPointer<GtkColor
     override val rawPtr: COpaquePointer = cptr
     constructor() : this(stub<CPointer<GtkColorButton>>())
 
-    open fun getAlpha(): UShort {
-         return stub()
-    }
-    open fun getColor(color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return stub()
-    }
     open fun getTitle(): String {
          return stub()
     }
-    open fun getUseAlpha(): Boolean {
-         return stub()
-    }
-    open fun setAlpha(alpha: UShort): Unit {
-         return stub()
-    }
-    open fun setColor(color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return stub()
-    }
     open fun setTitle(title: String): Unit {
-         return stub()
-    }
-    open fun setUseAlpha(use_alpha: Boolean): Unit {
          return stub()
     }
     fun setOnColorSet(cb: () -> Unit) {
@@ -2150,9 +2125,8 @@ open class ColorButton internal constructor (private val cptr: CPointer<GtkColor
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4460912UL
+        const val G_TYPE: gtk3.GType = 31709296UL
         fun cptr(obj: ColorButton): CPointer<GtkColorButton> = obj.cptr
-        fun newWithColor(color: com.charlag.kgtk.demo.gdk.Color): ColorButton = ColorButton(stub<CPointer<GtkColorButton>>()) 
         fun newWithRgba(rgba: com.charlag.kgtk.demo.gdk.RGBA): ColorButton = ColorButton(stub<CPointer<GtkColorButton>>()) 
     }
 }
@@ -2164,6 +2138,16 @@ class ColorButtonClass(private val cptr: CPointer<cnames.structs._GtkColorButton
 }
 
 interface ColorChooser : InteropWrapper {
+    fun addPalette(orientation: Orientation, colors_per_line: Int, n_colors: Int, colors: List<com.charlag.kgtk.demo.gdk.RGBA>): Unit = stub("ColorChooser default impl")
+
+    fun getRgba(color: com.charlag.kgtk.demo.gdk.RGBA): Unit = stub("ColorChooser default impl")
+
+    fun getUseAlpha(): Boolean = stub("ColorChooser default impl")
+
+    fun setRgba(color: com.charlag.kgtk.demo.gdk.RGBA): Unit = stub("ColorChooser default impl")
+
+    fun setUseAlpha(use_alpha: Boolean): Unit = stub("ColorChooser default impl")
+
     companion object {
         fun cptr(obj: ColorChooser): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -2178,7 +2162,7 @@ open class ColorChooserDialog internal constructor (private val cptr: CPointer<G
     constructor(title: String, parent: Window) : this(stub<CPointer<GtkColorChooserDialog>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4446048UL
+        const val G_TYPE: gtk3.GType = 31312528UL
         fun cptr(obj: ColorChooserDialog): CPointer<GtkColorChooserDialog> = obj.cptr
     }
 }
@@ -2200,7 +2184,7 @@ open class ColorChooserWidget internal constructor (private val cptr: CPointer<G
     constructor() : this(stub<CPointer<GtkColorChooserWidget>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5158896UL
+        const val G_TYPE: gtk3.GType = 31010832UL
         fun cptr(obj: ColorChooserWidget): CPointer<GtkColorChooserWidget> = obj.cptr
     }
 }
@@ -2218,9 +2202,6 @@ open class ColorSelection internal constructor (private val cptr: CPointer<GtkCo
     open fun getCurrentAlpha(): UShort {
          return stub()
     }
-    open fun getCurrentColor(color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return stub()
-    }
     open fun getCurrentRgba(rgba: com.charlag.kgtk.demo.gdk.RGBA): Unit {
          return stub()
     }
@@ -2233,9 +2214,6 @@ open class ColorSelection internal constructor (private val cptr: CPointer<GtkCo
     open fun getPreviousAlpha(): UShort {
          return stub()
     }
-    open fun getPreviousColor(color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return stub()
-    }
     open fun getPreviousRgba(rgba: com.charlag.kgtk.demo.gdk.RGBA): Unit {
          return stub()
     }
@@ -2243,9 +2221,6 @@ open class ColorSelection internal constructor (private val cptr: CPointer<GtkCo
          return stub()
     }
     open fun setCurrentAlpha(alpha: UShort): Unit {
-         return stub()
-    }
-    open fun setCurrentColor(color: com.charlag.kgtk.demo.gdk.Color): Unit {
          return stub()
     }
     open fun setCurrentRgba(rgba: com.charlag.kgtk.demo.gdk.RGBA): Unit {
@@ -2260,9 +2235,6 @@ open class ColorSelection internal constructor (private val cptr: CPointer<GtkCo
     open fun setPreviousAlpha(alpha: UShort): Unit {
          return stub()
     }
-    open fun setPreviousColor(color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return stub()
-    }
     open fun setPreviousRgba(rgba: com.charlag.kgtk.demo.gdk.RGBA): Unit {
          return stub()
     }
@@ -2271,7 +2243,7 @@ open class ColorSelection internal constructor (private val cptr: CPointer<GtkCo
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4352176UL
+        const val G_TYPE: gtk3.GType = 30981200UL
         fun cptr(obj: ColorSelection): CPointer<GtkColorSelection> = obj.cptr
         fun paletteFromString(str: String, colors: List<com.charlag.kgtk.demo.gdk.Color>, n_colors: Int): Boolean {
     return stub()
@@ -2300,7 +2272,7 @@ open class ColorSelectionDialog internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5631136UL
+        const val G_TYPE: gtk3.GType = 32373984UL
         fun cptr(obj: ColorSelectionDialog): CPointer<GtkColorSelectionDialog> = obj.cptr
     }
 }
@@ -2324,9 +2296,6 @@ open class ComboBox internal constructor (private val cptr: CPointer<GtkComboBox
     open fun getActiveIter(iter: TreeIter): Boolean {
          return stub()
     }
-    open fun getAddTearoffs(): Boolean {
-         return stub()
-    }
     open fun getButtonSensitivity(): SensitivityType {
          return stub()
     }
@@ -2334,9 +2303,6 @@ open class ComboBox internal constructor (private val cptr: CPointer<GtkComboBox
          return stub()
     }
     open fun getEntryTextColumn(): Int {
-         return stub()
-    }
-    override fun getFocusOnClick(): Boolean {
          return stub()
     }
     open fun getHasEntry(): Boolean {
@@ -2355,9 +2321,6 @@ open class ComboBox internal constructor (private val cptr: CPointer<GtkComboBox
          return stub()
     }
     open fun getRowSpanColumn(): Int {
-         return stub()
-    }
-    open fun getTitle(): String {
          return stub()
     }
     open fun getWrapWidth(): Int {
@@ -2381,9 +2344,6 @@ open class ComboBox internal constructor (private val cptr: CPointer<GtkComboBox
     open fun setActiveIter(iter: TreeIter): Unit {
          return stub()
     }
-    open fun setAddTearoffs(add_tearoffs: Boolean): Unit {
-         return stub()
-    }
     open fun setButtonSensitivity(sensitivity: SensitivityType): Unit {
          return stub()
     }
@@ -2391,9 +2351,6 @@ open class ComboBox internal constructor (private val cptr: CPointer<GtkComboBox
          return stub()
     }
     open fun setEntryTextColumn(text_column: Int): Unit {
-         return stub()
-    }
-    override fun setFocusOnClick(focus_on_click: Boolean): Unit {
          return stub()
     }
     open fun setIdColumn(id_column: Int): Unit {
@@ -2409,9 +2366,6 @@ open class ComboBox internal constructor (private val cptr: CPointer<GtkComboBox
          return stub()
     }
     open fun setRowSpanColumn(row_span: Int): Unit {
-         return stub()
-    }
-    open fun setTitle(title: String): Unit {
          return stub()
     }
     open fun setWrapWidth(width: Int): Unit {
@@ -2438,7 +2392,7 @@ open class ComboBox internal constructor (private val cptr: CPointer<GtkComboBox
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5129776UL
+        const val G_TYPE: gtk3.GType = 31782192UL
         fun cptr(obj: ComboBox): CPointer<GtkComboBox> = obj.cptr
         fun newWithArea(area: CellArea): ComboBox = ComboBox(stub<CPointer<GtkComboBox>>()) 
         fun newWithAreaAndEntry(area: CellArea): ComboBox = ComboBox(stub<CPointer<GtkComboBox>>()) 
@@ -2486,7 +2440,7 @@ open class ComboBoxText internal constructor (private val cptr: CPointer<GtkComb
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5860112UL
+        const val G_TYPE: gtk3.GType = 31429472UL
         fun cptr(obj: ComboBoxText): CPointer<GtkComboBoxText> = obj.cptr
         fun newWithEntry(): ComboBoxText = ComboBoxText(stub<CPointer<GtkComboBoxText>>()) 
     }
@@ -2529,9 +2483,6 @@ open class Container internal constructor (private val cptr: CPointer<GtkContain
     open fun getChildren(): List<Widget> {
          return memScoped { gtk_container_get_children(cptr)!! }.toList<GtkWidget>().map { Widget(it) }
     }
-    open fun getFocusChain(focusable_widgets: List<Widget>): Boolean {
-         return memScoped { gtk_container_get_focus_chain(cptr, stub("non-in param"))!! } != 0
-    }
     open fun getFocusChild(): Widget {
          return Widget(memScoped { gtk_container_get_focus_child(cptr)!! })
     }
@@ -2544,17 +2495,11 @@ open class Container internal constructor (private val cptr: CPointer<GtkContain
     open fun getPathForChild(child: Widget): WidgetPath {
          return WidgetPath(memScoped { gtk_container_get_path_for_child(cptr, Widget.cptr(child))!! })
     }
-    open fun getResizeMode(): ResizeMode {
-         return memScoped { gtk_container_get_resize_mode(cptr)!! }
-    }
     open fun propagateDraw(child: Widget, cr: com.charlag.kgtk.demo.cairo.Context): Unit {
          return memScoped { gtk_container_propagate_draw(cptr, Widget.cptr(child), com.charlag.kgtk.demo.cairo.Context.cptr(cr))!! }
     }
     open fun remove(widget: Widget): Unit {
          return memScoped { gtk_container_remove(cptr, Widget.cptr(widget))!! }
-    }
-    open fun resizeChildren(): Unit {
-         return memScoped { gtk_container_resize_children(cptr)!! }
     }
     open fun setBorderWidth(border_width: UInt): Unit {
          return memScoped { gtk_container_set_border_width(cptr, border_width)!! }
@@ -2568,15 +2513,6 @@ open class Container internal constructor (private val cptr: CPointer<GtkContain
     }
     open fun setFocusVadjustment(adjustment: Adjustment): Unit {
          return memScoped { gtk_container_set_focus_vadjustment(cptr, Adjustment.cptr(adjustment))!! }
-    }
-    open fun setReallocateRedraws(needs_redraws: Boolean): Unit {
-         return memScoped { gtk_container_set_reallocate_redraws(cptr, needs_redraws.asGboolean())!! }
-    }
-    open fun setResizeMode(resize_mode: ResizeMode): Unit {
-         return memScoped { gtk_container_set_resize_mode(cptr, resize_mode)!! }
-    }
-    open fun unsetFocusChain(): Unit {
-         return memScoped { gtk_container_unset_focus_chain(cptr)!! }
     }
     fun setOnAdd(cb: () -> Unit) {
         do_connect(cptr, "add", cb)
@@ -2595,7 +2531,7 @@ open class Container internal constructor (private val cptr: CPointer<GtkContain
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4700848UL
+        const val G_TYPE: gtk3.GType = 30726832UL
         fun cptr(obj: Container): CPointer<GtkContainer> = obj.cptr
     }
 }
@@ -2647,11 +2583,8 @@ open class CssProvider internal constructor (private val cptr: CPointer<GtkCssPr
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4937920UL
+        const val G_TYPE: gtk3.GType = 31891248UL
         fun cptr(obj: CssProvider): CPointer<GtkCssProvider> = obj.cptr
-        fun getDefault(): CssProvider {
-    return stub()
-}
         fun getNamed(`name`: String, variant: String): CssProvider {
     return stub()
 }
@@ -2717,9 +2650,6 @@ open class Dialog internal constructor (private val cptr: CPointer<GtkDialog>) :
     open fun addButton(button_text: String, response_id: Int): Widget {
          return Widget(memScoped { gtk_dialog_add_button(cptr, button_text, response_id)!! })
     }
-    open fun getActionArea(): Box {
-         return Box(memScoped { gtk_dialog_get_action_area(cptr)!! }.reinterpret())
-    }
     open fun getContentArea(): Box {
          return Box(memScoped { gtk_dialog_get_content_area(cptr)!! }.reinterpret())
     }
@@ -2738,9 +2668,6 @@ open class Dialog internal constructor (private val cptr: CPointer<GtkDialog>) :
     open fun run(): Int {
          return memScoped { gtk_dialog_run(cptr)!! }
     }
-    open fun setAlternativeButtonOrderFromArray(n_params: Int, new_order: List<Int>): Unit {
-         return memScoped { gtk_dialog_set_alternative_button_order_from_array(cptr, n_params, new_order.toIntArray().toCValues())!! }
-    }
     open fun setDefaultResponse(response_id: Int): Unit {
          return memScoped { gtk_dialog_set_default_response(cptr, response_id)!! }
     }
@@ -2756,7 +2683,7 @@ open class Dialog internal constructor (private val cptr: CPointer<GtkDialog>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4701984UL
+        const val G_TYPE: gtk3.GType = 31094944UL
         fun cptr(obj: Dialog): CPointer<GtkDialog> = obj.cptr
     }
 }
@@ -2778,7 +2705,7 @@ open class DrawingArea internal constructor (private val cptr: CPointer<GtkDrawi
     constructor() : this(stub<CPointer<GtkDrawingArea>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4885904UL
+        const val G_TYPE: gtk3.GType = 31286912UL
         fun cptr(obj: DrawingArea): CPointer<GtkDrawingArea> = obj.cptr
     }
 }
@@ -2790,6 +2717,32 @@ class DrawingAreaClass(private val cptr: CPointer<cnames.structs._GtkDrawingArea
 }
 
 interface Editable : InteropWrapper {
+    fun copyClipboard(): Unit = stub("Editable default impl")
+
+    fun cutClipboard(): Unit = stub("Editable default impl")
+
+    fun deleteSelection(): Unit = stub("Editable default impl")
+
+    fun deleteText(start_pos: Int, end_pos: Int): Unit = stub("Editable default impl")
+
+    fun getChars(start_pos: Int, end_pos: Int): String = stub("Editable default impl")
+
+    fun getEditable(): Boolean = stub("Editable default impl")
+
+    fun getPosition(): Int = stub("Editable default impl")
+
+    fun getSelectionBounds(start_pos: Int, end_pos: Int): Boolean = stub("Editable default impl")
+
+    fun insertText(new_text: String, new_text_length: Int, position: Int): Unit = stub("Editable default impl")
+
+    fun pasteClipboard(): Unit = stub("Editable default impl")
+
+    fun selectRegion(start_pos: Int, end_pos: Int): Unit = stub("Editable default impl")
+
+    fun setEditable(is_editable: Boolean): Unit = stub("Editable default impl")
+
+    fun setPosition(position: Int): Unit = stub("Editable default impl")
+
     companion object {
         fun cptr(obj: Editable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -2854,9 +2807,6 @@ open class Entry internal constructor (private val cptr: CPointer<GtkEntry>) : W
     open fun getIconSensitive(icon_pos: EntryIconPosition): Boolean {
          return stub()
     }
-    open fun getIconStock(icon_pos: EntryIconPosition): String {
-         return stub()
-    }
     open fun getIconStorageType(icon_pos: EntryIconPosition): ImageType {
          return stub()
     }
@@ -2864,9 +2814,6 @@ open class Entry internal constructor (private val cptr: CPointer<GtkEntry>) : W
          return stub()
     }
     open fun getIconTooltipText(icon_pos: EntryIconPosition): String {
-         return stub()
-    }
-    open fun getInnerBorder(): Border {
          return stub()
     }
     open fun getInputHints(): InputHints {
@@ -2971,9 +2918,6 @@ open class Entry internal constructor (private val cptr: CPointer<GtkEntry>) : W
     open fun setIconFromPixbuf(icon_pos: EntryIconPosition, pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): Unit {
          return stub()
     }
-    open fun setIconFromStock(icon_pos: EntryIconPosition, stock_id: String): Unit {
-         return stub()
-    }
     open fun setIconSensitive(icon_pos: EntryIconPosition, sensitive: Boolean): Unit {
          return stub()
     }
@@ -2981,9 +2925,6 @@ open class Entry internal constructor (private val cptr: CPointer<GtkEntry>) : W
          return stub()
     }
     open fun setIconTooltipText(icon_pos: EntryIconPosition, tooltip: String): Unit {
-         return stub()
-    }
-    open fun setInnerBorder(border: Border): Unit {
          return stub()
     }
     open fun setInputHints(hints: InputHints): Unit {
@@ -3088,7 +3029,7 @@ open class Entry internal constructor (private val cptr: CPointer<GtkEntry>) : W
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4117056UL
+        const val G_TYPE: gtk3.GType = 30593888UL
         fun cptr(obj: Entry): CPointer<GtkEntry> = obj.cptr
         fun newWithBuffer(buffer: EntryBuffer): Entry = Entry(stub<CPointer<GtkEntry>>()) 
     }
@@ -3137,7 +3078,7 @@ open class EntryBuffer internal constructor (private val cptr: CPointer<GtkEntry
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5900960UL
+        const val G_TYPE: gtk3.GType = 31185744UL
         fun cptr(obj: EntryBuffer): CPointer<GtkEntryBuffer> = obj.cptr
     }
 }
@@ -3254,7 +3195,7 @@ open class EntryCompletion internal constructor (private val cptr: CPointer<GtkE
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5656832UL
+        const val G_TYPE: gtk3.GType = 31296896UL
         fun cptr(obj: EntryCompletion): CPointer<GtkEntryCompletion> = obj.cptr
         fun newWithArea(area: CellArea): EntryCompletion = EntryCompletion(stub<CPointer<GtkEntryCompletion>>()) 
     }
@@ -3287,7 +3228,7 @@ open class EventBox internal constructor (private val cptr: CPointer<GtkEventBox
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4752576UL
+        const val G_TYPE: gtk3.GType = 31237216UL
         fun cptr(obj: EventBox): CPointer<GtkEventBox> = obj.cptr
     }
 }
@@ -3316,7 +3257,7 @@ open class EventController internal constructor (private val cptr: CPointer<GtkE
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4033712UL
+        const val G_TYPE: gtk3.GType = 32478512UL
         fun cptr(obj: EventController): CPointer<GtkEventController> = obj.cptr
     }
 }
@@ -3368,7 +3309,7 @@ open class EventControllerKey internal constructor (private val cptr: CPointer<G
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5242160UL
+        const val G_TYPE: gtk3.GType = 32307536UL
         fun cptr(obj: EventControllerKey): CPointer<GtkEventControllerKey> = obj.cptr
     }
 }
@@ -3396,7 +3337,7 @@ open class EventControllerMotion internal constructor (private val cptr: CPointe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5538816UL
+        const val G_TYPE: gtk3.GType = 32388864UL
         fun cptr(obj: EventControllerMotion): CPointer<GtkEventControllerMotion> = obj.cptr
     }
 }
@@ -3434,7 +3375,7 @@ open class EventControllerScroll internal constructor (private val cptr: CPointe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4353808UL
+        const val G_TYPE: gtk3.GType = 31553392UL
         fun cptr(obj: EventControllerScroll): CPointer<GtkEventControllerScroll> = obj.cptr
     }
 }
@@ -3468,9 +3409,6 @@ open class Expander internal constructor (private val cptr: CPointer<GtkExpander
     open fun getResizeToplevel(): Boolean {
          return stub()
     }
-    open fun getSpacing(): Int {
-         return stub()
-    }
     open fun getUseMarkup(): Boolean {
          return stub()
     }
@@ -3492,9 +3430,6 @@ open class Expander internal constructor (private val cptr: CPointer<GtkExpander
     open fun setResizeToplevel(resize_toplevel: Boolean): Unit {
          return stub()
     }
-    open fun setSpacing(spacing: Int): Unit {
-         return stub()
-    }
     open fun setUseMarkup(use_markup: Boolean): Unit {
          return stub()
     }
@@ -3506,7 +3441,7 @@ open class Expander internal constructor (private val cptr: CPointer<GtkExpander
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6030544UL
+        const val G_TYPE: gtk3.GType = 31204736UL
         fun cptr(obj: Expander): CPointer<GtkExpander> = obj.cptr
         fun newWithMnemonic(label: String): Expander = Expander(stub<CPointer<GtkExpander>>()) 
     }
@@ -3521,6 +3456,132 @@ class ExpanderClass(private val cptr: CPointer<cnames.structs._GtkExpanderClass>
 typealias ExpanderStyle = GtkExpanderStyle
 
 interface FileChooser : InteropWrapper {
+    fun addChoice(id: String, label: String, options: List<String>, option_labels: List<String>): Unit = stub("FileChooser default impl")
+
+    fun addFilter(filter: FileFilter): Unit = stub("FileChooser default impl")
+
+    fun addShortcutFolder(folder: String): Boolean = stub("FileChooser default impl")
+
+    fun addShortcutFolderUri(uri: String): Boolean = stub("FileChooser default impl")
+
+    fun getAction(): FileChooserAction = stub("FileChooser default impl")
+
+    fun getChoice(id: String): String = stub("FileChooser default impl")
+
+    fun getCreateFolders(): Boolean = stub("FileChooser default impl")
+
+    fun getCurrentFolder(): String = stub("FileChooser default impl")
+
+    fun getCurrentFolderFile(): com.charlag.kgtk.demo.gio.File = stub("FileChooser default impl")
+
+    fun getCurrentFolderUri(): String = stub("FileChooser default impl")
+
+    fun getCurrentName(): String = stub("FileChooser default impl")
+
+    fun getDoOverwriteConfirmation(): Boolean = stub("FileChooser default impl")
+
+    fun getExtraWidget(): Widget = stub("FileChooser default impl")
+
+    fun getFile(): com.charlag.kgtk.demo.gio.File = stub("FileChooser default impl")
+
+    fun getFilename(): String = stub("FileChooser default impl")
+
+    fun getFilenames(): List<String> = stub("FileChooser default impl")
+
+    fun getFiles(): List<com.charlag.kgtk.demo.gio.File> = stub("FileChooser default impl")
+
+    fun getFilter(): FileFilter = stub("FileChooser default impl")
+
+    fun getLocalOnly(): Boolean = stub("FileChooser default impl")
+
+    fun getPreviewFile(): com.charlag.kgtk.demo.gio.File = stub("FileChooser default impl")
+
+    fun getPreviewFilename(): String = stub("FileChooser default impl")
+
+    fun getPreviewUri(): String = stub("FileChooser default impl")
+
+    fun getPreviewWidget(): Widget = stub("FileChooser default impl")
+
+    fun getPreviewWidgetActive(): Boolean = stub("FileChooser default impl")
+
+    fun getSelectMultiple(): Boolean = stub("FileChooser default impl")
+
+    fun getShowHidden(): Boolean = stub("FileChooser default impl")
+
+    fun getUri(): String = stub("FileChooser default impl")
+
+    fun getUris(): List<String> = stub("FileChooser default impl")
+
+    fun getUsePreviewLabel(): Boolean = stub("FileChooser default impl")
+
+    fun listFilters(): List<FileFilter> = stub("FileChooser default impl")
+
+    fun listShortcutFolderUris(): List<String> = stub("FileChooser default impl")
+
+    fun listShortcutFolders(): List<String> = stub("FileChooser default impl")
+
+    fun removeChoice(id: String): Unit = stub("FileChooser default impl")
+
+    fun removeFilter(filter: FileFilter): Unit = stub("FileChooser default impl")
+
+    fun removeShortcutFolder(folder: String): Boolean = stub("FileChooser default impl")
+
+    fun removeShortcutFolderUri(uri: String): Boolean = stub("FileChooser default impl")
+
+    fun selectAll(): Unit = stub("FileChooser default impl")
+
+    fun selectFile(file: com.charlag.kgtk.demo.gio.File): Boolean = stub("FileChooser default impl")
+
+    fun selectFilename(filename: String): Boolean = stub("FileChooser default impl")
+
+    fun selectUri(uri: String): Boolean = stub("FileChooser default impl")
+
+    fun setAction(action: FileChooserAction): Unit = stub("FileChooser default impl")
+
+    fun setChoice(id: String, option: String): Unit = stub("FileChooser default impl")
+
+    fun setCreateFolders(create_folders: Boolean): Unit = stub("FileChooser default impl")
+
+    fun setCurrentFolder(filename: String): Boolean = stub("FileChooser default impl")
+
+    fun setCurrentFolderFile(file: com.charlag.kgtk.demo.gio.File): Boolean = stub("FileChooser default impl")
+
+    fun setCurrentFolderUri(uri: String): Boolean = stub("FileChooser default impl")
+
+    fun setCurrentName(`name`: String): Unit = stub("FileChooser default impl")
+
+    fun setDoOverwriteConfirmation(do_overwrite_confirmation: Boolean): Unit = stub("FileChooser default impl")
+
+    fun setExtraWidget(extra_widget: Widget): Unit = stub("FileChooser default impl")
+
+    fun setFile(file: com.charlag.kgtk.demo.gio.File): Boolean = stub("FileChooser default impl")
+
+    fun setFilename(filename: String): Boolean = stub("FileChooser default impl")
+
+    fun setFilter(filter: FileFilter): Unit = stub("FileChooser default impl")
+
+    fun setLocalOnly(local_only: Boolean): Unit = stub("FileChooser default impl")
+
+    fun setPreviewWidget(preview_widget: Widget): Unit = stub("FileChooser default impl")
+
+    fun setPreviewWidgetActive(active: Boolean): Unit = stub("FileChooser default impl")
+
+    fun setSelectMultiple(select_multiple: Boolean): Unit = stub("FileChooser default impl")
+
+    fun setShowHidden(show_hidden: Boolean): Unit = stub("FileChooser default impl")
+
+    fun setUri(uri: String): Boolean = stub("FileChooser default impl")
+
+    fun setUsePreviewLabel(use_label: Boolean): Unit = stub("FileChooser default impl")
+
+    fun unselectAll(): Unit = stub("FileChooser default impl")
+
+    fun unselectFile(file: com.charlag.kgtk.demo.gio.File): Unit = stub("FileChooser default impl")
+
+    fun unselectFilename(filename: String): Unit = stub("FileChooser default impl")
+
+    fun unselectUri(uri: String): Unit = stub("FileChooser default impl")
+
     companion object {
         fun cptr(obj: FileChooser): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3536,16 +3597,10 @@ open class FileChooserButton internal constructor (private val cptr: CPointer<Gt
     override val rawPtr: COpaquePointer = cptr
     constructor(title: String, action: FileChooserAction) : this(stub<CPointer<GtkFileChooserButton>>())
 
-    override fun getFocusOnClick(): Boolean {
-         return stub()
-    }
     open fun getTitle(): String {
          return stub()
     }
     open fun getWidthChars(): Int {
-         return stub()
-    }
-    override fun setFocusOnClick(focus_on_click: Boolean): Unit {
          return stub()
     }
     open fun setTitle(title: String): Unit {
@@ -3559,7 +3614,7 @@ open class FileChooserButton internal constructor (private val cptr: CPointer<Gt
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4231952UL
+        const val G_TYPE: gtk3.GType = 32664928UL
         fun cptr(obj: FileChooserButton): CPointer<GtkFileChooserButton> = obj.cptr
         fun newWithDialog(dialog: Dialog): FileChooserButton = FileChooserButton(stub<CPointer<GtkFileChooserButton>>()) 
     }
@@ -3576,7 +3631,7 @@ typealias FileChooserConfirmation = GtkFileChooserConfirmation
 open class FileChooserDialog internal constructor (private val cptr: CPointer<GtkFileChooserDialog>) : Dialog(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, FileChooser, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 4473072UL
+        const val G_TYPE: gtk3.GType = 30597760UL
         fun cptr(obj: FileChooserDialog): CPointer<GtkFileChooserDialog> = obj.cptr
     }
 }
@@ -3606,7 +3661,7 @@ open class FileChooserNative internal constructor (private val cptr: CPointer<Gt
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5656944UL
+        const val G_TYPE: gtk3.GType = 30506960UL
         fun cptr(obj: FileChooserNative): CPointer<GtkFileChooserNative> = obj.cptr
     }
 }
@@ -3670,7 +3725,7 @@ open class FileChooserWidget internal constructor (private val cptr: CPointer<Gt
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4426240UL
+        const val G_TYPE: gtk3.GType = 31601392UL
         fun cptr(obj: FileChooserWidget): CPointer<GtkFileChooserWidget> = obj.cptr
     }
 }
@@ -3700,20 +3755,20 @@ open class FileFilter internal constructor (private val cptr: CPointer<GtkFileFi
     open fun filter(filter_info: FileFilterInfo): Boolean {
          return stub()
     }
-    open fun getName(): String {
+    override fun getName(): String {
          return stub()
     }
     open fun getNeeded(): FileFilterFlags {
          return stub()
     }
-    open fun setName(`name`: String): Unit {
+    override fun setName(`name`: String): Unit {
          return stub()
     }
     open fun toGvariant(): com.charlag.kgtk.demo.glib.Variant {
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4295680UL
+        const val G_TYPE: gtk3.GType = 32413904UL
         fun cptr(obj: FileFilter): CPointer<GtkFileFilter> = obj.cptr
         fun newFromGvariant(variant: com.charlag.kgtk.demo.glib.Variant): FileFilter = FileFilter(stub<CPointer<GtkFileFilter>>()) 
     }
@@ -3740,7 +3795,7 @@ open class Fixed internal constructor (private val cptr: CPointer<GtkFixed>) : C
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4557536UL
+        const val G_TYPE: gtk3.GType = 33282000UL
         fun cptr(obj: Fixed): CPointer<GtkFixed> = obj.cptr
     }
 }
@@ -3880,7 +3935,7 @@ open class FlowBox internal constructor (private val cptr: CPointer<GtkFlowBox>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4092384UL
+        const val G_TYPE: gtk3.GType = 33337120UL
         fun cptr(obj: FlowBox): CPointer<GtkFlowBox> = obj.cptr
     }
 }
@@ -3903,7 +3958,7 @@ open class FlowBoxChild internal constructor (private val cptr: CPointer<GtkFlow
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4704800UL
+        const val G_TYPE: gtk3.GType = 31695472UL
         fun cptr(obj: FlowBoxChild): CPointer<GtkFlowBoxChild> = obj.cptr
     }
 }
@@ -3932,9 +3987,6 @@ open class FontButton internal constructor (private val cptr: CPointer<GtkFontBu
     override val rawPtr: COpaquePointer = cptr
     constructor() : this(stub<CPointer<GtkFontButton>>())
 
-    open fun getFontName(): String {
-         return stub()
-    }
     open fun getShowSize(): Boolean {
          return stub()
     }
@@ -3948,9 +4000,6 @@ open class FontButton internal constructor (private val cptr: CPointer<GtkFontBu
          return stub()
     }
     open fun getUseSize(): Boolean {
-         return stub()
-    }
-    open fun setFontName(fontname: String): Boolean {
          return stub()
     }
     open fun setShowSize(show_size: Boolean): Unit {
@@ -3973,7 +4022,7 @@ open class FontButton internal constructor (private val cptr: CPointer<GtkFontBu
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4968112UL
+        const val G_TYPE: gtk3.GType = 31498592UL
         fun cptr(obj: FontButton): CPointer<GtkFontButton> = obj.cptr
         fun newWithFont(fontname: String): FontButton = FontButton(stub<CPointer<GtkFontButton>>()) 
     }
@@ -3986,6 +4035,44 @@ class FontButtonClass(private val cptr: CPointer<cnames.structs._GtkFontButtonCl
 }
 
 interface FontChooser : InteropWrapper {
+    fun getFont(): String = stub("FontChooser default impl")
+
+    fun getFontDesc(): com.charlag.kgtk.demo.pango.FontDescription = stub("FontChooser default impl")
+
+    fun getFontFace(): com.charlag.kgtk.demo.pango.FontFace = stub("FontChooser default impl")
+
+    fun getFontFamily(): com.charlag.kgtk.demo.pango.FontFamily = stub("FontChooser default impl")
+
+    fun getFontFeatures(): String = stub("FontChooser default impl")
+
+    fun getChooserFontMap(): com.charlag.kgtk.demo.pango.FontMap = stub("getChooserFontMap() default impl")
+
+    fun getFontSize(): Int = stub("FontChooser default impl")
+
+    fun getLanguage(): String = stub("FontChooser default impl")
+
+    fun getLevel(): FontChooserLevel = stub("FontChooser default impl")
+
+    fun getPreviewText(): String = stub("FontChooser default impl")
+
+    fun getShowPreviewEntry(): Boolean = stub("FontChooser default impl")
+
+    fun setFilterFunc(filter: FontFilterFunc, user_data: Any, destroy: com.charlag.kgtk.demo.glib.DestroyNotify): Unit = stub("FontChooser default impl")
+
+    fun setFont(fontname: String): Unit = stub("FontChooser default impl")
+
+    fun setFontDesc(font_desc: com.charlag.kgtk.demo.pango.FontDescription): Unit = stub("FontChooser default impl")
+
+    fun setChooserFontMap(fontmap: com.charlag.kgtk.demo.pango.FontMap): Unit = stub("setChooserFontMap() default impl")
+
+    fun setLanguage(language: String): Unit = stub("FontChooser default impl")
+
+    fun setLevel(level: FontChooserLevel): Unit = stub("FontChooser default impl")
+
+    fun setPreviewText(text: String): Unit = stub("FontChooser default impl")
+
+    fun setShowPreviewEntry(show_preview_entry: Boolean): Unit = stub("FontChooser default impl")
+
     companion object {
         fun cptr(obj: FontChooser): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -4000,7 +4087,7 @@ open class FontChooserDialog internal constructor (private val cptr: CPointer<Gt
     constructor(title: String, parent: Window) : this(stub<CPointer<GtkFontChooserDialog>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5873392UL
+        const val G_TYPE: gtk3.GType = 32599792UL
         fun cptr(obj: FontChooserDialog): CPointer<GtkFontChooserDialog> = obj.cptr
     }
 }
@@ -4024,7 +4111,7 @@ open class FontChooserWidget internal constructor (private val cptr: CPointer<Gt
     constructor() : this(stub<CPointer<GtkFontChooserWidget>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4085296UL
+        const val G_TYPE: gtk3.GType = 30788960UL
         fun cptr(obj: FontChooserWidget): CPointer<GtkFontChooserWidget> = obj.cptr
     }
 }
@@ -4039,46 +4126,8 @@ typealias FontFilterFunc = (family:  com.charlag.kgtk.demo.pango.FontFamily, fac
 
 open class FontSelection internal constructor (private val cptr: CPointer<GtkFontSelection>) : Box(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkFontSelection>>())
-
-    open fun getFace(): com.charlag.kgtk.demo.pango.FontFace {
-         return stub()
-    }
-    open fun getFaceList(): Widget {
-         return stub()
-    }
-    open fun getFamily(): com.charlag.kgtk.demo.pango.FontFamily {
-         return stub()
-    }
-    open fun getFamilyList(): Widget {
-         return stub()
-    }
-    open fun getFontName(): String {
-         return stub()
-    }
-    open fun getPreviewEntry(): Widget {
-         return stub()
-    }
-    open fun getPreviewText(): String {
-         return stub()
-    }
-    open fun getSize(): Int {
-         return stub()
-    }
-    open fun getSizeEntry(): Widget {
-         return stub()
-    }
-    open fun getSizeList(): Widget {
-         return stub()
-    }
-    open fun setFontName(fontname: String): Boolean {
-         return stub()
-    }
-    open fun setPreviewText(text: String): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 5502288UL
+        const val G_TYPE: gtk3.GType = 31853664UL
         fun cptr(obj: FontSelection): CPointer<GtkFontSelection> = obj.cptr
     }
 }
@@ -4091,31 +4140,8 @@ class FontSelectionClass(private val cptr: CPointer<cnames.structs._GtkFontSelec
 
 open class FontSelectionDialog internal constructor (private val cptr: CPointer<GtkFontSelectionDialog>) : Dialog(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(title: String) : this(stub<CPointer<GtkFontSelectionDialog>>())
-
-    open fun getCancelButton(): Widget {
-         return stub()
-    }
-    open fun getFontName(): String {
-         return stub()
-    }
-    open fun getFontSelection(): Widget {
-         return stub()
-    }
-    open fun getOkButton(): Widget {
-         return stub()
-    }
-    open fun getPreviewText(): String {
-         return stub()
-    }
-    open fun setFontName(fontname: String): Boolean {
-         return stub()
-    }
-    open fun setPreviewText(text: String): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 4812656UL
+        const val G_TYPE: gtk3.GType = 32432848UL
         fun cptr(obj: FontSelectionDialog): CPointer<GtkFontSelectionDialog> = obj.cptr
     }
 }
@@ -4155,7 +4181,7 @@ open class Frame internal constructor (private val cptr: CPointer<GtkFrame>) : B
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5489328UL
+        const val G_TYPE: gtk3.GType = 31455904UL
         fun cptr(obj: Frame): CPointer<GtkFrame> = obj.cptr
     }
 }
@@ -4237,7 +4263,7 @@ open class GLArea internal constructor (private val cptr: CPointer<GtkGLArea>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5771904UL
+        const val G_TYPE: gtk3.GType = 31414384UL
         fun cptr(obj: GLArea): CPointer<GtkGLArea> = obj.cptr
     }
 }
@@ -4328,7 +4354,7 @@ open class Gesture internal constructor (private val cptr: CPointer<GtkGesture>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5760944UL
+        const val G_TYPE: gtk3.GType = 30759024UL
         fun cptr(obj: Gesture): CPointer<GtkGesture> = obj.cptr
     }
 }
@@ -4362,7 +4388,7 @@ open class GestureDrag internal constructor (private val cptr: CPointer<GtkGestu
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5944448UL
+        const val G_TYPE: gtk3.GType = 32703952UL
         fun cptr(obj: GestureDrag): CPointer<GtkGestureDrag> = obj.cptr
     }
 }
@@ -4386,7 +4412,7 @@ open class GestureLongPress internal constructor (private val cptr: CPointer<Gtk
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6091296UL
+        const val G_TYPE: gtk3.GType = 32574928UL
         fun cptr(obj: GestureLongPress): CPointer<GtkGestureLongPress> = obj.cptr
     }
 }
@@ -4420,7 +4446,7 @@ open class GestureMultiPress internal constructor (private val cptr: CPointer<Gt
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6070096UL
+        const val G_TYPE: gtk3.GType = 32504960UL
         fun cptr(obj: GestureMultiPress): CPointer<GtkGestureMultiPress> = obj.cptr
     }
 }
@@ -4446,7 +4472,7 @@ open class GesturePan internal constructor (private val cptr: CPointer<GtkGestur
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4364144UL
+        const val G_TYPE: gtk3.GType = 31788352UL
         fun cptr(obj: GesturePan): CPointer<GtkGesturePan> = obj.cptr
     }
 }
@@ -4469,7 +4495,7 @@ open class GestureRotate internal constructor (private val cptr: CPointer<GtkGes
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4574144UL
+        const val G_TYPE: gtk3.GType = 31928544UL
         fun cptr(obj: GestureRotate): CPointer<GtkGestureRotate> = obj.cptr
     }
 }
@@ -4507,7 +4533,7 @@ open class GestureSingle internal constructor (private val cptr: CPointer<GtkGes
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5944192UL
+        const val G_TYPE: gtk3.GType = 32703728UL
         fun cptr(obj: GestureSingle): CPointer<GtkGestureSingle> = obj.cptr
     }
 }
@@ -4548,7 +4574,7 @@ open class GestureStylus internal constructor (private val cptr: CPointer<GtkGes
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5221872UL
+        const val G_TYPE: gtk3.GType = 33196576UL
         fun cptr(obj: GestureStylus): CPointer<GtkGestureStylus> = obj.cptr
     }
 }
@@ -4571,7 +4597,7 @@ open class GestureSwipe internal constructor (private val cptr: CPointer<GtkGest
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5418848UL
+        const val G_TYPE: gtk3.GType = 31972608UL
         fun cptr(obj: GestureSwipe): CPointer<GtkGestureSwipe> = obj.cptr
     }
 }
@@ -4594,7 +4620,7 @@ open class GestureZoom internal constructor (private val cptr: CPointer<GtkGestu
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4715744UL
+        const val G_TYPE: gtk3.GType = 33024848UL
         fun cptr(obj: GestureZoom): CPointer<GtkGestureZoom> = obj.cptr
     }
 }
@@ -4700,7 +4726,7 @@ open class Grid internal constructor (private val cptr: CPointer<GtkGrid>) : Con
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4708224UL
+        const val G_TYPE: gtk3.GType = 33402048UL
         fun cptr(obj: Grid): CPointer<GtkGrid> = obj.cptr
     }
 }
@@ -4713,10 +4739,8 @@ class GridClass(private val cptr: CPointer<cnames.structs._GtkGridClass>) /* str
 
 open class HBox internal constructor (private val cptr: CPointer<GtkHBox>) : Box(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(homogeneous: Boolean, spacing: Int) : this(stub<CPointer<GtkHBox>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 4033824UL
+        const val G_TYPE: gtk3.GType = 33565792UL
         fun cptr(obj: HBox): CPointer<GtkHBox> = obj.cptr
     }
 }
@@ -4729,10 +4753,8 @@ class HBoxClass(private val cptr: CPointer<cnames.structs._GtkHBoxClass>) /* str
 
 open class HButtonBox internal constructor (private val cptr: CPointer<GtkHButtonBox>) : ButtonBox(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkHButtonBox>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 5132144UL
+        const val G_TYPE: gtk3.GType = 33340464UL
         fun cptr(obj: HButtonBox): CPointer<GtkHButtonBox> = obj.cptr
     }
 }
@@ -4745,10 +4767,8 @@ class HButtonBoxClass(private val cptr: CPointer<cnames.structs._GtkHButtonBoxCl
 
 open class HPaned internal constructor (private val cptr: CPointer<GtkHPaned>) : Paned(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkHPaned>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 4703728UL
+        const val G_TYPE: gtk3.GType = 33666304UL
         fun cptr(obj: HPaned): CPointer<GtkHPaned> = obj.cptr
     }
 }
@@ -4787,7 +4807,7 @@ open class HSV internal constructor (private val cptr: CPointer<GtkHSV>) : Widge
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4413088UL
+        const val G_TYPE: gtk3.GType = 30749472UL
         fun cptr(obj: HSV): CPointer<GtkHSV> = obj.cptr
         fun toRgb(h: Double, s: Double, v: Double, r: Double, g: Double, b: Double): Unit {
     return stub()
@@ -4803,12 +4823,9 @@ class HSVClass(private val cptr: CPointer<cnames.structs._GtkHSVClass>) /* struc
 
 open class HScale internal constructor (private val cptr: CPointer<GtkHScale>) : Scale(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(adjustment: Adjustment) : this(stub<CPointer<GtkHScale>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 5743888UL
+        const val G_TYPE: gtk3.GType = 32715776UL
         fun cptr(obj: HScale): CPointer<GtkHScale> = obj.cptr
-        fun newWithRange(min: Double, max: Double, step: Double): HScale = HScale(stub<CPointer<GtkHScale>>()) 
     }
 }
 
@@ -4820,10 +4837,8 @@ class HScaleClass(private val cptr: CPointer<cnames.structs._GtkHScaleClass>) /*
 
 open class HScrollbar internal constructor (private val cptr: CPointer<GtkHScrollbar>) : Scrollbar(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(adjustment: Adjustment) : this(stub<CPointer<GtkHScrollbar>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 5039568UL
+        const val G_TYPE: gtk3.GType = 31518352UL
         fun cptr(obj: HScrollbar): CPointer<GtkHScrollbar> = obj.cptr
     }
 }
@@ -4836,10 +4851,8 @@ class HScrollbarClass(private val cptr: CPointer<cnames.structs._GtkHScrollbarCl
 
 open class HSeparator internal constructor (private val cptr: CPointer<GtkHSeparator>) : Separator(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkHSeparator>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 3974016UL
+        const val G_TYPE: gtk3.GType = 31458608UL
         fun cptr(obj: HSeparator): CPointer<GtkHSeparator> = obj.cptr
     }
 }
@@ -4852,29 +4865,6 @@ class HSeparatorClass(private val cptr: CPointer<cnames.structs._GtkHSeparatorCl
 
 open class HandleBox internal constructor (private val cptr: CPointer<GtkHandleBox>) : Bin(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkHandleBox>>())
-
-    open fun getChildDetached(): Boolean {
-         return stub()
-    }
-    open fun getHandlePosition(): PositionType {
-         return stub()
-    }
-    open fun getShadowType(): ShadowType {
-         return stub()
-    }
-    open fun getSnapEdge(): PositionType {
-         return stub()
-    }
-    open fun setHandlePosition(position: PositionType): Unit {
-         return stub()
-    }
-    open fun setShadowType(type: ShadowType): Unit {
-         return stub()
-    }
-    open fun setSnapEdge(edge: PositionType): Unit {
-         return stub()
-    }
     fun setOnChildAttached(cb: () -> Unit) {
         do_connect(cptr, "child-attached", cb)
     }
@@ -4884,7 +4874,7 @@ open class HandleBox internal constructor (private val cptr: CPointer<GtkHandleB
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4225712UL
+        const val G_TYPE: gtk3.GType = 31456512UL
         fun cptr(obj: HandleBox): CPointer<GtkHandleBox> = obj.cptr
     }
 }
@@ -4942,7 +4932,7 @@ open class HeaderBar internal constructor (private val cptr: CPointer<GtkHeaderB
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4098208UL
+        const val G_TYPE: gtk3.GType = 30999152UL
         fun cptr(obj: HeaderBar): CPointer<GtkHeaderBar> = obj.cptr
     }
 }
@@ -5013,7 +5003,7 @@ open class IMContext internal constructor (private val cptr: CPointer<GtkIMConte
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4876128UL
+        const val G_TYPE: gtk3.GType = 31817552UL
         fun cptr(obj: IMContext): CPointer<GtkIMContext> = obj.cptr
     }
 }
@@ -5038,7 +5028,7 @@ open class IMContextSimple internal constructor (private val cptr: CPointer<GtkI
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4836128UL
+        const val G_TYPE: gtk3.GType = 31315952UL
         fun cptr(obj: IMContextSimple): CPointer<GtkIMContextSimple> = obj.cptr
     }
 }
@@ -5053,9 +5043,6 @@ open class IMMulticontext internal constructor (private val cptr: CPointer<GtkIM
     override val rawPtr: COpaquePointer = cptr
     constructor() : this(stub<CPointer<GtkIMMulticontext>>())
 
-    open fun appendMenuitems(menushell: MenuShell): Unit {
-         return stub()
-    }
     open fun getContextId(): String {
          return stub()
     }
@@ -5063,7 +5050,7 @@ open class IMMulticontext internal constructor (private val cptr: CPointer<GtkIM
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5460368UL
+        const val G_TYPE: gtk3.GType = 31070160UL
         fun cptr(obj: IMMulticontext): CPointer<GtkIMMulticontext> = obj.cptr
     }
 }
@@ -5084,26 +5071,9 @@ val INTERFACE_AGE: Int get() = TODO()
 
 open class IconFactory internal constructor (private val cptr: CPointer<GtkIconFactory>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), Buildable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkIconFactory>>())
-
-    open fun add(stock_id: String, icon_set: IconSet): Unit {
-         return stub()
-    }
-    open fun addDefault(): Unit {
-         return stub()
-    }
-    open fun lookup(stock_id: String): IconSet {
-         return stub()
-    }
-    open fun removeDefault(): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 5836400UL
+        const val G_TYPE: gtk3.GType = 30651408UL
         fun cptr(obj: IconFactory): CPointer<GtkIconFactory> = obj.cptr
-        fun lookupDefault(stock_id: String): IconSet {
-    return stub()
-}
     }
 }
 
@@ -5115,22 +5085,10 @@ class IconFactoryClass(private val cptr: CPointer<cnames.structs._GtkIconFactory
 
 open class IconInfo internal constructor (private val cptr: CPointer<GtkIconInfo>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun getAttachPoints(points: List<com.charlag.kgtk.demo.gdk.Point>, n_points: Int): Boolean {
-         return stub()
-    }
     open fun getBaseScale(): Int {
          return stub()
     }
     open fun getBaseSize(): Int {
-         return stub()
-    }
-    open fun getBuiltinPixbuf(): com.charlag.kgtk.demo.gdkpixbuf.Pixbuf {
-         return stub()
-    }
-    open fun getDisplayName(): String {
-         return stub()
-    }
-    open fun getEmbeddedRect(rectangle: com.charlag.kgtk.demo.gdk.Rectangle): Boolean {
          return stub()
     }
     open fun getFilename(): String {
@@ -5169,14 +5127,8 @@ open class IconInfo internal constructor (private val cptr: CPointer<GtkIconInfo
     open fun loadSymbolicForContextFinish(res: com.charlag.kgtk.demo.gio.AsyncResult, was_symbolic: Boolean): com.charlag.kgtk.demo.gdkpixbuf.Pixbuf {
          return stub()
     }
-    open fun loadSymbolicForStyle(style: Style, state: StateType, was_symbolic: Boolean): com.charlag.kgtk.demo.gdkpixbuf.Pixbuf {
-         return stub()
-    }
-    open fun setRawCoordinates(raw_coordinates: Boolean): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 5333216UL
+        const val G_TYPE: gtk3.GType = 31005696UL
         fun cptr(obj: IconInfo): CPointer<GtkIconInfo> = obj.cptr
         fun newForPixbuf(icon_theme: IconTheme, pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): IconInfo = IconInfo(stub<CPointer<GtkIconInfo>>()) 
     }
@@ -5372,11 +5324,8 @@ open class IconTheme internal constructor (private val cptr: CPointer<GtkIconThe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5179984UL
+        const val G_TYPE: gtk3.GType = 30552768UL
         fun cptr(obj: IconTheme): CPointer<GtkIconTheme> = obj.cptr
-        fun addBuiltinIcon(icon_name: String, size: Int, pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): Unit {
-    return stub()
-}
         fun getDefault(): IconTheme {
     return stub()
 }
@@ -5614,7 +5563,7 @@ open class IconView internal constructor (private val cptr: CPointer<GtkIconView
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6182512UL
+        const val G_TYPE: gtk3.GType = 30856176UL
         fun cptr(obj: IconView): CPointer<GtkIconView> = obj.cptr
         fun newWithArea(area: CellArea): IconView = IconView(stub<CPointer<GtkIconView>>()) 
         fun newWithModel(model: TreeModel): IconView = IconView(stub<CPointer<GtkIconView>>()) 
@@ -5647,16 +5596,10 @@ open class Image internal constructor (private val cptr: CPointer<GtkImage>) : M
     open fun getIconName(icon_name: String, size: Int): Unit {
          return stub()
     }
-    open fun getIconSet(icon_set: IconSet, size: Int): Unit {
-         return stub()
-    }
     open fun getPixbuf(): com.charlag.kgtk.demo.gdkpixbuf.Pixbuf {
          return stub()
     }
     open fun getPixelSize(): Int {
-         return stub()
-    }
-    open fun getStock(stock_id: String, size: Int): Unit {
          return stub()
     }
     open fun getStorageType(): ImageType {
@@ -5674,16 +5617,10 @@ open class Image internal constructor (private val cptr: CPointer<GtkImage>) : M
     open fun setFromIconName(icon_name: String, size: Int): Unit {
          return stub()
     }
-    open fun setFromIconSet(icon_set: IconSet, size: Int): Unit {
-         return stub()
-    }
     open fun setFromPixbuf(pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): Unit {
          return stub()
     }
     open fun setFromResource(resource_path: String): Unit {
-         return stub()
-    }
-    open fun setFromStock(stock_id: String, size: Int): Unit {
          return stub()
     }
     open fun setFromSurface(surface: com.charlag.kgtk.demo.cairo.Surface): Unit {
@@ -5693,16 +5630,14 @@ open class Image internal constructor (private val cptr: CPointer<GtkImage>) : M
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5107664UL
+        const val G_TYPE: gtk3.GType = 31141984UL
         fun cptr(obj: Image): CPointer<GtkImage> = obj.cptr
         fun newFromAnimation(animation: com.charlag.kgtk.demo.gdkpixbuf.PixbufAnimation): Image = Image(stub<CPointer<GtkImage>>()) 
         fun newFromFile(filename: String): Image = Image(stub<CPointer<GtkImage>>()) 
         fun newFromGicon(icon: com.charlag.kgtk.demo.gio.Icon, size: Int): Image = Image(stub<CPointer<GtkImage>>()) 
         fun newFromIconName(icon_name: String, size: Int): Image = Image(stub<CPointer<GtkImage>>()) 
-        fun newFromIconSet(icon_set: IconSet, size: Int): Image = Image(stub<CPointer<GtkImage>>()) 
         fun newFromPixbuf(pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): Image = Image(stub<CPointer<GtkImage>>()) 
         fun newFromResource(resource_path: String): Image = Image(stub<CPointer<GtkImage>>()) 
-        fun newFromStock(stock_id: String, size: Int): Image = Image(stub<CPointer<GtkImage>>()) 
         fun newFromSurface(surface: com.charlag.kgtk.demo.cairo.Surface): Image = Image(stub<CPointer<GtkImage>>()) 
     }
 }
@@ -5715,35 +5650,9 @@ class ImageClass(private val cptr: CPointer<cnames.structs._GtkImageClass>) /* s
 
 open class ImageMenuItem internal constructor (private val cptr: CPointer<GtkImageMenuItem>) : MenuItem(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Actionable, Activatable, Buildable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkImageMenuItem>>())
-
-    open fun getAlwaysShowImage(): Boolean {
-         return stub()
-    }
-    open fun getImage(): Widget {
-         return stub()
-    }
-    open fun getUseStock(): Boolean {
-         return stub()
-    }
-    open fun setAccelGroup(accel_group: AccelGroup): Unit {
-         return stub()
-    }
-    open fun setAlwaysShowImage(always_show: Boolean): Unit {
-         return stub()
-    }
-    open fun setImage(image: Widget): Unit {
-         return stub()
-    }
-    open fun setUseStock(use_stock: Boolean): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 4507584UL
+        const val G_TYPE: gtk3.GType = 30794960UL
         fun cptr(obj: ImageMenuItem): CPointer<GtkImageMenuItem> = obj.cptr
-        fun newFromStock(stock_id: String, accel_group: AccelGroup): ImageMenuItem = ImageMenuItem(stub<CPointer<GtkImageMenuItem>>()) 
-        fun newWithLabel(label: String): ImageMenuItem = ImageMenuItem(stub<CPointer<GtkImageMenuItem>>()) 
-        fun newWithMnemonic(label: String): ImageMenuItem = ImageMenuItem(stub<CPointer<GtkImageMenuItem>>()) 
     }
 }
 
@@ -5807,7 +5716,7 @@ open class InfoBar internal constructor (private val cptr: CPointer<GtkInfoBar>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4919008UL
+        const val G_TYPE: gtk3.GType = 33566320UL
         fun cptr(obj: InfoBar): CPointer<GtkInfoBar> = obj.cptr
     }
 }
@@ -5833,7 +5742,7 @@ open class Invisible internal constructor (private val cptr: CPointer<GtkInvisib
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4953552UL
+        const val G_TYPE: gtk3.GType = 32718896UL
         fun cptr(obj: Invisible): CPointer<GtkInvisible> = obj.cptr
         fun newForScreen(screen: com.charlag.kgtk.demo.gdk.Screen): Invisible = Invisible(stub<CPointer<GtkInvisible>>()) 
     }
@@ -6026,7 +5935,7 @@ open class Label internal constructor (private val cptr: CPointer<GtkLabel>) : M
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4168832UL
+        const val G_TYPE: gtk3.GType = 31327168UL
         fun cptr(obj: Label): CPointer<GtkLabel> = obj.cptr
         fun newWithMnemonic(str: String): Label = Label(memScoped { gtk_label_new_with_mnemonic(str)!! }.reinterpret()) 
     }
@@ -6051,13 +5960,7 @@ open class Layout internal constructor (private val cptr: CPointer<GtkLayout>) :
     open fun getBinWindow(): com.charlag.kgtk.demo.gdk.Window {
          return stub()
     }
-    open fun getHadjustment(): Adjustment {
-         return stub()
-    }
     open fun getSize(width: UInt, height: UInt): Unit {
-         return stub()
-    }
-    open fun getVadjustment(): Adjustment {
          return stub()
     }
     open fun move(child_widget: Widget, x: Int, y: Int): Unit {
@@ -6066,17 +5969,11 @@ open class Layout internal constructor (private val cptr: CPointer<GtkLayout>) :
     open fun put(child_widget: Widget, x: Int, y: Int): Unit {
          return stub()
     }
-    open fun setHadjustment(adjustment: Adjustment): Unit {
-         return stub()
-    }
     open fun setSize(width: UInt, height: UInt): Unit {
          return stub()
     }
-    open fun setVadjustment(adjustment: Adjustment): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 5997888UL
+        const val G_TYPE: gtk3.GType = 33427328UL
         fun cptr(obj: Layout): CPointer<GtkLayout> = obj.cptr
     }
 }
@@ -6135,7 +6032,7 @@ open class LevelBar internal constructor (private val cptr: CPointer<GtkLevelBar
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6128496UL
+        const val G_TYPE: gtk3.GType = 32197328UL
         fun cptr(obj: LevelBar): CPointer<GtkLevelBar> = obj.cptr
         fun newForInterval(min_value: Double, max_value: Double): LevelBar = LevelBar(stub<CPointer<GtkLevelBar>>()) 
     }
@@ -6172,7 +6069,7 @@ open class LinkButton internal constructor (private val cptr: CPointer<GtkLinkBu
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5626624UL
+        const val G_TYPE: gtk3.GType = 31079904UL
         fun cptr(obj: LinkButton): CPointer<GtkLinkButton> = obj.cptr
         fun newWithLabel(uri: String, label: String): LinkButton = LinkButton(memScoped { gtk_link_button_new_with_label(uri, label)!! }.reinterpret()) 
     }
@@ -6302,7 +6199,7 @@ open class ListBox internal constructor (private val cptr: CPointer<GtkListBox>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4152784UL
+        const val G_TYPE: gtk3.GType = 30760752UL
         fun cptr(obj: ListBox): CPointer<GtkListBox> = obj.cptr
     }
 }
@@ -6355,7 +6252,7 @@ open class ListBoxRow internal constructor (private val cptr: CPointer<GtkListBo
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6339856UL
+        const val G_TYPE: gtk3.GType = 31654272UL
         fun cptr(obj: ListBoxRow): CPointer<GtkListBoxRow> = obj.cptr
     }
 }
@@ -6423,7 +6320,7 @@ open class ListStore internal constructor (private val cptr: CPointer<GtkListSto
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6594064UL
+        const val G_TYPE: gtk3.GType = 31241152UL
         fun cptr(obj: ListStore): CPointer<GtkListStore> = obj.cptr
     }
 }
@@ -6445,7 +6342,7 @@ open class LockButton internal constructor (private val cptr: CPointer<GtkLockBu
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6663360UL
+        const val G_TYPE: gtk3.GType = 30803120UL
         fun cptr(obj: LockButton): CPointer<GtkLockButton> = obj.cptr
     }
 }
@@ -6495,19 +6392,10 @@ open class Menu internal constructor (private val cptr: CPointer<GtkMenu>) : Men
     open fun getReserveToggleSize(): Boolean {
          return stub()
     }
-    open fun getTearoffState(): Boolean {
-         return stub()
-    }
-    open fun getTitle(): String {
-         return stub()
-    }
     open fun placeOnMonitor(monitor: com.charlag.kgtk.demo.gdk.Monitor): Unit {
          return stub()
     }
     open fun popdown(): Unit {
-         return stub()
-    }
-    open fun popup(parent_menu_shell: Widget, parent_menu_item: Widget, func: MenuPositionFunc, data: Any, button: UInt, activate_time: UInt): Unit {
          return stub()
     }
     open fun popupAtPointer(trigger_event: com.charlag.kgtk.demo.gdk.Event): Unit {
@@ -6517,9 +6405,6 @@ open class Menu internal constructor (private val cptr: CPointer<GtkMenu>) : Men
          return stub()
     }
     open fun popupAtWidget(widget: Widget, widget_anchor: com.charlag.kgtk.demo.gdk.Gravity, menu_anchor: com.charlag.kgtk.demo.gdk.Gravity, trigger_event: com.charlag.kgtk.demo.gdk.Event): Unit {
-         return stub()
-    }
-    open fun popupForDevice(device: com.charlag.kgtk.demo.gdk.Device, parent_menu_shell: Widget, parent_menu_item: Widget, func: MenuPositionFunc, data: Any, destroy: com.charlag.kgtk.demo.glib.DestroyNotify, button: UInt, activate_time: UInt): Unit {
          return stub()
     }
     open fun reorderChild(child: Widget, position: Int): Unit {
@@ -6546,12 +6431,6 @@ open class Menu internal constructor (private val cptr: CPointer<GtkMenu>) : Men
     open fun setScreen(screen: com.charlag.kgtk.demo.gdk.Screen): Unit {
          return stub()
     }
-    open fun setTearoffState(torn_off: Boolean): Unit {
-         return stub()
-    }
-    open fun setTitle(title: String): Unit {
-         return stub()
-    }
     fun setOnMoveScroll(cb: () -> Unit) {
         do_connect(cptr, "move-scroll", cb)
     }
@@ -6561,7 +6440,7 @@ open class Menu internal constructor (private val cptr: CPointer<GtkMenu>) : Men
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5628608UL
+        const val G_TYPE: gtk3.GType = 31446240UL
         fun cptr(obj: Menu): CPointer<GtkMenu> = obj.cptr
         fun newFromModel(model: com.charlag.kgtk.demo.gio.MenuModel): Menu = Menu(stub<CPointer<GtkMenu>>()) 
         fun getForAttachWidget(widget: Widget): List<Widget> {
@@ -6587,7 +6466,7 @@ open class MenuBar internal constructor (private val cptr: CPointer<GtkMenuBar>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5576512UL
+        const val G_TYPE: gtk3.GType = 32590560UL
         fun cptr(obj: MenuBar): CPointer<GtkMenuBar> = obj.cptr
         fun newFromModel(model: com.charlag.kgtk.demo.gio.MenuModel): MenuBar = MenuBar(stub<CPointer<GtkMenuBar>>()) 
     }
@@ -6640,7 +6519,7 @@ open class MenuButton internal constructor (private val cptr: CPointer<GtkMenuBu
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4270128UL
+        const val G_TYPE: gtk3.GType = 31791104UL
         fun cptr(obj: MenuButton): CPointer<GtkMenuButton> = obj.cptr
     }
 }
@@ -6680,9 +6559,6 @@ open class MenuItem internal constructor (private val cptr: CPointer<GtkMenuItem
     open fun getReserveIndicator(): Boolean {
          return stub()
     }
-    open fun getRightJustified(): Boolean {
-         return stub()
-    }
     open fun getSubmenu(): Widget {
          return stub()
     }
@@ -6699,9 +6575,6 @@ open class MenuItem internal constructor (private val cptr: CPointer<GtkMenuItem
          return stub()
     }
     open fun setReserveIndicator(reserve: Boolean): Unit {
-         return stub()
-    }
-    open fun setRightJustified(right_justified: Boolean): Unit {
          return stub()
     }
     open fun setSubmenu(submenu: Menu): Unit {
@@ -6741,7 +6614,7 @@ open class MenuItem internal constructor (private val cptr: CPointer<GtkMenuItem
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5329296UL
+        const val G_TYPE: gtk3.GType = 32150096UL
         fun cptr(obj: MenuItem): CPointer<GtkMenuItem> = obj.cptr
         fun newWithLabel(label: String): MenuItem = MenuItem(stub<CPointer<GtkMenuItem>>()) 
         fun newWithMnemonic(label: String): MenuItem = MenuItem(stub<CPointer<GtkMenuItem>>()) 
@@ -6833,7 +6706,7 @@ open class MenuShell internal constructor (private val cptr: CPointer<GtkMenuShe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5628384UL
+        const val G_TYPE: gtk3.GType = 30792176UL
         fun cptr(obj: MenuShell): CPointer<GtkMenuShell> = obj.cptr
     }
 }
@@ -6865,9 +6738,8 @@ open class MenuToolButton internal constructor (private val cptr: CPointer<GtkMe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4220064UL
+        const val G_TYPE: gtk3.GType = 31394688UL
         fun cptr(obj: MenuToolButton): CPointer<GtkMenuToolButton> = obj.cptr
-        fun newFromStock(stock_id: String): MenuToolButton = MenuToolButton(stub<CPointer<GtkMenuToolButton>>()) 
     }
 }
 
@@ -6879,20 +6751,14 @@ class MenuToolButtonClass(private val cptr: CPointer<cnames.structs._GtkMenuTool
 
 open class MessageDialog internal constructor (private val cptr: CPointer<GtkMessageDialog>) : Dialog(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun getImage(): Widget {
-         return Widget(memScoped { gtk_message_dialog_get_image(cptr)!! })
-    }
     open fun getMessageArea(): Widget {
          return Widget(memScoped { gtk_message_dialog_get_message_area(cptr)!! })
-    }
-    open fun setImage(image: Widget): Unit {
-         return memScoped { gtk_message_dialog_set_image(cptr, Widget.cptr(image))!! }
     }
     open fun setMarkup(str: String): Unit {
          return memScoped { gtk_message_dialog_set_markup(cptr, str)!! }
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5738656UL
+        const val G_TYPE: gtk3.GType = 30619648UL
         fun cptr(obj: MessageDialog): CPointer<GtkMessageDialog> = obj.cptr
     }
 }
@@ -6907,20 +6773,8 @@ typealias MessageType = GtkMessageType
 
 open class Misc internal constructor (private val cptr: CPointer<GtkMisc>) : Widget(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun getAlignment(xalign: Float, yalign: Float): Unit {
-         return stub()
-    }
-    open fun getPadding(xpad: Int, ypad: Int): Unit {
-         return stub()
-    }
-    open fun setAlignment(xalign: Float, yalign: Float): Unit {
-         return stub()
-    }
-    open fun setPadding(xpad: Int, ypad: Int): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 4168576UL
+        const val G_TYPE: gtk3.GType = 31341472UL
         fun cptr(obj: Misc): CPointer<GtkMisc> = obj.cptr
     }
 }
@@ -6936,7 +6790,7 @@ open class ModelButton internal constructor (private val cptr: CPointer<GtkModel
     constructor() : this(stub<CPointer<GtkModelButton>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5544464UL
+        const val G_TYPE: gtk3.GType = 31173104UL
         fun cptr(obj: ModelButton): CPointer<GtkModelButton> = obj.cptr
     }
 }
@@ -6965,7 +6819,7 @@ open class MountOperation internal constructor (private val cptr: CPointer<GtkMo
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5180096UL
+        const val G_TYPE: gtk3.GType = 31857952UL
         fun cptr(obj: MountOperation): CPointer<GtkMountOperation> = obj.cptr
     }
 }
@@ -7018,7 +6872,7 @@ open class NativeDialog internal constructor (private val cptr: CPointer<GtkNati
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5297824UL
+        const val G_TYPE: gtk3.GType = 32521056UL
         fun cptr(obj: NativeDialog): CPointer<GtkNativeDialog> = obj.cptr
     }
 }
@@ -7075,9 +6929,6 @@ open class Notebook internal constructor (private val cptr: CPointer<GtkNotebook
     open fun getTabDetachable(child: Widget): Boolean {
          return stub()
     }
-    open fun getTabHborder(): UShort {
-         return stub()
-    }
     open fun getTabLabel(child: Widget): Widget {
          return stub()
     }
@@ -7088,9 +6939,6 @@ open class Notebook internal constructor (private val cptr: CPointer<GtkNotebook
          return stub()
     }
     open fun getTabReorderable(child: Widget): Boolean {
-         return stub()
-    }
-    open fun getTabVborder(): UShort {
          return stub()
     }
     open fun insertPage(child: Widget, tab_label: Widget, position: Int): Int {
@@ -7206,7 +7054,7 @@ open class Notebook internal constructor (private val cptr: CPointer<GtkNotebook
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6460240UL
+        const val G_TYPE: gtk3.GType = 32505760UL
         fun cptr(obj: Notebook): CPointer<GtkNotebook> = obj.cptr
     }
 }
@@ -7223,45 +7071,9 @@ typealias NumberUpLayout = GtkNumberUpLayout
 
 open class NumerableIcon internal constructor (private val cptr: CPointer<GtkNumerableIcon>) : com.charlag.kgtk.demo.gio.EmblemedIcon(cptr.reinterpret()), com.charlag.kgtk.demo.gio.Icon, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun getBackgroundGicon(): com.charlag.kgtk.demo.gio.Icon {
-         return stub()
-    }
-    open fun getBackgroundIconName(): String {
-         return stub()
-    }
-    open fun getCount(): Int {
-         return stub()
-    }
-    open fun getLabel(): String {
-         return stub()
-    }
-    open fun getStyleContext(): StyleContext {
-         return stub()
-    }
-    open fun setBackgroundGicon(icon: com.charlag.kgtk.demo.gio.Icon): Unit {
-         return stub()
-    }
-    open fun setBackgroundIconName(icon_name: String): Unit {
-         return stub()
-    }
-    open fun setCount(count: Int): Unit {
-         return stub()
-    }
-    open fun setLabel(label: String): Unit {
-         return stub()
-    }
-    open fun setStyleContext(style: StyleContext): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 6595072UL
+        const val G_TYPE: gtk3.GType = 34763360UL
         fun cptr(obj: NumerableIcon): CPointer<GtkNumerableIcon> = obj.cptr
-        fun new(base_icon: com.charlag.kgtk.demo.gio.Icon): com.charlag.kgtk.demo.gio.Icon {
-    return stub()
-}
-        fun newWithStyleContext(base_icon: com.charlag.kgtk.demo.gio.Icon, context: StyleContext): com.charlag.kgtk.demo.gio.Icon {
-    return stub()
-}
     }
 }
 
@@ -7282,7 +7094,7 @@ open class OffscreenWindow internal constructor (private val cptr: CPointer<GtkO
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 3947904UL
+        const val G_TYPE: gtk3.GType = 33480080UL
         fun cptr(obj: OffscreenWindow): CPointer<GtkOffscreenWindow> = obj.cptr
     }
 }
@@ -7294,6 +7106,10 @@ class OffscreenWindowClass(private val cptr: CPointer<cnames.structs._GtkOffscre
 }
 
 interface Orientable : InteropWrapper {
+    fun getOrientation(): Orientation = stub("Orientable default impl")
+
+    fun setOrientation(orientation: Orientation): Unit = stub("Orientable default impl")
+
     companion object {
         fun cptr(obj: Orientable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -7332,7 +7148,7 @@ open class Overlay internal constructor (private val cptr: CPointer<GtkOverlay>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6739952UL
+        const val G_TYPE: gtk3.GType = 32475248UL
         fun cptr(obj: Overlay): CPointer<GtkOverlay> = obj.cptr
     }
 }
@@ -7448,7 +7264,7 @@ open class PadController internal constructor (private val cptr: CPointer<GtkPad
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5064752UL
+        const val G_TYPE: gtk3.GType = 35105968UL
         fun cptr(obj: PadController): CPointer<GtkPadController> = obj.cptr
     }
 }
@@ -7543,7 +7359,7 @@ open class PageSetup internal constructor (private val cptr: CPointer<GtkPageSet
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4891184UL
+        const val G_TYPE: gtk3.GType = 33043040UL
         fun cptr(obj: PageSetup): CPointer<GtkPageSetup> = obj.cptr
         fun newFromFile(file_name: String): PageSetup = PageSetup(stub<CPointer<GtkPageSetup>>()) 
         fun newFromGvariant(variant: com.charlag.kgtk.demo.glib.Variant): PageSetup = PageSetup(stub<CPointer<GtkPageSetup>>()) 
@@ -7617,7 +7433,7 @@ open class Paned internal constructor (private val cptr: CPointer<GtkPaned>) : C
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 3965648UL
+        const val G_TYPE: gtk3.GType = 33665984UL
         fun cptr(obj: Paned): CPointer<GtkPaned> = obj.cptr
     }
 }
@@ -7734,9 +7550,6 @@ open class PlacesSidebar internal constructor (private val cptr: CPointer<GtkPla
     open fun getOpenFlags(): PlacesOpenFlags {
          return stub()
     }
-    open fun getShowConnectToServer(): Boolean {
-         return stub()
-    }
     open fun getShowDesktop(): Boolean {
          return stub()
     }
@@ -7771,9 +7584,6 @@ open class PlacesSidebar internal constructor (private val cptr: CPointer<GtkPla
          return stub()
     }
     open fun setOpenFlags(flags: PlacesOpenFlags): Unit {
-         return stub()
-    }
-    open fun setShowConnectToServer(show_connect_to_server: Boolean): Unit {
          return stub()
     }
     open fun setShowDesktop(show_desktop: Boolean): Unit {
@@ -7847,7 +7657,7 @@ open class PlacesSidebar internal constructor (private val cptr: CPointer<GtkPla
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4953088UL
+        const val G_TYPE: gtk3.GType = 32607072UL
         fun cptr(obj: PlacesSidebar): CPointer<GtkPlacesSidebar> = obj.cptr
     }
 }
@@ -7885,9 +7695,6 @@ open class Popover internal constructor (private val cptr: CPointer<GtkPopover>)
     open fun getRelativeTo(): Widget {
          return stub()
     }
-    open fun getTransitionsEnabled(): Boolean {
-         return stub()
-    }
     open fun popdown(): Unit {
          return stub()
     }
@@ -7912,15 +7719,12 @@ open class Popover internal constructor (private val cptr: CPointer<GtkPopover>)
     open fun setRelativeTo(relative_to: Widget): Unit {
          return stub()
     }
-    open fun setTransitionsEnabled(transitions_enabled: Boolean): Unit {
-         return stub()
-    }
     fun setOnClosed(cb: () -> Unit) {
         do_connect(cptr, "closed", cb)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5826672UL
+        const val G_TYPE: gtk3.GType = 33335920UL
         fun cptr(obj: Popover): CPointer<GtkPopover> = obj.cptr
         fun newFromModel(relative_to: Widget, model: com.charlag.kgtk.demo.gio.MenuModel): Popover = Popover(stub<CPointer<GtkPopover>>()) 
     }
@@ -7942,7 +7746,7 @@ open class PopoverMenu internal constructor (private val cptr: CPointer<GtkPopov
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6279472UL
+        const val G_TYPE: gtk3.GType = 31742064UL
         fun cptr(obj: PopoverMenu): CPointer<GtkPopoverMenu> = obj.cptr
     }
 }
@@ -7991,7 +7795,7 @@ open class PrintContext internal constructor (private val cptr: CPointer<GtkPrin
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4833984UL
+        const val G_TYPE: gtk3.GType = 34300256UL
         fun cptr(obj: PrintContext): CPointer<GtkPrintContext> = obj.cptr
     }
 }
@@ -8136,7 +7940,7 @@ open class PrintOperation internal constructor (private val cptr: CPointer<GtkPr
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 3960864UL
+        const val G_TYPE: gtk3.GType = 33652096UL
         fun cptr(obj: PrintOperation): CPointer<GtkPrintOperation> = obj.cptr
     }
 }
@@ -8150,6 +7954,12 @@ class PrintOperationClass(private val cptr: CPointer<cnames.structs._GtkPrintOpe
 }
 
 interface PrintOperationPreview : InteropWrapper {
+    fun endPreview(): Unit = stub("PrintOperationPreview default impl")
+
+    fun isSelected(page_nr: Int): Boolean = stub("PrintOperationPreview default impl")
+
+    fun renderPage(page_nr: Int): Unit = stub("PrintOperationPreview default impl")
+
     companion object {
         fun cptr(obj: PrintOperationPreview): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -8392,7 +8202,7 @@ open class PrintSettings internal constructor (private val cptr: CPointer<GtkPri
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 3995536UL
+        const val G_TYPE: gtk3.GType = 31394016UL
         fun cptr(obj: PrintSettings): CPointer<GtkPrintSettings> = obj.cptr
         fun newFromFile(file_name: String): PrintSettings = PrintSettings(stub<CPointer<GtkPrintSettings>>()) 
         fun newFromGvariant(variant: com.charlag.kgtk.demo.glib.Variant): PrintSettings = PrintSettings(stub<CPointer<GtkPrintSettings>>()) 
@@ -8448,7 +8258,7 @@ open class ProgressBar internal constructor (private val cptr: CPointer<GtkProgr
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5733952UL
+        const val G_TYPE: gtk3.GType = 30721552UL
         fun cptr(obj: ProgressBar): CPointer<GtkProgressBar> = obj.cptr
     }
 }
@@ -8485,7 +8295,7 @@ open class RadioButton internal constructor (private val cptr: CPointer<GtkRadio
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4363776UL
+        const val G_TYPE: gtk3.GType = 31607936UL
         fun cptr(obj: RadioButton): CPointer<GtkRadioButton> = obj.cptr
         fun newFromWidget(radio_group_member: RadioButton): RadioButton = RadioButton(stub<CPointer<GtkRadioButton>>()) 
         fun newWithLabel(group: List<RadioButton>, label: String): RadioButton = RadioButton(stub<CPointer<GtkRadioButton>>()) 
@@ -8519,7 +8329,7 @@ open class RadioMenuItem internal constructor (private val cptr: CPointer<GtkRad
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4841312UL
+        const val G_TYPE: gtk3.GType = 33141712UL
         fun cptr(obj: RadioMenuItem): CPointer<GtkRadioMenuItem> = obj.cptr
         fun newFromWidget(group: RadioMenuItem): RadioMenuItem = RadioMenuItem(stub<CPointer<GtkRadioMenuItem>>()) 
         fun newWithLabel(group: List<RadioMenuItem>, label: String): RadioMenuItem = RadioMenuItem(stub<CPointer<GtkRadioMenuItem>>()) 
@@ -8546,11 +8356,9 @@ open class RadioToolButton internal constructor (private val cptr: CPointer<GtkR
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4349792UL
+        const val G_TYPE: gtk3.GType = 31095728UL
         fun cptr(obj: RadioToolButton): CPointer<GtkRadioToolButton> = obj.cptr
-        fun newFromStock(group: List<RadioButton>, stock_id: String): RadioToolButton = RadioToolButton(stub<CPointer<GtkRadioToolButton>>()) 
         fun newFromWidget(group: RadioToolButton): RadioToolButton = RadioToolButton(stub<CPointer<GtkRadioToolButton>>()) 
-        fun newWithStockFromWidget(group: RadioToolButton, stock_id: String): RadioToolButton = RadioToolButton(stub<CPointer<GtkRadioToolButton>>()) 
     }
 }
 
@@ -8575,9 +8383,6 @@ open class Range internal constructor (private val cptr: CPointer<GtkRange>) : W
          return stub()
     }
     open fun getLowerStepperSensitivity(): SensitivityType {
-         return stub()
-    }
-    open fun getMinSliderSize(): Int {
          return stub()
     }
     open fun getRangeRect(range_rect: com.charlag.kgtk.demo.gdk.Rectangle): Unit {
@@ -8622,9 +8427,6 @@ open class Range internal constructor (private val cptr: CPointer<GtkRange>) : W
     open fun setLowerStepperSensitivity(sensitivity: SensitivityType): Unit {
          return stub()
     }
-    open fun setMinSliderSize(min_size: Int): Unit {
-         return stub()
-    }
     open fun setRange(min: Double, max: Double): Unit {
          return stub()
     }
@@ -8663,7 +8465,7 @@ open class Range internal constructor (private val cptr: CPointer<GtkRange>) : W
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5241824UL
+        const val G_TYPE: gtk3.GType = 32522288UL
         fun cptr(obj: Range): CPointer<GtkRange> = obj.cptr
     }
 }
@@ -8707,13 +8509,8 @@ typealias RcPropertyParser = (pspec:  com.charlag.kgtk.demo.gobject.ParamSpec, r
 
 open class RcStyle internal constructor (private val cptr: CPointer<GtkRcStyle>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkRcStyle>>())
-
-    open fun copy(): RcStyle {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 4021824UL
+        const val G_TYPE: gtk3.GType = 31578928UL
         fun cptr(obj: RcStyle): CPointer<GtkRcStyle> = obj.cptr
     }
 }
@@ -8727,6 +8524,68 @@ class RcStyleClass(private val cptr: CPointer<cnames.structs._GtkRcStyleClass>) 
 typealias RcTokenType = GtkRcTokenType
 
 interface RecentChooser : InteropWrapper {
+    fun addFilter(filter: RecentFilter): Unit = stub("RecentChooser default impl")
+
+    fun getCurrentItem(): RecentInfo = stub("RecentChooser default impl")
+
+    fun getCurrentUri(): String = stub("RecentChooser default impl")
+
+    fun getFilter(): RecentFilter = stub("RecentChooser default impl")
+
+    fun getItems(): List<RecentInfo> = stub("RecentChooser default impl")
+
+    fun getLimit(): Int = stub("RecentChooser default impl")
+
+    fun getLocalOnly(): Boolean = stub("RecentChooser default impl")
+
+    fun getSelectMultiple(): Boolean = stub("RecentChooser default impl")
+
+    fun getShowIcons(): Boolean = stub("RecentChooser default impl")
+
+    fun getShowNotFound(): Boolean = stub("RecentChooser default impl")
+
+    fun getShowPrivate(): Boolean = stub("RecentChooser default impl")
+
+    fun getShowTips(): Boolean = stub("RecentChooser default impl")
+
+    fun getSortType(): RecentSortType = stub("RecentChooser default impl")
+
+    fun getUris(length: ULong): List<String> = stub("RecentChooser default impl")
+
+    fun listFilters(): List<RecentFilter> = stub("RecentChooser default impl")
+
+    fun removeFilter(filter: RecentFilter): Unit = stub("RecentChooser default impl")
+
+    fun selectAll(): Unit = stub("RecentChooser default impl")
+
+    fun selectUri(uri: String): Boolean = stub("RecentChooser default impl")
+
+    fun setCurrentUri(uri: String): Boolean = stub("RecentChooser default impl")
+
+    fun setFilter(filter: RecentFilter): Unit = stub("RecentChooser default impl")
+
+    fun setLimit(limit: Int): Unit = stub("RecentChooser default impl")
+
+    fun setLocalOnly(local_only: Boolean): Unit = stub("RecentChooser default impl")
+
+    fun setSelectMultiple(select_multiple: Boolean): Unit = stub("RecentChooser default impl")
+
+    fun setShowIcons(show_icons: Boolean): Unit = stub("RecentChooser default impl")
+
+    fun setShowNotFound(show_not_found: Boolean): Unit = stub("RecentChooser default impl")
+
+    fun setShowPrivate(show_private: Boolean): Unit = stub("RecentChooser default impl")
+
+    fun setShowTips(show_tips: Boolean): Unit = stub("RecentChooser default impl")
+
+    fun setSortFunc(sort_func: RecentSortFunc, sort_data: Any, data_destroy: com.charlag.kgtk.demo.glib.DestroyNotify): Unit = stub("RecentChooser default impl")
+
+    fun setSortType(sort_type: RecentSortType): Unit = stub("RecentChooser default impl")
+
+    fun unselectAll(): Unit = stub("RecentChooser default impl")
+
+    fun unselectUri(uri: String): Unit = stub("RecentChooser default impl")
+
     companion object {
         fun cptr(obj: RecentChooser): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -8739,7 +8598,7 @@ interface RecentChooser : InteropWrapper {
 open class RecentChooserDialog internal constructor (private val cptr: CPointer<GtkRecentChooserDialog>) : Dialog(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, RecentChooser, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 4259440UL
+        const val G_TYPE: gtk3.GType = 34017104UL
         fun cptr(obj: RecentChooserDialog): CPointer<GtkRecentChooserDialog> = obj.cptr
     }
 }
@@ -8769,7 +8628,7 @@ open class RecentChooserMenu internal constructor (private val cptr: CPointer<Gt
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5051392UL
+        const val G_TYPE: gtk3.GType = 32360528UL
         fun cptr(obj: RecentChooserMenu): CPointer<GtkRecentChooserMenu> = obj.cptr
         fun newForManager(manager: RecentManager): RecentChooserMenu = RecentChooserMenu(stub<CPointer<GtkRecentChooserMenu>>()) 
     }
@@ -8786,7 +8645,7 @@ open class RecentChooserWidget internal constructor (private val cptr: CPointer<
     constructor() : this(stub<CPointer<GtkRecentChooserWidget>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5894368UL
+        const val G_TYPE: gtk3.GType = 34655424UL
         fun cptr(obj: RecentChooserWidget): CPointer<GtkRecentChooserWidget> = obj.cptr
         fun newForManager(manager: RecentManager): RecentChooserWidget = RecentChooserWidget(stub<CPointer<GtkRecentChooserWidget>>()) 
     }
@@ -8832,17 +8691,17 @@ open class RecentFilter internal constructor (private val cptr: CPointer<GtkRece
     open fun filter(filter_info: RecentFilterInfo): Boolean {
          return stub()
     }
-    open fun getName(): String {
+    override fun getName(): String {
          return stub()
     }
     open fun getNeeded(): RecentFilterFlags {
          return stub()
     }
-    open fun setName(`name`: String): Unit {
+    override fun setName(`name`: String): Unit {
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5320752UL
+        const val G_TYPE: gtk3.GType = 33667536UL
         fun cptr(obj: RecentFilter): CPointer<GtkRecentFilter> = obj.cptr
     }
 }
@@ -8971,7 +8830,7 @@ open class RecentManager internal constructor (private val cptr: CPointer<GtkRec
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4926224UL
+        const val G_TYPE: gtk3.GType = 33375632UL
         fun cptr(obj: RecentManager): CPointer<GtkRecentManager> = obj.cptr
         fun getDefault(): RecentManager {
     return stub()
@@ -9046,7 +8905,7 @@ open class Revealer internal constructor (private val cptr: CPointer<GtkRevealer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4009664UL
+        const val G_TYPE: gtk3.GType = 31426720UL
         fun cptr(obj: Revealer): CPointer<GtkRevealer> = obj.cptr
     }
 }
@@ -9520,7 +9379,7 @@ open class Scale internal constructor (private val cptr: CPointer<GtkScale>) : R
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5743616UL
+        const val G_TYPE: gtk3.GType = 31541248UL
         fun cptr(obj: Scale): CPointer<GtkScale> = obj.cptr
         fun newWithRange(orientation: Orientation, min: Double, max: Double, step: Double): Scale = Scale(stub<CPointer<GtkScale>>()) 
     }
@@ -9567,7 +9426,7 @@ open class ScaleButton internal constructor (private val cptr: CPointer<GtkScale
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4845568UL
+        const val G_TYPE: gtk3.GType = 31961216UL
         fun cptr(obj: ScaleButton): CPointer<GtkScaleButton> = obj.cptr
     }
 }
@@ -9589,6 +9448,24 @@ typealias ScrollStep = GtkScrollStep
 typealias ScrollType = GtkScrollType
 
 interface Scrollable : InteropWrapper {
+    fun getBorder(border: Border): Boolean = stub("Scrollable default impl")
+
+    fun getHadjustment(): Adjustment = stub("Scrollable default impl")
+
+    fun getHscrollPolicy(): ScrollablePolicy = stub("Scrollable default impl")
+
+    fun getVadjustment(): Adjustment = stub("Scrollable default impl")
+
+    fun getVscrollPolicy(): ScrollablePolicy = stub("Scrollable default impl")
+
+    fun setHadjustment(hadjustment: Adjustment): Unit = stub("Scrollable default impl")
+
+    fun setHscrollPolicy(policy: ScrollablePolicy): Unit = stub("Scrollable default impl")
+
+    fun setVadjustment(vadjustment: Adjustment): Unit = stub("Scrollable default impl")
+
+    fun setVscrollPolicy(policy: ScrollablePolicy): Unit = stub("Scrollable default impl")
+
     companion object {
         fun cptr(obj: Scrollable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -9611,7 +9488,7 @@ open class Scrollbar internal constructor (private val cptr: CPointer<GtkScrollb
     constructor(orientation: Orientation, adjustment: Adjustment) : this(stub<CPointer<GtkScrollbar>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5039312UL
+        const val G_TYPE: gtk3.GType = 31518128UL
         fun cptr(obj: Scrollbar): CPointer<GtkScrollbar> = obj.cptr
     }
 }
@@ -9626,9 +9503,6 @@ open class ScrolledWindow internal constructor (private val cptr: CPointer<GtkSc
     override val rawPtr: COpaquePointer = cptr
     constructor(hadjustment: Adjustment, vadjustment: Adjustment) : this(stub<CPointer<GtkScrolledWindow>>())
 
-    open fun addWithViewport(child: Widget): Unit {
-         return stub()
-    }
     open fun getCaptureButtonPress(): Boolean {
          return stub()
     }
@@ -9739,7 +9613,7 @@ open class ScrolledWindow internal constructor (private val cptr: CPointer<GtkSc
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5860896UL
+        const val G_TYPE: gtk3.GType = 32307840UL
         fun cptr(obj: ScrolledWindow): CPointer<GtkScrolledWindow> = obj.cptr
     }
 }
@@ -9773,7 +9647,7 @@ open class SearchBar internal constructor (private val cptr: CPointer<GtkSearchB
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4349056UL
+        const val G_TYPE: gtk3.GType = 31882656UL
         fun cptr(obj: SearchBar): CPointer<GtkSearchBar> = obj.cptr
     }
 }
@@ -9808,7 +9682,7 @@ open class SearchEntry internal constructor (private val cptr: CPointer<GtkSearc
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4027216UL
+        const val G_TYPE: gtk3.GType = 32575184UL
         fun cptr(obj: SearchEntry): CPointer<GtkSearchEntry> = obj.cptr
     }
 }
@@ -9897,7 +9771,7 @@ open class Separator internal constructor (private val cptr: CPointer<GtkSeparat
     constructor(orientation: Orientation) : this(stub<CPointer<GtkSeparator>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 3973616UL
+        const val G_TYPE: gtk3.GType = 31458304UL
         fun cptr(obj: Separator): CPointer<GtkSeparator> = obj.cptr
     }
 }
@@ -9913,7 +9787,7 @@ open class SeparatorMenuItem internal constructor (private val cptr: CPointer<Gt
     constructor() : this(stub<CPointer<GtkSeparatorMenuItem>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5003632UL
+        const val G_TYPE: gtk3.GType = 33585088UL
         fun cptr(obj: SeparatorMenuItem): CPointer<GtkSeparatorMenuItem> = obj.cptr
     }
 }
@@ -9935,7 +9809,7 @@ open class SeparatorToolItem internal constructor (private val cptr: CPointer<Gt
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5573792UL
+        const val G_TYPE: gtk3.GType = 35518816UL
         fun cptr(obj: SeparatorToolItem): CPointer<GtkSeparatorToolItem> = obj.cptr
     }
 }
@@ -9951,31 +9825,13 @@ open class Settings internal constructor (private val cptr: CPointer<GtkSettings
     open fun resetProperty(`name`: String): Unit {
          return stub()
     }
-    open fun setDoubleProperty(`name`: String, v_double: Double, origin: String): Unit {
-         return stub()
-    }
-    open fun setLongProperty(`name`: String, v_long: Long, origin: String): Unit {
-         return stub()
-    }
-    open fun setPropertyValue(`name`: String, svalue: SettingsValue): Unit {
-         return stub()
-    }
-    open fun setStringProperty(`name`: String, v_string: String, origin: String): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 4135552UL
+        const val G_TYPE: gtk3.GType = 33688992UL
         fun cptr(obj: Settings): CPointer<GtkSettings> = obj.cptr
         fun getDefault(): Settings {
     return stub()
 }
         fun getForScreen(screen: com.charlag.kgtk.demo.gdk.Screen): Settings {
-    return stub()
-}
-        fun installProperty(pspec: com.charlag.kgtk.demo.gobject.ParamSpec): Unit {
-    return stub()
-}
-        fun installPropertyParser(pspec: com.charlag.kgtk.demo.gobject.ParamSpec, parser: RcPropertyParser): Unit {
     return stub()
 }
     }
@@ -10012,7 +9868,7 @@ open class ShortcutLabel internal constructor (private val cptr: CPointer<GtkSho
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5626352UL
+        const val G_TYPE: gtk3.GType = 31819904UL
         fun cptr(obj: ShortcutLabel): CPointer<GtkShortcutLabel> = obj.cptr
     }
 }
@@ -10028,7 +9884,7 @@ typealias ShortcutType = GtkShortcutType
 open class ShortcutsGroup internal constructor (private val cptr: CPointer<GtkShortcutsGroup>) : Box(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 4535296UL
+        const val G_TYPE: gtk3.GType = 31452928UL
         fun cptr(obj: ShortcutsGroup): CPointer<GtkShortcutsGroup> = obj.cptr
     }
 }
@@ -10046,7 +9902,7 @@ open class ShortcutsSection internal constructor (private val cptr: CPointer<Gtk
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5211120UL
+        const val G_TYPE: gtk3.GType = 31791584UL
         fun cptr(obj: ShortcutsSection): CPointer<GtkShortcutsSection> = obj.cptr
     }
 }
@@ -10060,7 +9916,7 @@ class ShortcutsSectionClass(private val cptr: CPointer<cnames.structs._GtkShortc
 open class ShortcutsShortcut internal constructor (private val cptr: CPointer<GtkShortcutsShortcut>) : Box(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 4840448UL
+        const val G_TYPE: gtk3.GType = 31274128UL
         fun cptr(obj: ShortcutsShortcut): CPointer<GtkShortcutsShortcut> = obj.cptr
     }
 }
@@ -10082,7 +9938,7 @@ open class ShortcutsWindow internal constructor (private val cptr: CPointer<GtkS
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4326848UL
+        const val G_TYPE: gtk3.GType = 32212528UL
         fun cptr(obj: ShortcutsWindow): CPointer<GtkShortcutsWindow> = obj.cptr
     }
 }
@@ -10100,9 +9956,6 @@ open class SizeGroup internal constructor (private val cptr: CPointer<GtkSizeGro
     open fun addWidget(widget: Widget): Unit {
          return stub()
     }
-    open fun getIgnoreHidden(): Boolean {
-         return stub()
-    }
     open fun getMode(): SizeGroupMode {
          return stub()
     }
@@ -10112,14 +9965,11 @@ open class SizeGroup internal constructor (private val cptr: CPointer<GtkSizeGro
     open fun removeWidget(widget: Widget): Unit {
          return stub()
     }
-    open fun setIgnoreHidden(ignore_hidden: Boolean): Unit {
-         return stub()
-    }
     open fun setMode(mode: SizeGroupMode): Unit {
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4985440UL
+        const val G_TYPE: gtk3.GType = 31480832UL
         fun cptr(obj: SizeGroup): CPointer<GtkSizeGroup> = obj.cptr
     }
 }
@@ -10227,7 +10077,7 @@ open class SpinButton internal constructor (private val cptr: CPointer<GtkSpinBu
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5185040UL
+        const val G_TYPE: gtk3.GType = 32196928UL
         fun cptr(obj: SpinButton): CPointer<GtkSpinButton> = obj.cptr
         fun newWithRange(min: Double, max: Double, step: Double): SpinButton = SpinButton(stub<CPointer<GtkSpinButton>>()) 
     }
@@ -10254,7 +10104,7 @@ open class Spinner internal constructor (private val cptr: CPointer<GtkSpinner>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5109856UL
+        const val G_TYPE: gtk3.GType = 30898288UL
         fun cptr(obj: Spinner): CPointer<GtkSpinner> = obj.cptr
     }
 }
@@ -10333,7 +10183,7 @@ open class Stack internal constructor (private val cptr: CPointer<GtkStack>) : C
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 7167984UL
+        const val G_TYPE: gtk3.GType = 33432208UL
         fun cptr(obj: Stack): CPointer<GtkStack> = obj.cptr
     }
 }
@@ -10355,7 +10205,7 @@ open class StackSidebar internal constructor (private val cptr: CPointer<GtkStac
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5901168UL
+        const val G_TYPE: gtk3.GType = 31855440UL
         fun cptr(obj: StackSidebar): CPointer<GtkStackSidebar> = obj.cptr
     }
 }
@@ -10377,7 +10227,7 @@ open class StackSwitcher internal constructor (private val cptr: CPointer<GtkSta
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4569552UL
+        const val G_TYPE: gtk3.GType = 32425984UL
         fun cptr(obj: StackSwitcher): CPointer<GtkStackSwitcher> = obj.cptr
     }
 }
@@ -10396,89 +10246,6 @@ typealias StateType = GtkStateType
 
 open class StatusIcon internal constructor (private val cptr: CPointer<GtkStatusIcon>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkStatusIcon>>())
-
-    open fun getGeometry(screen: com.charlag.kgtk.demo.gdk.Screen, area: com.charlag.kgtk.demo.gdk.Rectangle, orientation: Orientation): Boolean {
-         return stub()
-    }
-    open fun getGicon(): com.charlag.kgtk.demo.gio.Icon {
-         return stub()
-    }
-    open fun getHasTooltip(): Boolean {
-         return stub()
-    }
-    open fun getIconName(): String {
-         return stub()
-    }
-    open fun getPixbuf(): com.charlag.kgtk.demo.gdkpixbuf.Pixbuf {
-         return stub()
-    }
-    open fun getScreen(): com.charlag.kgtk.demo.gdk.Screen {
-         return stub()
-    }
-    open fun getSize(): Int {
-         return stub()
-    }
-    open fun getStock(): String {
-         return stub()
-    }
-    open fun getStorageType(): ImageType {
-         return stub()
-    }
-    open fun getTitle(): String {
-         return stub()
-    }
-    open fun getTooltipMarkup(): String {
-         return stub()
-    }
-    open fun getTooltipText(): String {
-         return stub()
-    }
-    open fun getVisible(): Boolean {
-         return stub()
-    }
-    open fun getX11WindowId(): UInt {
-         return stub()
-    }
-    open fun isEmbedded(): Boolean {
-         return stub()
-    }
-    open fun setFromFile(filename: String): Unit {
-         return stub()
-    }
-    open fun setFromGicon(icon: com.charlag.kgtk.demo.gio.Icon): Unit {
-         return stub()
-    }
-    open fun setFromIconName(icon_name: String): Unit {
-         return stub()
-    }
-    open fun setFromPixbuf(pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): Unit {
-         return stub()
-    }
-    open fun setFromStock(stock_id: String): Unit {
-         return stub()
-    }
-    open fun setHasTooltip(has_tooltip: Boolean): Unit {
-         return stub()
-    }
-    open fun setName(`name`: String): Unit {
-         return stub()
-    }
-    open fun setScreen(screen: com.charlag.kgtk.demo.gdk.Screen): Unit {
-         return stub()
-    }
-    open fun setTitle(title: String): Unit {
-         return stub()
-    }
-    open fun setTooltipMarkup(markup: String): Unit {
-         return stub()
-    }
-    open fun setTooltipText(text: String): Unit {
-         return stub()
-    }
-    open fun setVisible(visible: Boolean): Unit {
-         return stub()
-    }
     fun setOnActivate(cb: () -> Unit) {
         do_connect(cptr, "activate", cb)
     }
@@ -10508,16 +10275,8 @@ open class StatusIcon internal constructor (private val cptr: CPointer<GtkStatus
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 7156736UL
+        const val G_TYPE: gtk3.GType = 31131648UL
         fun cptr(obj: StatusIcon): CPointer<GtkStatusIcon> = obj.cptr
-        fun newFromFile(filename: String): StatusIcon = StatusIcon(stub<CPointer<GtkStatusIcon>>()) 
-        fun newFromGicon(icon: com.charlag.kgtk.demo.gio.Icon): StatusIcon = StatusIcon(stub<CPointer<GtkStatusIcon>>()) 
-        fun newFromIconName(icon_name: String): StatusIcon = StatusIcon(stub<CPointer<GtkStatusIcon>>()) 
-        fun newFromPixbuf(pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): StatusIcon = StatusIcon(stub<CPointer<GtkStatusIcon>>()) 
-        fun newFromStock(stock_id: String): StatusIcon = StatusIcon(stub<CPointer<GtkStatusIcon>>()) 
-        fun positionMenu(menu: Menu, x: Int, y: Int, push_in: Boolean, user_data: StatusIcon): Unit {
-    return stub()
-}
     }
 }
 
@@ -10558,7 +10317,7 @@ open class Statusbar internal constructor (private val cptr: CPointer<GtkStatusb
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4079552UL
+        const val G_TYPE: gtk3.GType = 31693808UL
         fun cptr(obj: Statusbar): CPointer<GtkStatusbar> = obj.cptr
     }
 }
@@ -10580,33 +10339,10 @@ class StockItem(private val cptr: CPointer<cnames.structs._GtkStockItem>) /* str
 
 open class Style internal constructor (private val cptr: CPointer<GtkStyle>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkStyle>>())
-
-    open fun applyDefaultBackground(cr: com.charlag.kgtk.demo.cairo.Context, window: com.charlag.kgtk.demo.gdk.Window, state_type: StateType, x: Int, y: Int, width: Int, height: Int): Unit {
-         return stub()
-    }
-    open fun copy(): Style {
-         return stub()
-    }
-    open fun detach(): Unit {
-         return stub()
-    }
     open fun getStyleProperty(widget_type: GType, property_name: String, value: com.charlag.kgtk.demo.gobject.Value): Unit {
          return stub()
     }
     open fun hasContext(): Boolean {
-         return stub()
-    }
-    open fun lookupColor(color_name: String, color: com.charlag.kgtk.demo.gdk.Color): Boolean {
-         return stub()
-    }
-    open fun lookupIconSet(stock_id: String): IconSet {
-         return stub()
-    }
-    open fun renderIcon(source: IconSource, direction: TextDirection, state: StateType, size: Int, widget: Widget, detail: String): com.charlag.kgtk.demo.gdkpixbuf.Pixbuf {
-         return stub()
-    }
-    open fun setBackground(window: com.charlag.kgtk.demo.gdk.Window, state_type: StateType): Unit {
          return stub()
     }
     fun setOnRealize(cb: () -> Unit) {
@@ -10618,7 +10354,7 @@ open class Style internal constructor (private val cptr: CPointer<GtkStyle>) : c
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5455904UL
+        const val G_TYPE: gtk3.GType = 35052544UL
         fun cptr(obj: Style): CPointer<GtkStyle> = obj.cptr
     }
 }
@@ -10639,28 +10375,10 @@ open class StyleContext internal constructor (private val cptr: CPointer<GtkStyl
     open fun addProvider(provider: StyleProvider, priority: UInt): Unit {
          return stub()
     }
-    open fun addRegion(region_name: String, flags: RegionFlags): Unit {
-         return stub()
-    }
-    open fun cancelAnimations(region_id: Any): Unit {
-         return stub()
-    }
-    open fun getBackgroundColor(state: StateFlags, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return stub()
-    }
     open fun getBorder(state: StateFlags, border: Border): Unit {
          return stub()
     }
-    open fun getBorderColor(state: StateFlags, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return stub()
-    }
     open fun getColor(state: StateFlags, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return stub()
-    }
-    open fun getDirection(): TextDirection {
-         return stub()
-    }
-    open fun getFont(state: StateFlags): com.charlag.kgtk.demo.pango.FontDescription {
          return stub()
     }
     open fun getFrameClock(): com.charlag.kgtk.demo.gdk.FrameClock {
@@ -10702,31 +10420,10 @@ open class StyleContext internal constructor (private val cptr: CPointer<GtkStyl
     open fun hasClass(class_name: String): Boolean {
          return stub()
     }
-    open fun hasRegion(region_name: String, flags_return: RegionFlags): Boolean {
-         return stub()
-    }
-    open fun invalidate(): Unit {
-         return stub()
-    }
     open fun listClasses(): List<String> {
          return stub()
     }
-    open fun listRegions(): List<String> {
-         return stub()
-    }
     open fun lookupColor(color_name: String, color: com.charlag.kgtk.demo.gdk.RGBA): Boolean {
-         return stub()
-    }
-    open fun lookupIconSet(stock_id: String): IconSet {
-         return stub()
-    }
-    open fun notifyStateChange(window: com.charlag.kgtk.demo.gdk.Window, region_id: Any, state: StateType, state_value: Boolean): Unit {
-         return stub()
-    }
-    open fun popAnimatableRegion(): Unit {
-         return stub()
-    }
-    open fun pushAnimatableRegion(region_id: Any): Unit {
          return stub()
     }
     open fun removeClass(class_name: String): Unit {
@@ -10735,22 +10432,10 @@ open class StyleContext internal constructor (private val cptr: CPointer<GtkStyl
     open fun removeProvider(provider: StyleProvider): Unit {
          return stub()
     }
-    open fun removeRegion(region_name: String): Unit {
-         return stub()
-    }
     open fun restore(): Unit {
          return stub()
     }
     open fun save(): Unit {
-         return stub()
-    }
-    open fun scrollAnimations(window: com.charlag.kgtk.demo.gdk.Window, dx: Int, dy: Int): Unit {
-         return stub()
-    }
-    open fun setBackground(window: com.charlag.kgtk.demo.gdk.Window): Unit {
-         return stub()
-    }
-    open fun setDirection(direction: TextDirection): Unit {
          return stub()
     }
     open fun setFrameClock(frame_clock: com.charlag.kgtk.demo.gdk.FrameClock): Unit {
@@ -10774,9 +10459,6 @@ open class StyleContext internal constructor (private val cptr: CPointer<GtkStyl
     open fun setState(flags: StateFlags): Unit {
          return stub()
     }
-    open fun stateIsRunning(state: StateType, progress: Double): Boolean {
-         return stub()
-    }
     open fun toString(flags: StyleContextPrintFlags): String {
          return stub()
     }
@@ -10785,7 +10467,7 @@ open class StyleContext internal constructor (private val cptr: CPointer<GtkStyl
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4880496UL
+        const val G_TYPE: gtk3.GType = 30507280UL
         fun cptr(obj: StyleContext): CPointer<GtkStyleContext> = obj.cptr
         fun addProviderForScreen(screen: com.charlag.kgtk.demo.gdk.Screen, provider: StyleProvider, priority: UInt): Unit {
     return stub()
@@ -10809,31 +10491,8 @@ typealias StyleContextPrintFlags = GtkStyleContextPrintFlags
 
 open class StyleProperties internal constructor (private val cptr: CPointer<GtkStyleProperties>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), StyleProvider, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkStyleProperties>>())
-
-    open fun clear(): Unit {
-         return stub()
-    }
-    open fun getProperty(property: String, state: StateFlags, value: com.charlag.kgtk.demo.gobject.Value): Boolean {
-         return stub()
-    }
-    open fun lookupColor(`name`: String): SymbolicColor {
-         return stub()
-    }
-    open fun mapColor(`name`: String, color: SymbolicColor): Unit {
-         return stub()
-    }
-    open fun merge(props_to_merge: StyleProperties, replace: Boolean): Unit {
-         return stub()
-    }
-    open fun setProperty(property: String, state: StateFlags, value: com.charlag.kgtk.demo.gobject.Value): Unit {
-         return stub()
-    }
-    open fun unsetProperty(property: String, state: StateFlags): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 5609280UL
+        const val G_TYPE: gtk3.GType = 32897200UL
         fun cptr(obj: StyleProperties): CPointer<GtkStyleProperties> = obj.cptr
     }
 }
@@ -10847,6 +10506,8 @@ class StylePropertiesClass(private val cptr: CPointer<cnames.structs._GtkStylePr
 typealias StylePropertyParser = (string:  String, value:  com.charlag.kgtk.demo.gobject.Value) -> Boolean
 
 interface StyleProvider : InteropWrapper {
+    fun getStyleProperty(path: WidgetPath, state: StateFlags, pspec: com.charlag.kgtk.demo.gobject.ParamSpec, value: com.charlag.kgtk.demo.gobject.Value): Boolean = stub("StyleProvider default impl")
+
     companion object {
         fun cptr(obj: StyleProvider): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -10887,7 +10548,7 @@ open class Switch internal constructor (private val cptr: CPointer<GtkSwitch>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4745808UL
+        const val G_TYPE: gtk3.GType = 31099120UL
         fun cptr(obj: Switch): CPointer<GtkSwitch> = obj.cptr
     }
 }
@@ -10942,52 +10603,8 @@ val TREE_SORTABLE_UNSORTED_SORT_COLUMN_ID: Int get() = TODO()
 
 open class Table internal constructor (private val cptr: CPointer<GtkTable>) : Container(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(rows: UInt, columns: UInt, homogeneous: Boolean) : this(stub<CPointer<GtkTable>>())
-
-    open fun attach(child: Widget, left_attach: UInt, right_attach: UInt, top_attach: UInt, bottom_attach: UInt, xoptions: AttachOptions, yoptions: AttachOptions, xpadding: UInt, ypadding: UInt): Unit {
-         return stub()
-    }
-    open fun attachDefaults(widget: Widget, left_attach: UInt, right_attach: UInt, top_attach: UInt, bottom_attach: UInt): Unit {
-         return stub()
-    }
-    open fun getColSpacing(column: UInt): UInt {
-         return stub()
-    }
-    open fun getDefaultColSpacing(): UInt {
-         return stub()
-    }
-    open fun getDefaultRowSpacing(): UInt {
-         return stub()
-    }
-    open fun getHomogeneous(): Boolean {
-         return stub()
-    }
-    open fun getRowSpacing(row: UInt): UInt {
-         return stub()
-    }
-    open fun getSize(rows: UInt, columns: UInt): Unit {
-         return stub()
-    }
-    open fun resize(rows: UInt, columns: UInt): Unit {
-         return stub()
-    }
-    open fun setColSpacing(column: UInt, spacing: UInt): Unit {
-         return stub()
-    }
-    open fun setColSpacings(spacing: UInt): Unit {
-         return stub()
-    }
-    open fun setHomogeneous(homogeneous: Boolean): Unit {
-         return stub()
-    }
-    open fun setRowSpacing(row: UInt, spacing: UInt): Unit {
-         return stub()
-    }
-    open fun setRowSpacings(spacing: UInt): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 4574320UL
+        const val G_TYPE: gtk3.GType = 32157696UL
         fun cptr(obj: Table): CPointer<GtkTable> = obj.cptr
     }
 }
@@ -11074,10 +10691,8 @@ class TargetPair(private val cptr: CPointer<cnames.structs._GtkTargetPair>) /* s
 
 open class TearoffMenuItem internal constructor (private val cptr: CPointer<GtkTearoffMenuItem>) : MenuItem(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Actionable, Activatable, Buildable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkTearoffMenuItem>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 6472752UL
+        const val G_TYPE: gtk3.GType = 32426896UL
         fun cptr(obj: TearoffMenuItem): CPointer<GtkTearoffMenuItem> = obj.cptr
     }
 }
@@ -11388,7 +11003,7 @@ open class TextBuffer internal constructor (private val cptr: CPointer<GtkTextBu
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4165968UL
+        const val G_TYPE: gtk3.GType = 32306176UL
         fun cptr(obj: TextBuffer): CPointer<GtkTextBuffer> = obj.cptr
     }
 }
@@ -11418,7 +11033,7 @@ open class TextChildAnchor internal constructor (private val cptr: CPointer<GtkT
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5779456UL
+        const val G_TYPE: gtk3.GType = 31319296UL
         fun cptr(obj: TextChildAnchor): CPointer<GtkTextChildAnchor> = obj.cptr
     }
 }
@@ -11738,7 +11353,7 @@ open class TextMark internal constructor (private val cptr: CPointer<GtkTextMark
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4746528UL
+        const val G_TYPE: gtk3.GType = 36198112UL
         fun cptr(obj: TextMark): CPointer<GtkTextMark> = obj.cptr
     }
 }
@@ -11772,7 +11387,7 @@ open class TextTag internal constructor (private val cptr: CPointer<GtkTextTag>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6040688UL
+        const val G_TYPE: gtk3.GType = 31341296UL
         fun cptr(obj: TextTag): CPointer<GtkTextTag> = obj.cptr
     }
 }
@@ -11815,7 +11430,7 @@ open class TextTagTable internal constructor (private val cptr: CPointer<GtkText
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6015760UL
+        const val G_TYPE: gtk3.GType = 31784528UL
         fun cptr(obj: TextTagTable): CPointer<GtkTextTagTable> = obj.cptr
     }
 }
@@ -11877,9 +11492,6 @@ open class TextView internal constructor (private val cptr: CPointer<GtkTextView
     open fun getEditable(): Boolean {
          return stub()
     }
-    open fun getHadjustment(): Adjustment {
-         return stub()
-    }
     open fun getIndent(): Int {
          return stub()
     }
@@ -11932,9 +11544,6 @@ open class TextView internal constructor (private val cptr: CPointer<GtkTextView
          return stub()
     }
     open fun getTopMargin(): Int {
-         return stub()
-    }
-    open fun getVadjustment(): Adjustment {
          return stub()
     }
     open fun getVisibleRect(visible_rect: com.charlag.kgtk.demo.gdk.Rectangle): Unit {
@@ -12110,7 +11719,7 @@ open class TextView internal constructor (private val cptr: CPointer<GtkTextView
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5757632UL
+        const val G_TYPE: gtk3.GType = 31724608UL
         fun cptr(obj: TextView): CPointer<GtkTextView> = obj.cptr
         fun newWithBuffer(buffer: TextBuffer): TextView = TextView(stub<CPointer<GtkTextView>>()) 
     }
@@ -12134,66 +11743,9 @@ class ThemeEngine(private val cptr: CPointer<cnames.structs._GtkThemeEngine>) /*
 
 open class ThemingEngine internal constructor (private val cptr: CPointer<GtkThemingEngine>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun getBackgroundColor(state: StateFlags, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return stub()
-    }
-    open fun getBorder(state: StateFlags, border: Border): Unit {
-         return stub()
-    }
-    open fun getBorderColor(state: StateFlags, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return stub()
-    }
-    open fun getColor(state: StateFlags, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return stub()
-    }
-    open fun getDirection(): TextDirection {
-         return stub()
-    }
-    open fun getFont(state: StateFlags): com.charlag.kgtk.demo.pango.FontDescription {
-         return stub()
-    }
-    open fun getJunctionSides(): JunctionSides {
-         return stub()
-    }
-    open fun getMargin(state: StateFlags, margin: Border): Unit {
-         return stub()
-    }
-    open fun getPadding(state: StateFlags, padding: Border): Unit {
-         return stub()
-    }
-    open fun getPath(): WidgetPath {
-         return stub()
-    }
-    open fun getProperty(property: String, state: StateFlags, value: com.charlag.kgtk.demo.gobject.Value): Unit {
-         return stub()
-    }
-    open fun getScreen(): com.charlag.kgtk.demo.gdk.Screen {
-         return stub()
-    }
-    open fun getState(): StateFlags {
-         return stub()
-    }
-    open fun getStyleProperty(property_name: String, value: com.charlag.kgtk.demo.gobject.Value): Unit {
-         return stub()
-    }
-    open fun hasClass(style_class: String): Boolean {
-         return stub()
-    }
-    open fun hasRegion(style_region: String, flags: RegionFlags): Boolean {
-         return stub()
-    }
-    open fun lookupColor(color_name: String, color: com.charlag.kgtk.demo.gdk.RGBA): Boolean {
-         return stub()
-    }
-    open fun stateIsRunning(state: StateType, progress: Double): Boolean {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 6879584UL
+        const val G_TYPE: gtk3.GType = 31616512UL
         fun cptr(obj: ThemingEngine): CPointer<GtkThemingEngine> = obj.cptr
-        fun load(`name`: String): ThemingEngine {
-    return stub()
-}
     }
 }
 
@@ -12241,7 +11793,7 @@ open class ToggleButton internal constructor (private val cptr: CPointer<GtkTogg
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5064928UL
+        const val G_TYPE: gtk3.GType = 31341152UL
         fun cptr(obj: ToggleButton): CPointer<GtkToggleButton> = obj.cptr
         fun newWithLabel(label: String): ToggleButton = ToggleButton(stub<CPointer<GtkToggleButton>>()) 
         fun newWithMnemonic(label: String): ToggleButton = ToggleButton(stub<CPointer<GtkToggleButton>>()) 
@@ -12269,9 +11821,8 @@ open class ToggleToolButton internal constructor (private val cptr: CPointer<Gtk
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4217696UL
+        const val G_TYPE: gtk3.GType = 32586784UL
         fun cptr(obj: ToggleToolButton): CPointer<GtkToggleToolButton> = obj.cptr
-        fun newFromStock(stock_id: String): ToggleToolButton = ToggleToolButton(stub<CPointer<GtkToggleToolButton>>()) 
     }
 }
 
@@ -12297,9 +11848,6 @@ open class ToolButton internal constructor (private val cptr: CPointer<GtkToolBu
     open fun getLabelWidget(): Widget {
          return stub()
     }
-    open fun getStockId(): String {
-         return stub()
-    }
     open fun getUseUnderline(): Boolean {
          return stub()
     }
@@ -12315,9 +11863,6 @@ open class ToolButton internal constructor (private val cptr: CPointer<GtkToolBu
     open fun setLabelWidget(label_widget: Widget): Unit {
          return stub()
     }
-    open fun setStockId(stock_id: String): Unit {
-         return stub()
-    }
     open fun setUseUnderline(use_underline: Boolean): Unit {
          return stub()
     }
@@ -12326,9 +11871,8 @@ open class ToolButton internal constructor (private val cptr: CPointer<GtkToolBu
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5924560UL
+        const val G_TYPE: gtk3.GType = 32723968UL
         fun cptr(obj: ToolButton): CPointer<GtkToolButton> = obj.cptr
-        fun newFromStock(stock_id: String): ToolButton = ToolButton(stub<CPointer<GtkToolButton>>()) 
     }
 }
 
@@ -12432,7 +11976,7 @@ open class ToolItem internal constructor (private val cptr: CPointer<GtkToolItem
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4705424UL
+        const val G_TYPE: gtk3.GType = 30763856UL
         fun cptr(obj: ToolItem): CPointer<GtkToolItem> = obj.cptr
     }
 }
@@ -12496,7 +12040,7 @@ open class ToolItemGroup internal constructor (private val cptr: CPointer<GtkToo
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4508512UL
+        const val G_TYPE: gtk3.GType = 33037520UL
         fun cptr(obj: ToolItemGroup): CPointer<GtkToolItemGroup> = obj.cptr
     }
 }
@@ -12532,16 +12076,10 @@ open class ToolPalette internal constructor (private val cptr: CPointer<GtkToolP
     open fun getGroupPosition(group: ToolItemGroup): Int {
          return stub()
     }
-    open fun getHadjustment(): Adjustment {
-         return stub()
-    }
     open fun getIconSize(): Int {
          return stub()
     }
     open fun getPaletteStyle(): ToolbarStyle {
-         return stub()
-    }
-    open fun getVadjustment(): Adjustment {
          return stub()
     }
     open fun setDragSource(targets: ToolPaletteDragTargets): Unit {
@@ -12569,7 +12107,7 @@ open class ToolPalette internal constructor (private val cptr: CPointer<GtkToolP
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4007760UL
+        const val G_TYPE: gtk3.GType = 31418816UL
         fun cptr(obj: ToolPalette): CPointer<GtkToolPalette> = obj.cptr
         fun getDragTargetGroup(): TargetEntry {
     return stub()
@@ -12589,6 +12127,24 @@ class ToolPaletteClass(private val cptr: CPointer<cnames.structs._GtkToolPalette
 typealias ToolPaletteDragTargets = GtkToolPaletteDragTargets
 
 interface ToolShell : InteropWrapper {
+    fun getEllipsizeMode(): com.charlag.kgtk.demo.pango.EllipsizeMode = stub("ToolShell default impl")
+
+    fun getIconSize(): GtkIconSize = stub("getIconSize() default impl")
+
+    fun getOrientation(): Orientation = stub("ToolShell default impl")
+
+    fun getReliefStyle(): ReliefStyle = stub("ToolShell default impl")
+
+    fun getStyle(): ToolbarStyle = stub("ToolShell default impl")
+
+    fun getTextAlignment(): Float = stub("ToolShell default impl")
+
+    fun getTextOrientation(): Orientation = stub("ToolShell default impl")
+
+    fun getTextSizeGroup(): SizeGroup = stub("ToolShell default impl")
+
+    fun rebuildMenu(): Unit = stub("ToolShell default impl")
+
     companion object {
         fun cptr(obj: ToolShell): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -12611,7 +12167,7 @@ open class Toolbar internal constructor (private val cptr: CPointer<GtkToolbar>)
     open fun getDropIndex(x: Int, y: Int): Int {
          return stub()
     }
-    open fun getIconSize(): IconSize {
+    override fun getIconSize(): IconSize {
          return stub()
     }
     open fun getItemIndex(item: ToolItem): Int {
@@ -12623,7 +12179,7 @@ open class Toolbar internal constructor (private val cptr: CPointer<GtkToolbar>)
     open fun getNthItem(n: Int): ToolItem {
          return stub()
     }
-    open fun getReliefStyle(): ReliefStyle {
+    override fun getReliefStyle(): ReliefStyle {
          return stub()
     }
     open fun getShowArrow(): Boolean {
@@ -12653,6 +12209,7 @@ open class Toolbar internal constructor (private val cptr: CPointer<GtkToolbar>)
     open fun unsetStyle(): Unit {
          return stub()
     }
+    override fun getOrientation(): Orientation = stub("Needs manual resolution because of multiple interfaces")
     fun setOnFocusHomeOrEnd(cb: () -> Unit) {
         do_connect(cptr, "focus-home-or-end", cb)
     }
@@ -12670,7 +12227,7 @@ open class Toolbar internal constructor (private val cptr: CPointer<GtkToolbar>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5302960UL
+        const val G_TYPE: gtk3.GType = 31067616UL
         fun cptr(obj: Toolbar): CPointer<GtkToolbar> = obj.cptr
     }
 }
@@ -12699,9 +12256,6 @@ open class Tooltip internal constructor (private val cptr: CPointer<GtkTooltip>)
     open fun setIconFromIconName(icon_name: String, size: Int): Unit {
          return stub()
     }
-    open fun setIconFromStock(stock_id: String, size: Int): Unit {
-         return stub()
-    }
     open fun setMarkup(markup: String): Unit {
          return stub()
     }
@@ -12712,7 +12266,7 @@ open class Tooltip internal constructor (private val cptr: CPointer<GtkTooltip>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4211984UL
+        const val G_TYPE: gtk3.GType = 31182848UL
         fun cptr(obj: Tooltip): CPointer<GtkTooltip> = obj.cptr
         fun triggerTooltipQuery(display: com.charlag.kgtk.demo.gdk.Display): Unit {
     return stub()
@@ -12727,6 +12281,10 @@ typealias TreeCellDataFunc = (tree_column:  TreeViewColumn, cell:  CellRenderer,
 typealias TreeDestroyCountFunc = (tree_view:  TreeView, path:  TreePath, children:  Int, user_data:  Any) -> Unit
 
 interface TreeDragDest : InteropWrapper {
+    fun dragDataReceived(dest: TreePath, selection_data: SelectionData): Boolean = stub("TreeDragDest default impl")
+
+    fun rowDropPossible(dest_path: TreePath, selection_data: SelectionData): Boolean = stub("TreeDragDest default impl")
+
     companion object {
         fun cptr(obj: TreeDragDest): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -12743,6 +12301,12 @@ class TreeDragDestIface(private val cptr: CPointer<cnames.structs._GtkTreeDragDe
 }
 
 interface TreeDragSource : InteropWrapper {
+    fun dragDataDelete(path: TreePath): Boolean = stub("TreeDragSource default impl")
+
+    fun dragDataGet(path: TreePath, selection_data: SelectionData): Boolean = stub("TreeDragSource default impl")
+
+    fun rowDraggable(path: TreePath): Boolean = stub("TreeDragSource default impl")
+
     companion object {
         fun cptr(obj: TreeDragSource): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -12773,6 +12337,56 @@ class TreeIter(private val cptr: CPointer<cnames.structs._GtkTreeIter>) /* struc
 typealias TreeIterCompareFunc = (model:  TreeModel, a:  TreeIter, b:  TreeIter, user_data:  Any) -> Int
 
 interface TreeModel : InteropWrapper {
+    fun filterNew(root: TreePath): TreeModel = stub("TreeModel default impl")
+
+    fun foreach(func: TreeModelForeachFunc, user_data: Any): Unit = stub("TreeModel default impl")
+
+    fun getColumnType(index_: Int): GType = stub("TreeModel default impl")
+
+    fun getFlags(): TreeModelFlags = stub("TreeModel default impl")
+
+    fun getIter(iter: TreeIter, path: TreePath): Boolean = stub("TreeModel default impl")
+
+    fun getIterFirst(iter: TreeIter): Boolean = stub("TreeModel default impl")
+
+    fun getIterFromString(iter: TreeIter, path_string: String): Boolean = stub("TreeModel default impl")
+
+    fun getNColumns(): Int = stub("TreeModel default impl")
+
+    fun getPath(iter: TreeIter): TreePath = stub("TreeModel default impl")
+
+    fun getStringFromIter(iter: TreeIter): String = stub("TreeModel default impl")
+
+    fun getValue(iter: TreeIter, column: Int, value: com.charlag.kgtk.demo.gobject.Value): Unit = stub("TreeModel default impl")
+
+    fun iterChildren(iter: TreeIter, parent: TreeIter): Boolean = stub("TreeModel default impl")
+
+    fun iterHasChild(iter: TreeIter): Boolean = stub("TreeModel default impl")
+
+    fun iterNChildren(iter: TreeIter): Int = stub("TreeModel default impl")
+
+    fun iterNext(iter: TreeIter): Boolean = stub("TreeModel default impl")
+
+    fun iterNthChild(iter: TreeIter, parent: TreeIter, n: Int): Boolean = stub("TreeModel default impl")
+
+    fun iterParent(iter: TreeIter, child: TreeIter): Boolean = stub("TreeModel default impl")
+
+    fun iterPrevious(iter: TreeIter): Boolean = stub("TreeModel default impl")
+
+    fun refNode(iter: TreeIter): Unit = stub("TreeModel default impl")
+
+    fun rowChanged(path: TreePath, iter: TreeIter): Unit = stub("TreeModel default impl")
+
+    fun rowDeleted(path: TreePath): Unit = stub("TreeModel default impl")
+
+    fun rowHasChildToggled(path: TreePath, iter: TreeIter): Unit = stub("TreeModel default impl")
+
+    fun rowInserted(path: TreePath, iter: TreeIter): Unit = stub("TreeModel default impl")
+
+    fun rowsReordered(path: TreePath, iter: TreeIter, new_order: List<Int>, length: Int): Unit = stub("TreeModel default impl")
+
+    fun unrefNode(iter: TreeIter): Unit = stub("TreeModel default impl")
+
     companion object {
         fun cptr(obj: TreeModel): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -12815,7 +12429,7 @@ open class TreeModelFilter internal constructor (private val cptr: CPointer<GtkT
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4314016UL
+        const val G_TYPE: gtk3.GType = 33165136UL
         fun cptr(obj: TreeModelFilter): CPointer<GtkTreeModelFilter> = obj.cptr
     }
 }
@@ -12867,7 +12481,7 @@ open class TreeModelSort internal constructor (private val cptr: CPointer<GtkTre
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6880384UL
+        const val G_TYPE: gtk3.GType = 32676128UL
         fun cptr(obj: TreeModelSort): CPointer<GtkTreeModelSort> = obj.cptr
         fun newWithModel(child_model: TreeModel): TreeModelSort = TreeModelSort(stub<CPointer<GtkTreeModelSort>>()) 
     }
@@ -13033,7 +12647,7 @@ open class TreeSelection internal constructor (private val cptr: CPointer<GtkTre
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5543024UL
+        const val G_TYPE: gtk3.GType = 30769856UL
         fun cptr(obj: TreeSelection): CPointer<GtkTreeSelection> = obj.cptr
     }
 }
@@ -13048,7 +12662,19 @@ typealias TreeSelectionForeachFunc = (model:  TreeModel, path:  TreePath, iter: 
 
 typealias TreeSelectionFunc = (selection:  TreeSelection, model:  TreeModel, path:  TreePath, path_currently_selected:  Boolean, data:  Any) -> Boolean
 
-interface TreeSortable : InteropWrapper {
+interface TreeSortable : TreeModel, InteropWrapper {
+    fun getSortColumnId(sort_column_id: Int, order: SortType): Boolean = stub("TreeSortable default impl")
+
+    fun hasDefaultSortFunc(): Boolean = stub("TreeSortable default impl")
+
+    fun setDefaultSortFunc(sort_func: TreeIterCompareFunc, user_data: Any, destroy: com.charlag.kgtk.demo.glib.DestroyNotify): Unit = stub("TreeSortable default impl")
+
+    fun setSortColumnId(sort_column_id: Int, order: SortType): Unit = stub("TreeSortable default impl")
+
+    fun setSortFunc(sort_column_id: Int, sort_func: TreeIterCompareFunc, user_data: Any, destroy: com.charlag.kgtk.demo.glib.DestroyNotify): Unit = stub("TreeSortable default impl")
+
+    fun sortColumnChanged(): Unit = stub("TreeSortable default impl")
+
     companion object {
         fun cptr(obj: TreeSortable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -13120,7 +12746,7 @@ open class TreeStore internal constructor (private val cptr: CPointer<GtkTreeSto
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6526752UL
+        const val G_TYPE: gtk3.GType = 36948896UL
         fun cptr(obj: TreeStore): CPointer<GtkTreeStore> = obj.cptr
     }
 }
@@ -13225,9 +12851,6 @@ open class TreeView internal constructor (private val cptr: CPointer<GtkTreeView
     open fun getGridLines(): TreeViewGridLines {
          return stub()
     }
-    open fun getHadjustment(): Adjustment {
-         return stub()
-    }
     open fun getHeadersClickable(): Boolean {
          return stub()
     }
@@ -13258,9 +12881,6 @@ open class TreeView internal constructor (private val cptr: CPointer<GtkTreeView
     open fun getRubberBanding(): Boolean {
          return stub()
     }
-    open fun getRulesHint(): Boolean {
-         return stub()
-    }
     open fun getSearchColumn(): Int {
          return stub()
     }
@@ -13277,9 +12897,6 @@ open class TreeView internal constructor (private val cptr: CPointer<GtkTreeView
          return stub()
     }
     open fun getTooltipContext(x: Int, y: Int, keyboard_tip: Boolean, model: TreeModel, path: TreePath, iter: TreeIter): Boolean {
-         return stub()
-    }
-    open fun getVadjustment(): Adjustment {
          return stub()
     }
     open fun getVisibleRange(start_path: TreePath, end_path: TreePath): Boolean {
@@ -13333,9 +12950,6 @@ open class TreeView internal constructor (private val cptr: CPointer<GtkTreeView
     open fun setCursorOnCell(path: TreePath, focus_column: TreeViewColumn, focus_cell: CellRenderer, start_editing: Boolean): Unit {
          return stub()
     }
-    open fun setDestroyCountFunc(func: TreeDestroyCountFunc, data: Any, destroy: com.charlag.kgtk.demo.glib.DestroyNotify): Unit {
-         return stub()
-    }
     open fun setDragDestRow(path: TreePath, pos: TreeViewDropPosition): Unit {
          return stub()
     }
@@ -13352,9 +12966,6 @@ open class TreeView internal constructor (private val cptr: CPointer<GtkTreeView
          return stub()
     }
     open fun setGridLines(grid_lines: TreeViewGridLines): Unit {
-         return stub()
-    }
-    open fun setHadjustment(adjustment: Adjustment): Unit {
          return stub()
     }
     open fun setHeadersClickable(setting: Boolean): Unit {
@@ -13384,9 +12995,6 @@ open class TreeView internal constructor (private val cptr: CPointer<GtkTreeView
     open fun setRubberBanding(enable: Boolean): Unit {
          return stub()
     }
-    open fun setRulesHint(setting: Boolean): Unit {
-         return stub()
-    }
     open fun setSearchColumn(column: Int): Unit {
          return stub()
     }
@@ -13409,9 +13017,6 @@ open class TreeView internal constructor (private val cptr: CPointer<GtkTreeView
          return stub()
     }
     open fun setTooltipRow(tooltip: Tooltip, path: TreePath): Unit {
-         return stub()
-    }
-    open fun setVadjustment(adjustment: Adjustment): Unit {
          return stub()
     }
     open fun unsetRowsDragDest(): Unit {
@@ -13481,7 +13086,7 @@ open class TreeView internal constructor (private val cptr: CPointer<GtkTreeView
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4432800UL
+        const val G_TYPE: gtk3.GType = 33318048UL
         fun cptr(obj: TreeView): CPointer<GtkTreeView> = obj.cptr
         fun newWithModel(model: TreeModel): TreeView = TreeView(stub<CPointer<GtkTreeView>>()) 
     }
@@ -13497,7 +13102,7 @@ open class TreeViewColumn internal constructor (private val cptr: CPointer<GtkTr
     override val rawPtr: COpaquePointer = cptr
     constructor() : this(stub<CPointer<GtkTreeViewColumn>>())
 
-    open fun addAttribute(cell_renderer: CellRenderer, attribute: String, column: Int): Unit {
+    override fun addAttribute(cell_renderer: CellRenderer, attribute: String, column: Int): Unit {
          return stub()
     }
     open fun cellGetPosition(cell_renderer: CellRenderer, x_offset: Int, width: Int): Boolean {
@@ -13512,10 +13117,10 @@ open class TreeViewColumn internal constructor (private val cptr: CPointer<GtkTr
     open fun cellSetCellData(tree_model: TreeModel, iter: TreeIter, is_expander: Boolean, is_expanded: Boolean): Unit {
          return stub()
     }
-    open fun clear(): Unit {
+    override fun clear(): Unit {
          return stub()
     }
-    open fun clearAttributes(cell_renderer: CellRenderer): Unit {
+    override fun clearAttributes(cell_renderer: CellRenderer): Unit {
          return stub()
     }
     open fun clicked(): Unit {
@@ -13584,10 +13189,10 @@ open class TreeViewColumn internal constructor (private val cptr: CPointer<GtkTr
     open fun getXOffset(): Int {
          return stub()
     }
-    open fun packEnd(cell: CellRenderer, expand: Boolean): Unit {
+    override fun packEnd(cell: CellRenderer, expand: Boolean): Unit {
          return stub()
     }
-    open fun packStart(cell: CellRenderer, expand: Boolean): Unit {
+    override fun packStart(cell: CellRenderer, expand: Boolean): Unit {
          return stub()
     }
     open fun queueResize(): Unit {
@@ -13649,7 +13254,7 @@ open class TreeViewColumn internal constructor (private val cptr: CPointer<GtkTr
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4714640UL
+        const val G_TYPE: gtk3.GType = 32418272UL
         fun cptr(obj: TreeViewColumn): CPointer<GtkTreeViewColumn> = obj.cptr
         fun newWithArea(area: CellArea): TreeViewColumn = TreeViewColumn(stub<CPointer<GtkTreeViewColumn>>()) 
     }
@@ -13681,10 +13286,8 @@ typealias UIManagerItemType = GtkUIManagerItemType
 
 open class VBox internal constructor (private val cptr: CPointer<GtkVBox>) : Box(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(homogeneous: Boolean, spacing: Int) : this(stub<CPointer<GtkVBox>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 7853728UL
+        const val G_TYPE: gtk3.GType = 32342304UL
         fun cptr(obj: VBox): CPointer<GtkVBox> = obj.cptr
     }
 }
@@ -13697,10 +13300,8 @@ class VBoxClass(private val cptr: CPointer<cnames.structs._GtkVBoxClass>) /* str
 
 open class VButtonBox internal constructor (private val cptr: CPointer<GtkVButtonBox>) : ButtonBox(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkVButtonBox>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 4033520UL
+        const val G_TYPE: gtk3.GType = 30927056UL
         fun cptr(obj: VButtonBox): CPointer<GtkVButtonBox> = obj.cptr
     }
 }
@@ -13713,10 +13314,8 @@ class VButtonBoxClass(private val cptr: CPointer<cnames.structs._GtkVButtonBoxCl
 
 open class VPaned internal constructor (private val cptr: CPointer<GtkVPaned>) : Paned(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkVPaned>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 4216112UL
+        const val G_TYPE: gtk3.GType = 32555008UL
         fun cptr(obj: VPaned): CPointer<GtkVPaned> = obj.cptr
     }
 }
@@ -13729,12 +13328,9 @@ class VPanedClass(private val cptr: CPointer<cnames.structs._GtkVPanedClass>) /*
 
 open class VScale internal constructor (private val cptr: CPointer<GtkVScale>) : Scale(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(adjustment: Adjustment) : this(stub<CPointer<GtkVScale>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 5402912UL
+        const val G_TYPE: gtk3.GType = 31389424UL
         fun cptr(obj: VScale): CPointer<GtkVScale> = obj.cptr
-        fun newWithRange(min: Double, max: Double, step: Double): VScale = VScale(stub<CPointer<GtkVScale>>()) 
     }
 }
 
@@ -13746,10 +13342,8 @@ class VScaleClass(private val cptr: CPointer<cnames.structs._GtkVScaleClass>) /*
 
 open class VScrollbar internal constructor (private val cptr: CPointer<GtkVScrollbar>) : Scrollbar(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(adjustment: Adjustment) : this(stub<CPointer<GtkVScrollbar>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 4733792UL
+        const val G_TYPE: gtk3.GType = 31221728UL
         fun cptr(obj: VScrollbar): CPointer<GtkVScrollbar> = obj.cptr
     }
 }
@@ -13762,10 +13356,8 @@ class VScrollbarClass(private val cptr: CPointer<cnames.structs._GtkVScrollbarCl
 
 open class VSeparator internal constructor (private val cptr: CPointer<GtkVSeparator>) : Separator(cptr.reinterpret()), com.charlag.kgtk.demo.atk.ImplementorIface, Buildable, Orientable, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GtkVSeparator>>())
-
     companion object {
-        const val G_TYPE: gtk3.GType = 4492272UL
+        const val G_TYPE: gtk3.GType = 31230752UL
         fun cptr(obj: VSeparator): CPointer<GtkVSeparator> = obj.cptr
     }
 }
@@ -13783,29 +13375,17 @@ open class Viewport internal constructor (private val cptr: CPointer<GtkViewport
     open fun getBinWindow(): com.charlag.kgtk.demo.gdk.Window {
          return stub()
     }
-    open fun getHadjustment(): Adjustment {
-         return stub()
-    }
     open fun getShadowType(): ShadowType {
-         return stub()
-    }
-    open fun getVadjustment(): Adjustment {
          return stub()
     }
     open fun getViewWindow(): com.charlag.kgtk.demo.gdk.Window {
          return stub()
     }
-    open fun setHadjustment(adjustment: Adjustment): Unit {
-         return stub()
-    }
     open fun setShadowType(type: ShadowType): Unit {
          return stub()
     }
-    open fun setVadjustment(adjustment: Adjustment): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 6350416UL
+        const val G_TYPE: gtk3.GType = 33383920UL
         fun cptr(obj: Viewport): CPointer<GtkViewport> = obj.cptr
     }
 }
@@ -13821,7 +13401,7 @@ open class VolumeButton internal constructor (private val cptr: CPointer<GtkVolu
     constructor() : this(stub<CPointer<GtkVolumeButton>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6629376UL
+        const val G_TYPE: gtk3.GType = 30832720UL
         fun cptr(obj: VolumeButton): CPointer<GtkVolumeButton> = obj.cptr
     }
 }
@@ -13859,9 +13439,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun childNotify(child_property: String): Unit {
          return memScoped { gtk_widget_child_notify(cptr, child_property)!! }
     }
-    open fun classPath(path_length: UInt, path: String, path_reversed: String): Unit {
-         return memScoped { gtk_widget_class_path(cptr, stub("non-in param"), stub("non-in param"), stub("non-in param"))!! }
-    }
     open fun computeExpand(orientation: Orientation): Boolean {
          return memScoped { gtk_widget_compute_expand(cptr, orientation)!! } != 0
     }
@@ -13879,9 +13456,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
     open fun deviceIsShadowed(device: com.charlag.kgtk.demo.gdk.Device): Boolean {
          return memScoped { gtk_widget_device_is_shadowed(cptr, com.charlag.kgtk.demo.gdk.Device.cptr(device))!! } != 0
-    }
-    open fun dragBegin(targets: TargetList, actions: com.charlag.kgtk.demo.gdk.DragAction, button: Int, event: com.charlag.kgtk.demo.gdk.Event): com.charlag.kgtk.demo.gdk.DragContext {
-         return com.charlag.kgtk.demo.gdk.DragContext(memScoped { gtk_drag_begin(cptr, TargetList.cptr(targets), actions, button, com.charlag.kgtk.demo.gdk.Event.cptr(event))!! })
     }
     open fun dragBeginWithCoordinates(targets: TargetList, actions: com.charlag.kgtk.demo.gdk.DragAction, button: Int, event: com.charlag.kgtk.demo.gdk.Event, x: Int, y: Int): com.charlag.kgtk.demo.gdk.DragContext {
          return com.charlag.kgtk.demo.gdk.DragContext(memScoped { gtk_drag_begin_with_coordinates(cptr, TargetList.cptr(targets), actions, button, com.charlag.kgtk.demo.gdk.Event.cptr(event), x, y)!! })
@@ -13909,9 +13483,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
     open fun dragDestSet(flags: DestDefaults, targets: List<TargetEntry>, n_targets: Int, actions: com.charlag.kgtk.demo.gdk.DragAction): Unit {
          return memScoped { gtk_drag_dest_set(cptr, flags, allocArray(targets.size) { TargetEntry.cptr(targets[it]) }, n_targets, actions)!! }
-    }
-    open fun dragDestSetProxy(proxy_window: com.charlag.kgtk.demo.gdk.Window, protocol: com.charlag.kgtk.demo.gdk.DragProtocol, use_coordinates: Boolean): Unit {
-         return memScoped { gtk_drag_dest_set_proxy(cptr, com.charlag.kgtk.demo.gdk.Window.cptr(proxy_window), protocol, use_coordinates.asGboolean())!! }
     }
     open fun dragDestSetTargetList(target_list: TargetList): Unit {
          return memScoped { gtk_drag_dest_set_target_list(cptr, TargetList.cptr(target_list))!! }
@@ -13952,9 +13523,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun dragSourceSetIconPixbuf(pixbuf: com.charlag.kgtk.demo.gdkpixbuf.Pixbuf): Unit {
          return memScoped { gtk_drag_source_set_icon_pixbuf(cptr, com.charlag.kgtk.demo.gdkpixbuf.Pixbuf.cptr(pixbuf))!! }
     }
-    open fun dragSourceSetIconStock(stock_id: String): Unit {
-         return memScoped { gtk_drag_source_set_icon_stock(cptr, stock_id)!! }
-    }
     open fun dragSourceSetTargetList(target_list: TargetList): Unit {
          return memScoped { gtk_drag_source_set_target_list(cptr, TargetList.cptr(target_list))!! }
     }
@@ -13966,9 +13534,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
     open fun draw(cr: com.charlag.kgtk.demo.cairo.Context): Unit {
          return memScoped { gtk_widget_draw(cptr, com.charlag.kgtk.demo.cairo.Context.cptr(cr))!! }
-    }
-    open fun ensureStyle(): Unit {
-         return memScoped { gtk_widget_ensure_style(cptr)!! }
     }
     open fun errorBell(): Unit {
          return memScoped { gtk_widget_error_bell(cptr)!! }
@@ -14012,9 +13577,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun getCanFocus(): Boolean {
          return memScoped { gtk_widget_get_can_focus(cptr)!! } != 0
     }
-    open fun getChildRequisition(requisition: Requisition): Unit {
-         return memScoped { gtk_widget_get_child_requisition(cptr, stub("non-in param"))!! }
-    }
     open fun getChildVisible(): Boolean {
          return memScoped { gtk_widget_get_child_visible(cptr)!! } != 0
     }
@@ -14023,9 +13585,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
     open fun getClipboard(selection: com.charlag.kgtk.demo.gdk.Atom): Clipboard {
          return Clipboard(memScoped { gtk_widget_get_clipboard(cptr, com.charlag.kgtk.demo.gdk.Atom.cptr(selection))!! })
-    }
-    open fun getCompositeName(): String {
-         return memScoped { gtk_widget_get_composite_name(cptr)!! }.toKString()
     }
     open fun getDeviceEnabled(device: com.charlag.kgtk.demo.gdk.Device): Boolean {
          return memScoped { gtk_widget_get_device_enabled(cptr, com.charlag.kgtk.demo.gdk.Device.cptr(device))!! } != 0
@@ -14081,12 +13640,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun getMarginEnd(): Int {
          return memScoped { gtk_widget_get_margin_end(cptr)!! }
     }
-    open fun getMarginLeft(): Int {
-         return memScoped { gtk_widget_get_margin_left(cptr)!! }
-    }
-    open fun getMarginRight(): Int {
-         return memScoped { gtk_widget_get_margin_right(cptr)!! }
-    }
     open fun getMarginStart(): Int {
          return memScoped { gtk_widget_get_margin_start(cptr)!! }
     }
@@ -14096,10 +13649,7 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun getModifierMask(intent: com.charlag.kgtk.demo.gdk.ModifierIntent): com.charlag.kgtk.demo.gdk.ModifierType {
          return /* TODO: ret int GI_INFO_TYPE_FLAGS*/ memScoped { gtk_widget_get_modifier_mask(cptr, intent)!! }
     }
-    open fun getModifierStyle(): RcStyle {
-         return RcStyle(memScoped { gtk_widget_get_modifier_style(cptr)!! })
-    }
-    open fun getName(): String {
+    override fun getName(): String {
          return memScoped { gtk_widget_get_name(cptr)!! }.toKString()
     }
     open fun getNoShowAll(): Boolean {
@@ -14119,9 +13669,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
     open fun getPath(): WidgetPath {
          return WidgetPath(memScoped { gtk_widget_get_path(cptr)!! })
-    }
-    open fun getPointer(x: Int, y: Int): Unit {
-         return memScoped { gtk_widget_get_pointer(cptr, stub("non-in param"), stub("non-in param"))!! }
     }
     open fun getPreferredHeight(minimum_height: Int, natural_height: Int): Unit {
          return memScoped { gtk_widget_get_preferred_height(cptr, stub("non-in param"), stub("non-in param"))!! }
@@ -14150,12 +13697,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun getRequestMode(): SizeRequestMode {
          return memScoped { gtk_widget_get_request_mode(cptr)!! }
     }
-    open fun getRequisition(requisition: Requisition): Unit {
-         return memScoped { gtk_widget_get_requisition(cptr, stub("non-in param"))!! }
-    }
-    open fun getRootWindow(): com.charlag.kgtk.demo.gdk.Window {
-         return com.charlag.kgtk.demo.gdk.Window(memScoped { gtk_widget_get_root_window(cptr)!! })
-    }
     open fun getScaleFactor(): Int {
          return memScoped { gtk_widget_get_scale_factor(cptr)!! }
     }
@@ -14171,14 +13712,8 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun getSizeRequest(width: Int, height: Int): Unit {
          return memScoped { gtk_widget_get_size_request(cptr, stub("non-in param"), stub("non-in param"))!! }
     }
-    open fun getState(): StateType {
-         return memScoped { gtk_widget_get_state(cptr)!! }
-    }
     open fun getStateFlags(): StateFlags {
          return /* TODO: ret int GI_INFO_TYPE_FLAGS*/ memScoped { gtk_widget_get_state_flags(cptr)!! }
-    }
-    open fun getStyle(): Style {
-         return Style(memScoped { gtk_widget_get_style(cptr)!! })
     }
     open fun getStyleContext(): StyleContext {
          return StyleContext(memScoped { gtk_widget_get_style_context(cptr)!! })
@@ -14243,9 +13778,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun hasGrab(): Boolean {
          return memScoped { gtk_widget_has_grab(cptr)!! } != 0
     }
-    open fun hasRcStyle(): Boolean {
-         return memScoped { gtk_widget_has_rc_style(cptr)!! } != 0
-    }
     open fun hasScreen(): Boolean {
          return memScoped { gtk_widget_has_screen(cptr)!! } != 0
     }
@@ -14275,9 +13807,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
     open fun isAncestor(ancestor: Widget): Boolean {
          return memScoped { gtk_widget_is_ancestor(cptr, Widget.cptr(ancestor))!! } != 0
-    }
-    open fun isComposited(): Boolean {
-         return memScoped { gtk_widget_is_composited(cptr)!! } != 0
     }
     open fun isDrawable(): Boolean {
          return memScoped { gtk_widget_is_drawable(cptr)!! } != 0
@@ -14312,45 +13841,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun mnemonicActivate(group_cycling: Boolean): Boolean {
          return memScoped { gtk_widget_mnemonic_activate(cptr, group_cycling.asGboolean())!! } != 0
     }
-    open fun modifyBase(state: StateType, color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return memScoped { gtk_widget_modify_base(cptr, state, com.charlag.kgtk.demo.gdk.Color.cptr(color))!! }
-    }
-    open fun modifyBg(state: StateType, color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return memScoped { gtk_widget_modify_bg(cptr, state, com.charlag.kgtk.demo.gdk.Color.cptr(color))!! }
-    }
-    open fun modifyCursor(primary: com.charlag.kgtk.demo.gdk.Color, secondary: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return memScoped { gtk_widget_modify_cursor(cptr, com.charlag.kgtk.demo.gdk.Color.cptr(primary), com.charlag.kgtk.demo.gdk.Color.cptr(secondary))!! }
-    }
-    open fun modifyFg(state: StateType, color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return memScoped { gtk_widget_modify_fg(cptr, state, com.charlag.kgtk.demo.gdk.Color.cptr(color))!! }
-    }
-    open fun modifyFont(font_desc: com.charlag.kgtk.demo.pango.FontDescription): Unit {
-         return memScoped { gtk_widget_modify_font(cptr, com.charlag.kgtk.demo.pango.FontDescription.cptr(font_desc))!! }
-    }
-    open fun modifyStyle(style: RcStyle): Unit {
-         return memScoped { gtk_widget_modify_style(cptr, RcStyle.cptr(style))!! }
-    }
-    open fun modifyText(state: StateType, color: com.charlag.kgtk.demo.gdk.Color): Unit {
-         return memScoped { gtk_widget_modify_text(cptr, state, com.charlag.kgtk.demo.gdk.Color.cptr(color))!! }
-    }
-    open fun overrideBackgroundColor(state: StateFlags, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return memScoped { gtk_widget_override_background_color(cptr, state, com.charlag.kgtk.demo.gdk.RGBA.cptr(color))!! }
-    }
-    open fun overrideColor(state: StateFlags, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return memScoped { gtk_widget_override_color(cptr, state, com.charlag.kgtk.demo.gdk.RGBA.cptr(color))!! }
-    }
-    open fun overrideCursor(cursor: com.charlag.kgtk.demo.gdk.RGBA, secondary_cursor: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return memScoped { gtk_widget_override_cursor(cptr, com.charlag.kgtk.demo.gdk.RGBA.cptr(cursor), com.charlag.kgtk.demo.gdk.RGBA.cptr(secondary_cursor))!! }
-    }
-    open fun overrideFont(font_desc: com.charlag.kgtk.demo.pango.FontDescription): Unit {
-         return memScoped { gtk_widget_override_font(cptr, com.charlag.kgtk.demo.pango.FontDescription.cptr(font_desc))!! }
-    }
-    open fun overrideSymbolicColor(`name`: String, color: com.charlag.kgtk.demo.gdk.RGBA): Unit {
-         return memScoped { gtk_widget_override_symbolic_color(cptr, `name`, com.charlag.kgtk.demo.gdk.RGBA.cptr(color))!! }
-    }
-    open fun path(path_length: UInt, path: String, path_reversed: String): Unit {
-         return memScoped { gtk_widget_path(cptr, stub("non-in param"), stub("non-in param"), stub("non-in param"))!! }
-    }
     open fun queueAllocate(): Unit {
          return memScoped { gtk_widget_queue_allocate(cptr)!! }
     }
@@ -14375,9 +13865,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun realize(): Unit {
          return memScoped { gtk_widget_realize(cptr)!! }
     }
-    open fun regionIntersect(region: com.charlag.kgtk.demo.cairo.Region): com.charlag.kgtk.demo.cairo.Region {
-         return com.charlag.kgtk.demo.cairo.Region(memScoped { gtk_widget_region_intersect(cptr, com.charlag.kgtk.demo.cairo.Region.cptr(region))!! })
-    }
     open fun registerWindow(window: com.charlag.kgtk.demo.gdk.Window): Unit {
          return memScoped { gtk_widget_register_window(cptr, com.charlag.kgtk.demo.gdk.Window.cptr(window))!! }
     }
@@ -14392,17 +13879,8 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
  // TODO: method render_icon(), int in typelib, enum is C 
  // TODO: method render_icon_pixbuf(), int in typelib, enum is C 
-    open fun reparent(new_parent: Widget): Unit {
-         return memScoped { gtk_widget_reparent(cptr, Widget.cptr(new_parent))!! }
-    }
-    open fun resetRcStyles(): Unit {
-         return memScoped { gtk_widget_reset_rc_styles(cptr)!! }
-    }
     open fun resetStyle(): Unit {
          return memScoped { gtk_widget_reset_style(cptr)!! }
-    }
-    open fun sendExpose(event: com.charlag.kgtk.demo.gdk.Event): Int {
-         return memScoped { gtk_widget_send_expose(cptr, com.charlag.kgtk.demo.gdk.Event.cptr(event))!! }
     }
     open fun sendFocusChange(event: com.charlag.kgtk.demo.gdk.Event): Boolean {
          return memScoped { gtk_widget_send_focus_change(cptr, com.charlag.kgtk.demo.gdk.Event.cptr(event))!! } != 0
@@ -14428,9 +13906,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun setClip(clip: com.charlag.kgtk.demo.gdk.Rectangle): Unit {
          return memScoped { gtk_widget_set_clip(cptr, com.charlag.kgtk.demo.gdk.Rectangle.cptr(clip))!! }
     }
-    open fun setCompositeName(`name`: String): Unit {
-         return memScoped { gtk_widget_set_composite_name(cptr, `name`)!! }
-    }
     open fun setDeviceEnabled(device: com.charlag.kgtk.demo.gdk.Device, enabled: Boolean): Unit {
          return memScoped { gtk_widget_set_device_enabled(cptr, com.charlag.kgtk.demo.gdk.Device.cptr(device), enabled.asGboolean())!! }
     }
@@ -14439,9 +13914,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
     open fun setDirection(dir: TextDirection): Unit {
          return memScoped { gtk_widget_set_direction(cptr, dir)!! }
-    }
-    open fun setDoubleBuffered(double_buffered: Boolean): Unit {
-         return memScoped { gtk_widget_set_double_buffered(cptr, double_buffered.asGboolean())!! }
     }
     open fun setEvents(events: Int): Unit {
          return memScoped { gtk_widget_set_events(cptr, events)!! }
@@ -14479,19 +13951,13 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun setMarginEnd(margin: Int): Unit {
          return memScoped { gtk_widget_set_margin_end(cptr, margin)!! }
     }
-    open fun setMarginLeft(margin: Int): Unit {
-         return memScoped { gtk_widget_set_margin_left(cptr, margin)!! }
-    }
-    open fun setMarginRight(margin: Int): Unit {
-         return memScoped { gtk_widget_set_margin_right(cptr, margin)!! }
-    }
     open fun setMarginStart(margin: Int): Unit {
          return memScoped { gtk_widget_set_margin_start(cptr, margin)!! }
     }
     open fun setMarginTop(margin: Int): Unit {
          return memScoped { gtk_widget_set_margin_top(cptr, margin)!! }
     }
-    open fun setName(`name`: String): Unit {
+    override fun setName(`name`: String): Unit {
          return memScoped { gtk_widget_set_name(cptr, `name`)!! }
     }
     open fun setNoShowAll(no_show_all: Boolean): Unit {
@@ -14521,14 +13987,8 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     open fun setSizeRequest(width: Int, height: Int): Unit {
          return memScoped { gtk_widget_set_size_request(cptr, width, height)!! }
     }
-    open fun setState(state: StateType): Unit {
-         return memScoped { gtk_widget_set_state(cptr, state)!! }
-    }
     open fun setStateFlags(flags: StateFlags, clear: Boolean): Unit {
          return memScoped { gtk_widget_set_state_flags(cptr, flags, clear.asGboolean())!! }
-    }
-    open fun setStyle(style: Style): Unit {
-         return memScoped { gtk_widget_set_style(cptr, Style.cptr(style))!! }
     }
     open fun setSupportMultidevice(support_multidevice: Boolean): Unit {
          return memScoped { gtk_widget_set_support_multidevice(cptr, support_multidevice.asGboolean())!! }
@@ -14577,12 +14037,6 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
     open fun sizeAllocateWithBaseline(allocation: com.charlag.kgtk.demo.gdk.Rectangle, baseline: Int): Unit {
          return memScoped { gtk_widget_size_allocate_with_baseline(cptr, com.charlag.kgtk.demo.gdk.Rectangle.cptr(allocation), baseline)!! }
-    }
-    open fun sizeRequest(requisition: Requisition): Unit {
-         return memScoped { gtk_widget_size_request(cptr, stub("non-in param"))!! }
-    }
-    open fun styleAttach(): Unit {
-         return memScoped { gtk_widget_style_attach(cptr)!! }
     }
     open fun styleGetProperty(property_name: String, value: com.charlag.kgtk.demo.gobject.Value): Unit {
          return memScoped { gtk_widget_style_get_property(cptr, property_name, com.charlag.kgtk.demo.gobject.Value.cptr(value))!! }
@@ -14888,19 +14342,10 @@ open class Widget internal constructor (private val cptr: CPointer<GtkWidget>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4691648UL
+        const val G_TYPE: gtk3.GType = 30505568UL
         fun cptr(obj: Widget): CPointer<GtkWidget> = obj.cptr
         fun getDefaultDirection(): TextDirection {
     return memScoped { gtk_widget_get_default_direction()!! }
-}
-        fun getDefaultStyle(): Style {
-    return Style(memScoped { gtk_widget_get_default_style()!! })
-}
-        fun popCompositeChild(): Unit {
-    return memScoped { gtk_widget_pop_composite_child()!! }
-}
-        fun pushCompositeChild(): Unit {
-    return memScoped { gtk_widget_push_composite_child()!! }
 }
         fun setDefaultDirection(dir: TextDirection): Unit {
     return memScoped { gtk_widget_set_default_direction(dir)!! }
@@ -15149,9 +14594,6 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     open fun getGroup(): WindowGroup {
          return WindowGroup(memScoped { gtk_window_get_group(cptr)!! })
     }
-    open fun getHasResizeGrip(): Boolean {
-         return memScoped { gtk_window_get_has_resize_grip(cptr)!! } != 0
-    }
     open fun getHideTitlebarWhenMaximized(): Boolean {
          return memScoped { gtk_window_get_hide_titlebar_when_maximized(cptr)!! } != 0
     }
@@ -15173,17 +14615,11 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     open fun getModal(): Boolean {
          return memScoped { gtk_window_get_modal(cptr)!! } != 0
     }
-    override fun getOpacity(): Double {
-         return /* TODO: ret tag GI_TYPE_TAG_DOUBLE */ memScoped { gtk_window_get_opacity(cptr)!! }
-    }
     open fun getPosition(root_x: Int, root_y: Int): Unit {
          return memScoped { gtk_window_get_position(cptr, stub("non-in param"), stub("non-in param"))!! }
     }
     open fun getResizable(): Boolean {
          return memScoped { gtk_window_get_resizable(cptr)!! } != 0
-    }
-    open fun getResizeGripArea(rect: com.charlag.kgtk.demo.gdk.Rectangle): Boolean {
-         return memScoped { gtk_window_get_resize_grip_area(cptr, stub("non-in param"))!! } != 0
     }
     open fun getRole(): String {
          return memScoped { gtk_window_get_role(cptr)!! }.toKString()
@@ -15242,9 +14678,6 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     open fun move(x: Int, y: Int): Unit {
          return memScoped { gtk_window_move(cptr, x, y)!! }
     }
-    open fun parseGeometry(geometry: String): Boolean {
-         return memScoped { gtk_window_parse_geometry(cptr, geometry)!! } != 0
-    }
     open fun present(): Unit {
          return memScoped { gtk_window_present(cptr)!! }
     }
@@ -15260,17 +14693,8 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     open fun removeMnemonic(keyval: UInt, target: Widget): Unit {
          return memScoped { gtk_window_remove_mnemonic(cptr, keyval, Widget.cptr(target))!! }
     }
-    open fun reshowWithInitialSize(): Unit {
-         return memScoped { gtk_window_reshow_with_initial_size(cptr)!! }
-    }
     open fun resize(width: Int, height: Int): Unit {
          return memScoped { gtk_window_resize(cptr, width, height)!! }
-    }
-    open fun resizeGripIsVisible(): Boolean {
-         return memScoped { gtk_window_resize_grip_is_visible(cptr)!! } != 0
-    }
-    open fun resizeToGeometry(width: Int, height: Int): Unit {
-         return memScoped { gtk_window_resize_to_geometry(cptr, width, height)!! }
     }
     open fun setAcceptFocus(setting: Boolean): Unit {
          return memScoped { gtk_window_set_accept_focus(cptr, setting.asGboolean())!! }
@@ -15286,9 +14710,6 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     }
     open fun setDefault(default_widget: Widget): Unit {
          return memScoped { gtk_window_set_default(cptr, Widget.cptr(default_widget))!! }
-    }
-    open fun setDefaultGeometry(width: Int, height: Int): Unit {
-         return memScoped { gtk_window_set_default_geometry(cptr, width, height)!! }
     }
     open fun setDefaultSize(width: Int, height: Int): Unit {
          return memScoped { gtk_window_set_default_size(cptr, width, height)!! }
@@ -15313,9 +14734,6 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     }
     open fun setGravity(gravity: com.charlag.kgtk.demo.gdk.Gravity): Unit {
          return memScoped { gtk_window_set_gravity(cptr, gravity)!! }
-    }
-    open fun setHasResizeGrip(value: Boolean): Unit {
-         return memScoped { gtk_window_set_has_resize_grip(cptr, value.asGboolean())!! }
     }
     open fun setHasUserRefCount(setting: Boolean): Unit {
          return memScoped { gtk_window_set_has_user_ref_count(cptr, setting.asGboolean())!! }
@@ -15353,9 +14771,6 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     open fun setModal(modal: Boolean): Unit {
          return memScoped { gtk_window_set_modal(cptr, modal.asGboolean())!! }
     }
-    override fun setOpacity(opacity: Double): Unit {
-         return memScoped { gtk_window_set_opacity(cptr, opacity)!! }
-    }
     open fun setPosition(position: WindowPosition): Unit {
          return memScoped { gtk_window_set_position(cptr, position)!! }
     }
@@ -15392,9 +14807,6 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     open fun setUrgencyHint(setting: Boolean): Unit {
          return memScoped { gtk_window_set_urgency_hint(cptr, setting.asGboolean())!! }
     }
-    open fun setWmclass(wmclass_name: String, wmclass_class: String): Unit {
-         return memScoped { gtk_window_set_wmclass(cptr, wmclass_name, wmclass_class)!! }
-    }
     open fun stick(): Unit {
          return memScoped { gtk_window_stick(cptr)!! }
     }
@@ -15428,7 +14840,7 @@ open class Window internal constructor (private val cptr: CPointer<GtkWindow>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4701568UL
+        const val G_TYPE: gtk3.GType = 31094528UL
         fun cptr(obj: Window): CPointer<GtkWindow> = obj.cptr
         fun getDefaultIconList(): List<com.charlag.kgtk.demo.gdkpixbuf.Pixbuf> {
     return memScoped { gtk_window_get_default_icon_list()!! }.toList<GdkPixbuf>().map { com.charlag.kgtk.demo.gdkpixbuf.Pixbuf(it) }
@@ -15494,7 +14906,7 @@ open class WindowGroup internal constructor (private val cptr: CPointer<GtkWindo
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6106640UL
+        const val G_TYPE: gtk3.GType = 32100672UL
         fun cptr(obj: WindowGroup): CPointer<GtkWindowGroup> = obj.cptr
     }
 }

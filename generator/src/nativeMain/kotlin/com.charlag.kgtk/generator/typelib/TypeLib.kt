@@ -1,5 +1,6 @@
 package com.charlag.kgtk.generator.typelib
 
+import com.charlag.kgtk.testFlag
 import girepository.*
 import kotlinx.cinterop.*
 
@@ -60,6 +61,32 @@ open class BaseInfo(private val instance: CPointer<GIBaseInfo>) {
         get() = g_base_info_get_namespace(instance)!!.toKString()
     val type: GIInfoType
         get() = g_base_info_get_type(instance)
+    val isAbstract: Boolean
+        get() = g_object_info_get_abstract(instance) != 0
+    val attributes: Map<String, String>
+        get() {
+            val map = mutableMapOf<String, String>()
+            memScoped {
+                val iter = alloc<GIAttributeIter>()
+                iter.data = null
+                val name = allocPointerTo<ByteVar>()
+                val value = allocPointerTo<ByteVar>()
+                while (g_base_info_iterate_attributes(instance, iter.ptr, name.ptr, value.ptr) != 0) {
+                    map[name.value!!.toKString()] = value.value!!.toKString()
+                }
+            }
+            return map
+        }
+    val isDeprecated: Boolean get() = g_base_info_is_deprecated(instance) != 0
+
+    fun downcastToInterface(): InterfaceInfo {
+        check(gi_is_interface_info(instance) != 0) { "Base info is not an interface: ${this.name}" }
+        return InterfaceInfo(instance.reinterpret())
+    }
+
+    override fun toString(): String {
+        return "BaseInfo(naem=$name,namespace=$namespace,type=$type,isAbstract=$isAbstract,isDeprecated=$isDeprecated"
+    }
 }
 
 open class CallableInfo(private val instance: CPointer<GICallableInfo>) : BaseInfo(instance) {
@@ -74,9 +101,11 @@ open class CallableInfo(private val instance: CPointer<GICallableInfo>) : BaseIn
 class FunctionInfo(private val instance: CPointer<GIFunctionInfo>) : CallableInfo(instance) {
     val flags: GIFunctionInfoFlags get() = g_function_info_get_flags(instance)
     val symbol: String get() = g_function_info_get_symbol(instance)?.toKString() ?: ""
+    val isConstructor: Boolean = flags.testFlag(GI_FUNCTION_IS_CONSTRUCTOR)
+    val wrapsVfunc: Boolean = flags.testFlag(GI_FUNCTION_WRAPS_VFUNC)
 
     override fun toString(): String {
-        return "FunctionInfo(name=$name,symbol=${symbol},args=${args.toList()},ret=${returnType})"
+        return "FunctionInfo(name=$name,symbol=${symbol},isConstructor=${isConstructor},wrapsVfunc=${wrapsVfunc},args=${args.toList()},ret=${returnType},attrs=${attributes},isDeprecated=$isDeprecated)"
     }
 }
 
@@ -84,7 +113,7 @@ class CallbackInfo(private val instance: CPointer<GICallbackInfo>) : CallableInf
 
 class VFuncInfo(private val instance: CPointer<GIVFuncInfo>) : CallableInfo(instance) {
     override fun toString(): String {
-        return "VFuncInfo(name=$name)"
+        return "VFuncInfo(name=$name,args=${args},returnType=${returnType})"
     }
 }
 
@@ -145,15 +174,46 @@ class ObjectInfo(private val instance: CPointer<GIObjectInfo>) : RegisteredTypeI
         return g_object_info_find_method(instance, name)?.let(::FunctionInfo)
     }
 
+    fun findMethodByInterfaces(name: String): FunctionInfo? {
+        memScoped {
+            // We don't care about implementor but seems like we have to pass it in
+            val implementor = allocPointerTo<GIObjectInfo>()
+            val ptr = g_object_info_find_method_using_interfaces(instance, name, implementor.ptr)
+            return ptr?.let { FunctionInfo(it) }
+        }
+    }
+
     fun subTypeOf(other: ObjectInfo): Boolean {
         return parent == other || parent?.subTypeOf(other) ?: false
+    }
+
+    override fun toString(): String {
+        return "ObjectInfo(name=$name,namespace=$namespace,interfaces=${interfaces.toList()},isAbstract=$isAbstract,isDeprecated=$isDeprecated)"
     }
 }
 
 class InterfaceInfo(private val instance: CPointer<GIInterfaceInfo>) : RegisteredTypeInfo(instance) {
     val isRegistered: Boolean get() = gi_is_registered_type_info(instance) != 0
+    val prerequisites: Sequence<BaseInfo>
+        get() = getSequence(g_interface_info_get_n_prerequisites(instance)) {
+            val ptr = g_interface_info_get_prerequisite(instance, it)!!
+            BaseInfo(ptr)
+        }
+    val methods: Sequence<FunctionInfo>
+        get() = getSequence(g_interface_info_get_n_methods(instance)) {
+            val ptr = g_interface_info_get_method(instance, it)!!
+            FunctionInfo(ptr)
+        }
+
     override fun toString(): String {
-        return "InterfaceInfo(name=$name,isRegistered=${isRegistered},type=${type})"
+        return "InterfaceInfo(name=$name,isRegistered=${isRegistered},type=${type},attributes=${attributes})"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is InterfaceInfo) return false
+        // It's identity more or less
+        return this.name == other.name &&
+                this.namespace == other.namespace
     }
 }
 
@@ -173,6 +233,14 @@ class TypeInfo(private val instance: CPointer<GITypeInfo>) : BaseInfo(instance) 
 
     override fun toString(): String {
         return "TypeInfo(name=$name,tag=$tag,interfaceInfo=$interfaceInfo},isPointer=${isPointer})"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (other !is TypeInfo) return false
+        // Should also compare param types theoretically
+        return this.tag == other.tag &&
+                this.interfaceInfo == other.interfaceInfo &&
+                this.isPointer == other.isPointer
     }
 }
 

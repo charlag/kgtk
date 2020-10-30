@@ -12,3 +12,7 @@ gboolean gi_is_registered_type_info(GIBaseInfo *info) {
 gboolean gi_is_type_info(GIBaseInfo *info) {
     return GI_IS_TYPE_INFO(info);
 }
+
+gboolean gi_is_interface_info(GIBaseInfo *info) {
+    return GI_IS_INTERFACE_INFO(info);
+}

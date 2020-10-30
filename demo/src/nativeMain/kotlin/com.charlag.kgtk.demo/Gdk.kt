@@ -11,12 +11,7 @@ typealias AnchorHints = GdkAnchorHints
 
 open class AppLaunchContext internal constructor (private val cptr: CPointer<GdkAppLaunchContext>) : com.charlag.kgtk.demo.gio.AppLaunchContext(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor() : this(stub<CPointer<GdkAppLaunchContext>>())
-
     open fun setDesktop(desktop: Int): Unit {
-         return stub()
-    }
-    open fun setDisplay(display: Display): Unit {
          return stub()
     }
     open fun setIcon(icon: com.charlag.kgtk.demo.gio.Icon): Unit {
@@ -32,7 +27,7 @@ open class AppLaunchContext internal constructor (private val cptr: CPointer<Gdk
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5896736UL
+        const val G_TYPE: gtk3.GType = 30712912UL
         fun cptr(obj: AppLaunchContext): CPointer<GdkAppLaunchContext> = obj.cptr
     }
 }
@@ -94,8 +89,6 @@ typealias CrossingMode = GdkCrossingMode
 
 open class Cursor internal constructor (private val cptr: CPointer<GdkCursor>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(cursor_type: CursorType) : this(stub<CPointer<GdkCursor>>())
-
     open fun getCursorType(): CursorType {
          return stub()
     }
@@ -108,14 +101,8 @@ open class Cursor internal constructor (private val cptr: CPointer<GdkCursor>) :
     open fun getSurface(x_hot: Double, y_hot: Double): com.charlag.kgtk.demo.cairo.Surface {
          return stub()
     }
-    override fun ref(): Cursor {
-         return stub()
-    }
-    override fun unref(): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 5496496UL
+        const val G_TYPE: gtk3.GType = 31469728UL
         fun cptr(obj: Cursor): CPointer<GdkCursor> = obj.cptr
         fun newForDisplay(display: Display, cursor_type: CursorType): Cursor = Cursor(stub<CPointer<GdkCursor>>()) 
         fun newFromName(display: Display, `name`: String): Cursor = Cursor(stub<CPointer<GdkCursor>>()) 
@@ -188,9 +175,6 @@ open class Device internal constructor (private val cptr: CPointer<GdkDevice>) :
     open fun getWindowAtPositionDouble(win_x: Double, win_y: Double): Window {
          return stub()
     }
-    open fun grab(window: Window, grab_ownership: GrabOwnership, owner_events: Boolean, event_mask: EventMask, cursor: Cursor, time_: UInt): GrabStatus {
-         return stub()
-    }
     open fun listAxes(): List<Atom> {
          return stub()
     }
@@ -206,9 +190,6 @@ open class Device internal constructor (private val cptr: CPointer<GdkDevice>) :
     open fun setMode(mode: InputMode): Boolean {
          return stub()
     }
-    open fun ungrab(time_: UInt): Unit {
-         return stub()
-    }
     open fun warp(screen: Screen, x: Int, y: Int): Unit {
          return stub()
     }
@@ -221,23 +202,14 @@ open class Device internal constructor (private val cptr: CPointer<GdkDevice>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4801472UL
+        const val G_TYPE: gtk3.GType = 35866080UL
         fun cptr(obj: Device): CPointer<GdkDevice> = obj.cptr
-        fun grabInfoLibgtkOnly(display: Display, device: Device, grab_window: Window, owner_events: Boolean): Boolean {
-    return stub()
-}
     }
 }
 
 open class DeviceManager internal constructor (private val cptr: CPointer<GdkDeviceManager>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun getClientPointer(): Device {
-         return stub()
-    }
     open fun getDisplay(): Display {
-         return stub()
-    }
-    open fun listDevices(type: DeviceType): List<Device> {
          return stub()
     }
     fun setOnDeviceAdded(cb: () -> Unit) {
@@ -253,12 +225,20 @@ open class DeviceManager internal constructor (private val cptr: CPointer<GdkDev
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5762688UL
+        const val G_TYPE: gtk3.GType = 38939344UL
         fun cptr(obj: DeviceManager): CPointer<GdkDeviceManager> = obj.cptr
     }
 }
 
 interface DevicePad : InteropWrapper {
+    fun getFeatureGroup(feature: DevicePadFeature, feature_idx: Int): Int = stub("DevicePad default impl")
+
+    fun getGroupNModes(group_idx: Int): Int = stub("DevicePad default impl")
+
+    fun getNFeatures(feature: DevicePadFeature): Int = stub("DevicePad default impl")
+
+    fun getNGroups(): Int = stub("DevicePad default impl")
+
     companion object {
         fun cptr(obj: DevicePad): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -288,7 +268,7 @@ open class DeviceTool internal constructor (private val cptr: CPointer<GdkDevice
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5130880UL
+        const val G_TYPE: gtk3.GType = 42949440UL
         fun cptr(obj: DeviceTool): CPointer<GdkDeviceTool> = obj.cptr
     }
 }
@@ -326,9 +306,6 @@ open class Display internal constructor (private val cptr: CPointer<GdkDisplay>)
     open fun getDefaultSeat(): Seat {
          return stub()
     }
-    open fun getDeviceManager(): DeviceManager {
-         return stub()
-    }
     open fun getEvent(): Event {
          return stub()
     }
@@ -347,34 +324,16 @@ open class Display internal constructor (private val cptr: CPointer<GdkDisplay>)
     open fun getNMonitors(): Int {
          return stub()
     }
-    open fun getNScreens(): Int {
-         return stub()
-    }
     open fun getName(): String {
          return stub()
     }
-    open fun getPointer(screen: Screen, x: Int, y: Int, mask: ModifierType): Unit {
-         return stub()
-    }
     open fun getPrimaryMonitor(): Monitor {
-         return stub()
-    }
-    open fun getScreen(screen_num: Int): Screen {
-         return stub()
-    }
-    open fun getWindowAtPointer(win_x: Int, win_y: Int): Window {
          return stub()
     }
     open fun hasPending(): Boolean {
          return stub()
     }
     open fun isClosed(): Boolean {
-         return stub()
-    }
-    open fun keyboardUngrab(time_: UInt): Unit {
-         return stub()
-    }
-    open fun listDevices(): List<Device> {
          return stub()
     }
     open fun listSeats(): List<Seat> {
@@ -384,12 +343,6 @@ open class Display internal constructor (private val cptr: CPointer<GdkDisplay>)
          return stub()
     }
     open fun peekEvent(): Event {
-         return stub()
-    }
-    open fun pointerIsGrabbed(): Boolean {
-         return stub()
-    }
-    open fun pointerUngrab(time_: UInt): Unit {
          return stub()
     }
     open fun putEvent(event: Event): Unit {
@@ -410,9 +363,6 @@ open class Display internal constructor (private val cptr: CPointer<GdkDisplay>)
     open fun supportsClipboardPersistence(): Boolean {
          return stub()
     }
-    open fun supportsComposite(): Boolean {
-         return stub()
-    }
     open fun supportsCursorAlpha(): Boolean {
          return stub()
     }
@@ -429,9 +379,6 @@ open class Display internal constructor (private val cptr: CPointer<GdkDisplay>)
          return stub()
     }
     open fun sync(): Unit {
-         return stub()
-    }
-    open fun warpPointer(screen: Screen, x: Int, y: Int): Unit {
          return stub()
     }
     fun setOnClosed(cb: () -> Unit) {
@@ -459,15 +406,12 @@ open class Display internal constructor (private val cptr: CPointer<GdkDisplay>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5277216UL
+        const val G_TYPE: gtk3.GType = 32800448UL
         fun cptr(obj: Display): CPointer<GdkDisplay> = obj.cptr
         fun getDefault(): Display {
     return stub()
 }
         fun open(display_name: String): Display {
-    return stub()
-}
-        fun openDefaultLibgtkOnly(): Display {
     return stub()
 }
     }
@@ -492,7 +436,7 @@ open class DisplayManager internal constructor (private val cptr: CPointer<GdkDi
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 7143328UL
+        const val G_TYPE: gtk3.GType = 30931200UL
         fun cptr(obj: DisplayManager): CPointer<GdkDisplayManager> = obj.cptr
         fun get(): DisplayManager {
     return stub()
@@ -559,7 +503,7 @@ open class DragContext internal constructor (private val cptr: CPointer<GdkDragC
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5661296UL
+        const val G_TYPE: gtk3.GType = 35881264UL
         fun cptr(obj: DragContext): CPointer<GdkDragContext> = obj.cptr
     }
 }
@@ -581,7 +525,7 @@ open class DrawingContext internal constructor (private val cptr: CPointer<GdkDr
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4878832UL
+        const val G_TYPE: gtk3.GType = 30549776UL
         fun cptr(obj: DrawingContext): CPointer<GdkDrawingContext> = obj.cptr
     }
 }
@@ -934,7 +878,7 @@ open class FrameClock internal constructor (private val cptr: CPointer<GdkFrameC
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 7245440UL
+        const val G_TYPE: gtk3.GType = 32112976UL
         fun cptr(obj: FrameClock): CPointer<GdkFrameClock> = obj.cptr
     }
 }
@@ -1027,7 +971,7 @@ open class GLContext internal constructor (private val cptr: CPointer<GdkGLConte
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4925568UL
+        const val G_TYPE: gtk3.GType = 38394736UL
         fun cptr(obj: GLContext): CPointer<GdkGLContext> = obj.cptr
         fun clearCurrent(): Unit {
     return stub()
@@ -5666,11 +5610,8 @@ open class Keymap internal constructor (private val cptr: CPointer<GdkKeymap>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4947152UL
+        const val G_TYPE: gtk3.GType = 36239248UL
         fun cptr(obj: Keymap): CPointer<GdkKeymap> = obj.cptr
-        fun getDefault(): Keymap {
-    return stub()
-}
         fun getForDisplay(display: Display): Keymap {
     return stub()
 }
@@ -5735,7 +5676,7 @@ open class Monitor internal constructor (private val cptr: CPointer<GdkMonitor>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4329664UL
+        const val G_TYPE: gtk3.GType = 38624256UL
         fun cptr(obj: Monitor): CPointer<GdkMonitor> = obj.cptr
     }
 }
@@ -5805,52 +5746,10 @@ class Rectangle(private val cptr: CPointer<GdkRectangle>) /* struct */ {
 
 open class Screen internal constructor (private val cptr: CPointer<GdkScreen>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun getActiveWindow(): Window {
-         return stub()
-    }
     open fun getDisplay(): Display {
          return stub()
     }
     open fun getFontOptions(): com.charlag.kgtk.demo.cairo.FontOptions {
-         return stub()
-    }
-    open fun getHeight(): Int {
-         return stub()
-    }
-    open fun getHeightMm(): Int {
-         return stub()
-    }
-    open fun getMonitorAtPoint(x: Int, y: Int): Int {
-         return stub()
-    }
-    open fun getMonitorAtWindow(window: Window): Int {
-         return stub()
-    }
-    open fun getMonitorGeometry(monitor_num: Int, dest: Rectangle): Unit {
-         return stub()
-    }
-    open fun getMonitorHeightMm(monitor_num: Int): Int {
-         return stub()
-    }
-    open fun getMonitorPlugName(monitor_num: Int): String {
-         return stub()
-    }
-    open fun getMonitorScaleFactor(monitor_num: Int): Int {
-         return stub()
-    }
-    open fun getMonitorWidthMm(monitor_num: Int): Int {
-         return stub()
-    }
-    open fun getMonitorWorkarea(monitor_num: Int, dest: Rectangle): Unit {
-         return stub()
-    }
-    open fun getNMonitors(): Int {
-         return stub()
-    }
-    open fun getNumber(): Int {
-         return stub()
-    }
-    open fun getPrimaryMonitor(): Int {
          return stub()
     }
     open fun getResolution(): Double {
@@ -5871,12 +5770,6 @@ open class Screen internal constructor (private val cptr: CPointer<GdkScreen>) :
     open fun getToplevelWindows(): List<Window> {
          return stub()
     }
-    open fun getWidth(): Int {
-         return stub()
-    }
-    open fun getWidthMm(): Int {
-         return stub()
-    }
     open fun getWindowStack(): List<Window> {
          return stub()
     }
@@ -5884,9 +5777,6 @@ open class Screen internal constructor (private val cptr: CPointer<GdkScreen>) :
          return stub()
     }
     open fun listVisuals(): List<Visual> {
-         return stub()
-    }
-    open fun makeDisplayName(): String {
          return stub()
     }
     open fun setFontOptions(options: com.charlag.kgtk.demo.cairo.FontOptions): Unit {
@@ -5908,21 +5798,9 @@ open class Screen internal constructor (private val cptr: CPointer<GdkScreen>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4164128UL
+        const val G_TYPE: gtk3.GType = 31617536UL
         fun cptr(obj: Screen): CPointer<GdkScreen> = obj.cptr
         fun getDefault(): Screen {
-    return stub()
-}
-        fun height(): Int {
-    return stub()
-}
-        fun heightMm(): Int {
-    return stub()
-}
-        fun width(): Int {
-    return stub()
-}
-        fun widthMm(): Int {
     return stub()
 }
     }
@@ -5970,7 +5848,7 @@ open class Seat internal constructor (private val cptr: CPointer<GdkSeat>) : com
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5714544UL
+        const val G_TYPE: gtk3.GType = 30548992UL
         fun cptr(obj: Seat): CPointer<GdkSeat> = obj.cptr
     }
 }
@@ -5997,16 +5875,7 @@ typealias VisibilityState = GdkVisibilityState
 
 open class Visual internal constructor (private val cptr: CPointer<GdkVisual>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun getBitsPerRgb(): Int {
-         return stub()
-    }
     open fun getBluePixelDetails(mask: UInt, shift: Int, precision: Int): Unit {
-         return stub()
-    }
-    open fun getByteOrder(): ByteOrder {
-         return stub()
-    }
-    open fun getColormapSize(): Int {
          return stub()
     }
     open fun getDepth(): Int {
@@ -6025,29 +5894,8 @@ open class Visual internal constructor (private val cptr: CPointer<GdkVisual>) :
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6301264UL
+        const val G_TYPE: gtk3.GType = 33177648UL
         fun cptr(obj: Visual): CPointer<GdkVisual> = obj.cptr
-        fun getBest(): Visual {
-    return stub()
-}
-        fun getBestDepth(): Int {
-    return stub()
-}
-        fun getBestType(): VisualType {
-    return stub()
-}
-        fun getBestWithBoth(depth: Int, visual_type: VisualType): Visual {
-    return stub()
-}
-        fun getBestWithDepth(depth: Int): Visual {
-    return stub()
-}
-        fun getBestWithType(visual_type: VisualType): Visual {
-    return stub()
-}
-        fun getSystem(): Visual {
-    return stub()
-}
     }
 }
 
@@ -6073,19 +5921,10 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     open fun beginMoveDragForDevice(device: Device, button: Int, root_x: Int, root_y: Int, timestamp: UInt): Unit {
          return stub()
     }
-    open fun beginPaintRect(rectangle: Rectangle): Unit {
-         return stub()
-    }
-    open fun beginPaintRegion(region: com.charlag.kgtk.demo.cairo.Region): Unit {
-         return stub()
-    }
     open fun beginResizeDrag(edge: WindowEdge, button: Int, root_x: Int, root_y: Int, timestamp: UInt): Unit {
          return stub()
     }
     open fun beginResizeDragForDevice(edge: WindowEdge, device: Device, button: Int, root_x: Int, root_y: Int, timestamp: UInt): Unit {
-         return stub()
-    }
-    open fun configureFinished(): Unit {
          return stub()
     }
     open fun coordsFromParent(parent_x: Double, parent_y: Double, x: Double, y: Double): Unit {
@@ -6112,9 +5951,6 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     open fun destroyNotify(): Unit {
          return stub()
     }
-    open fun enableSynchronizedConfigure(): Unit {
-         return stub()
-    }
     open fun endDrawFrame(context: DrawingContext): Unit {
          return stub()
     }
@@ -6124,13 +5960,7 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     open fun ensureNative(): Boolean {
          return stub()
     }
-    open fun flush(): Unit {
-         return stub()
-    }
     open fun focus(timestamp: UInt): Unit {
-         return stub()
-    }
-    open fun freezeToplevelUpdatesLibgtkOnly(): Unit {
          return stub()
     }
     open fun freezeUpdates(): Unit {
@@ -6148,9 +5978,6 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     open fun getAcceptFocus(): Boolean {
          return stub()
     }
-    open fun getBackgroundPattern(): com.charlag.kgtk.demo.cairo.Pattern {
-         return stub()
-    }
     open fun getChildren(): List<Window> {
          return stub()
     }
@@ -6158,9 +5985,6 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
          return stub()
     }
     open fun getClipRegion(): com.charlag.kgtk.demo.cairo.Region {
-         return stub()
-    }
-    open fun getComposited(): Boolean {
          return stub()
     }
     open fun getCursor(): Cursor {
@@ -6230,9 +6054,6 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
          return stub()
     }
     open fun getPassThrough(): Boolean {
-         return stub()
-    }
-    open fun getPointer(x: Int, y: Int, mask: ModifierType): Window {
          return stub()
     }
     open fun getPosition(x: Int, y: Int): Unit {
@@ -6349,9 +6170,6 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     open fun peekChildren(): List<Window> {
          return stub()
     }
-    open fun processUpdates(update_children: Boolean): Unit {
-         return stub()
-    }
     open fun raise(): Unit {
          return stub()
     }
@@ -6373,22 +6191,10 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     open fun setAcceptFocus(accept_focus: Boolean): Unit {
          return stub()
     }
-    open fun setBackground(color: Color): Unit {
-         return stub()
-    }
-    open fun setBackgroundPattern(pattern: com.charlag.kgtk.demo.cairo.Pattern): Unit {
-         return stub()
-    }
-    open fun setBackgroundRgba(rgba: RGBA): Unit {
-         return stub()
-    }
     open fun setChildInputShapes(): Unit {
          return stub()
     }
     open fun setChildShapes(): Unit {
-         return stub()
-    }
-    open fun setComposited(composited: Boolean): Unit {
          return stub()
     }
     open fun setCursor(cursor: Cursor): Unit {
@@ -6469,9 +6275,6 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     open fun setStartupId(startup_id: String): Unit {
          return stub()
     }
-    open fun setStaticGravities(use_static: Boolean): Boolean {
-         return stub()
-    }
     open fun setSupportMultidevice(support_multidevice: Boolean): Unit {
          return stub()
     }
@@ -6503,9 +6306,6 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
          return stub()
     }
     open fun stick(): Unit {
-         return stub()
-    }
-    open fun thawToplevelUpdatesLibgtkOnly(): Unit {
          return stub()
     }
     open fun thawUpdates(): Unit {
@@ -6544,18 +6344,9 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4347344UL
+        const val G_TYPE: gtk3.GType = 35967456UL
         fun cptr(obj: Window): CPointer<GdkWindow> = obj.cptr
-        fun atPointer(win_x: Int, win_y: Int): Window {
-    return stub()
-}
         fun constrainSize(geometry: Geometry, flags: WindowHints, width: Int, height: Int, new_width: Int, new_height: Int): Unit {
-    return stub()
-}
-        fun processAllUpdates(): Unit {
-    return stub()
-}
-        fun setDebugUpdates(setting: Boolean): Unit {
     return stub()
 }
     }

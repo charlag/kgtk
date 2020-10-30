@@ -32,7 +32,7 @@ open class Binding internal constructor (private val cptr: CPointer<GBinding>) :
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5618080UL
+        const val G_TYPE: gtk3.GType = 32644560UL
         fun cptr(obj: Binding): CPointer<GBinding> = obj.cptr
     }
 }
@@ -192,7 +192,7 @@ class FlagsValue(private val cptr: CPointer<cnames.structs._GFlagsValue>) /* str
 open class InitiallyUnowned internal constructor (private val cptr: CPointer<GInitiallyUnowned>) : Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 4691408UL
+        const val G_TYPE: gtk3.GType = 31082880UL
         fun cptr(obj: InitiallyUnowned): CPointer<GInitiallyUnowned> = obj.cptr
     }
 }
@@ -287,7 +287,6 @@ open class Object internal constructor (private val cptr: CPointer<GObject>) : I
     companion object {
         const val G_TYPE: gtk3.GType = 80UL
         fun cptr(obj: Object): CPointer<GObject> = obj.cptr
-        fun newv(object_type: GType, n_parameters: UInt, parameters: List<Parameter>): Object = Object(stub<CPointer<GObject>>()) 
         fun compatControl(what: ULong, data: Any): ULong {
     return stub()
 }
@@ -385,7 +384,7 @@ open class ParamSpec internal constructor (private val cptr: CPointer<GParamSpec
 open class ParamSpecBoolean internal constructor (private val cptr: CPointer<GParamSpecBoolean>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3904416UL
+        const val G_TYPE: gtk3.GType = 30503840UL
         fun cptr(obj: ParamSpecBoolean): CPointer<GParamSpecBoolean> = obj.cptr
     }
 }
@@ -393,7 +392,7 @@ open class ParamSpecBoolean internal constructor (private val cptr: CPointer<GPa
 open class ParamSpecBoxed internal constructor (private val cptr: CPointer<GParamSpecBoxed>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3911536UL
+        const val G_TYPE: gtk3.GType = 30510960UL
         fun cptr(obj: ParamSpecBoxed): CPointer<GParamSpecBoxed> = obj.cptr
     }
 }
@@ -401,7 +400,7 @@ open class ParamSpecBoxed internal constructor (private val cptr: CPointer<GPara
 open class ParamSpecChar internal constructor (private val cptr: CPointer<GParamSpecChar>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3903840UL
+        const val G_TYPE: gtk3.GType = 30503264UL
         fun cptr(obj: ParamSpecChar): CPointer<GParamSpecChar> = obj.cptr
     }
 }
@@ -415,7 +414,7 @@ class ParamSpecClass(private val cptr: CPointer<cnames.structs._GParamSpecClass>
 open class ParamSpecDouble internal constructor (private val cptr: CPointer<GParamSpecDouble>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3910304UL
+        const val G_TYPE: gtk3.GType = 30509728UL
         fun cptr(obj: ParamSpecDouble): CPointer<GParamSpecDouble> = obj.cptr
     }
 }
@@ -423,7 +422,7 @@ open class ParamSpecDouble internal constructor (private val cptr: CPointer<GPar
 open class ParamSpecEnum internal constructor (private val cptr: CPointer<GParamSpecEnum>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3909232UL
+        const val G_TYPE: gtk3.GType = 30508656UL
         fun cptr(obj: ParamSpecEnum): CPointer<GParamSpecEnum> = obj.cptr
     }
 }
@@ -431,7 +430,7 @@ open class ParamSpecEnum internal constructor (private val cptr: CPointer<GParam
 open class ParamSpecFlags internal constructor (private val cptr: CPointer<GParamSpecFlags>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3909552UL
+        const val G_TYPE: gtk3.GType = 30508976UL
         fun cptr(obj: ParamSpecFlags): CPointer<GParamSpecFlags> = obj.cptr
     }
 }
@@ -439,7 +438,7 @@ open class ParamSpecFlags internal constructor (private val cptr: CPointer<GPara
 open class ParamSpecFloat internal constructor (private val cptr: CPointer<GParamSpecFloat>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3909984UL
+        const val G_TYPE: gtk3.GType = 30509408UL
         fun cptr(obj: ParamSpecFloat): CPointer<GParamSpecFloat> = obj.cptr
     }
 }
@@ -447,7 +446,7 @@ open class ParamSpecFloat internal constructor (private val cptr: CPointer<GPara
 open class ParamSpecGType internal constructor (private val cptr: CPointer<GParamSpecGType>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3915984UL
+        const val G_TYPE: gtk3.GType = 30515408UL
         fun cptr(obj: ParamSpecGType): CPointer<GParamSpecGType> = obj.cptr
     }
 }
@@ -455,7 +454,7 @@ open class ParamSpecGType internal constructor (private val cptr: CPointer<GPara
 open class ParamSpecInt internal constructor (private val cptr: CPointer<GParamSpecInt>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3904688UL
+        const val G_TYPE: gtk3.GType = 30504112UL
         fun cptr(obj: ParamSpecInt): CPointer<GParamSpecInt> = obj.cptr
     }
 }
@@ -463,7 +462,7 @@ open class ParamSpecInt internal constructor (private val cptr: CPointer<GParamS
 open class ParamSpecInt64 internal constructor (private val cptr: CPointer<GParamSpecInt64>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3907024UL
+        const val G_TYPE: gtk3.GType = 30506448UL
         fun cptr(obj: ParamSpecInt64): CPointer<GParamSpecInt64> = obj.cptr
     }
 }
@@ -471,7 +470,7 @@ open class ParamSpecInt64 internal constructor (private val cptr: CPointer<GPara
 open class ParamSpecLong internal constructor (private val cptr: CPointer<GParamSpecLong>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3906400UL
+        const val G_TYPE: gtk3.GType = 30505824UL
         fun cptr(obj: ParamSpecLong): CPointer<GParamSpecLong> = obj.cptr
     }
 }
@@ -479,7 +478,7 @@ open class ParamSpecLong internal constructor (private val cptr: CPointer<GParam
 open class ParamSpecObject internal constructor (private val cptr: CPointer<GParamSpecObject>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3914928UL
+        const val G_TYPE: gtk3.GType = 30514352UL
         fun cptr(obj: ParamSpecObject): CPointer<GParamSpecObject> = obj.cptr
     }
 }
@@ -487,7 +486,7 @@ open class ParamSpecObject internal constructor (private val cptr: CPointer<GPar
 open class ParamSpecOverride internal constructor (private val cptr: CPointer<GParamSpecOverride>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3915424UL
+        const val G_TYPE: gtk3.GType = 30514848UL
         fun cptr(obj: ParamSpecOverride): CPointer<GParamSpecOverride> = obj.cptr
     }
 }
@@ -495,7 +494,7 @@ open class ParamSpecOverride internal constructor (private val cptr: CPointer<GP
 open class ParamSpecParam internal constructor (private val cptr: CPointer<GParamSpecParam>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3911072UL
+        const val G_TYPE: gtk3.GType = 30510496UL
         fun cptr(obj: ParamSpecParam): CPointer<GParamSpecParam> = obj.cptr
     }
 }
@@ -503,7 +502,7 @@ open class ParamSpecParam internal constructor (private val cptr: CPointer<GPara
 open class ParamSpecPointer internal constructor (private val cptr: CPointer<GParamSpecPointer>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3911856UL
+        const val G_TYPE: gtk3.GType = 30511280UL
         fun cptr(obj: ParamSpecPointer): CPointer<GParamSpecPointer> = obj.cptr
     }
 }
@@ -535,7 +534,7 @@ class ParamSpecPool(private val cptr: CPointer<cnames.structs._GParamSpecPool>) 
 open class ParamSpecString internal constructor (private val cptr: CPointer<GParamSpecString>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3910752UL
+        const val G_TYPE: gtk3.GType = 30510176UL
         fun cptr(obj: ParamSpecString): CPointer<GParamSpecString> = obj.cptr
     }
 }
@@ -549,7 +548,7 @@ class ParamSpecTypeInfo(private val cptr: CPointer<cnames.structs._GParamSpecTyp
 open class ParamSpecUChar internal constructor (private val cptr: CPointer<GParamSpecUChar>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3904144UL
+        const val G_TYPE: gtk3.GType = 30503568UL
         fun cptr(obj: ParamSpecUChar): CPointer<GParamSpecUChar> = obj.cptr
     }
 }
@@ -557,7 +556,7 @@ open class ParamSpecUChar internal constructor (private val cptr: CPointer<GPara
 open class ParamSpecUInt internal constructor (private val cptr: CPointer<GParamSpecUInt>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3904976UL
+        const val G_TYPE: gtk3.GType = 30504400UL
         fun cptr(obj: ParamSpecUInt): CPointer<GParamSpecUInt> = obj.cptr
     }
 }
@@ -565,7 +564,7 @@ open class ParamSpecUInt internal constructor (private val cptr: CPointer<GParam
 open class ParamSpecUInt64 internal constructor (private val cptr: CPointer<GParamSpecUInt64>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3907424UL
+        const val G_TYPE: gtk3.GType = 30506848UL
         fun cptr(obj: ParamSpecUInt64): CPointer<GParamSpecUInt64> = obj.cptr
     }
 }
@@ -573,7 +572,7 @@ open class ParamSpecUInt64 internal constructor (private val cptr: CPointer<GPar
 open class ParamSpecULong internal constructor (private val cptr: CPointer<GParamSpecULong>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3906704UL
+        const val G_TYPE: gtk3.GType = 30506128UL
         fun cptr(obj: ParamSpecULong): CPointer<GParamSpecULong> = obj.cptr
     }
 }
@@ -581,7 +580,7 @@ open class ParamSpecULong internal constructor (private val cptr: CPointer<GPara
 open class ParamSpecUnichar internal constructor (private val cptr: CPointer<GParamSpecUnichar>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3908816UL
+        const val G_TYPE: gtk3.GType = 30508240UL
         fun cptr(obj: ParamSpecUnichar): CPointer<GParamSpecUnichar> = obj.cptr
     }
 }
@@ -589,7 +588,7 @@ open class ParamSpecUnichar internal constructor (private val cptr: CPointer<GPa
 open class ParamSpecValueArray internal constructor (private val cptr: CPointer<GParamSpecValueArray>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3914608UL
+        const val G_TYPE: gtk3.GType = 30514032UL
         fun cptr(obj: ParamSpecValueArray): CPointer<GParamSpecValueArray> = obj.cptr
     }
 }
@@ -597,7 +596,7 @@ open class ParamSpecValueArray internal constructor (private val cptr: CPointer<
 open class ParamSpecVariant internal constructor (private val cptr: CPointer<GParamSpecVariant>) : ParamSpec(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 3916496UL
+        const val G_TYPE: gtk3.GType = 30515920UL
         fun cptr(obj: ParamSpecVariant): CPointer<GParamSpecVariant> = obj.cptr
     }
 }
@@ -755,14 +754,14 @@ open class TypeModule internal constructor (private val cptr: CPointer<GTypeModu
     open fun setName(`name`: String): Unit {
          return stub()
     }
-    open fun unuse(): Unit {
+    override fun unuse(): Unit {
          return stub()
     }
-    open fun use(): Boolean {
+    override fun use(): Boolean {
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4232464UL
+        const val G_TYPE: gtk3.GType = 31621552UL
         fun cptr(obj: TypeModule): CPointer<GTypeModule> = obj.cptr
     }
 }
@@ -774,6 +773,14 @@ class TypeModuleClass(private val cptr: CPointer<cnames.structs._GTypeModuleClas
 }
 
 interface TypePlugin : InteropWrapper {
+    fun completeInterfaceInfo(instance_type: GType, interface_type: GType, info: InterfaceInfo): Unit = stub("TypePlugin default impl")
+
+    fun completeTypeInfo(g_type: GType, info: TypeInfo, value_table: TypeValueTable): Unit = stub("TypePlugin default impl")
+
+    fun unuse(): Unit = stub("TypePlugin default impl")
+
+    fun use(): Any = stub("use(): Incompatible override")
+
     companion object {
         fun cptr(obj: TypePlugin): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }

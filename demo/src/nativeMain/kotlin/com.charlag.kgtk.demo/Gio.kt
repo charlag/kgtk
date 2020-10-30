@@ -8,6 +8,28 @@ import kotlinx.cinterop.*
 import com.charlag.kgtk.demo.prelude.GType
 
 interface Action : InteropWrapper {
+    fun nameIsValid(action_name: String): Boolean = stub("Action default impl")
+
+    fun parseDetailedName(detailed_name: String, action_name: String, target_value: com.charlag.kgtk.demo.glib.Variant): Boolean = stub("Action default impl")
+
+    fun printDetailedName(action_name: String, target_value: com.charlag.kgtk.demo.glib.Variant): String = stub("Action default impl")
+
+    fun activate(parameter: com.charlag.kgtk.demo.glib.Variant): Unit = stub("Action default impl")
+
+    fun changeState(value: com.charlag.kgtk.demo.glib.Variant): Unit = stub("Action default impl")
+
+    fun getEnabled(): Boolean = stub("Action default impl")
+
+    fun getName(): String = stub("Action default impl")
+
+    fun getParameterType(): com.charlag.kgtk.demo.glib.VariantType = stub("Action default impl")
+
+    fun getState(): com.charlag.kgtk.demo.glib.Variant = stub("Action default impl")
+
+    fun getStateHint(): com.charlag.kgtk.demo.glib.Variant = stub("Action default impl")
+
+    fun getStateType(): com.charlag.kgtk.demo.glib.VariantType = stub("Action default impl")
+
     companion object {
         fun cptr(obj: Action): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -24,6 +46,34 @@ class ActionEntry(private val cptr: CPointer<cnames.structs._GActionEntry>) /* s
 }
 
 interface ActionGroup : InteropWrapper {
+    fun actionAdded(action_name: String): Unit = stub("ActionGroup default impl")
+
+    fun actionEnabledChanged(action_name: String, enabled: Boolean): Unit = stub("ActionGroup default impl")
+
+    fun actionRemoved(action_name: String): Unit = stub("ActionGroup default impl")
+
+    fun actionStateChanged(action_name: String, state: com.charlag.kgtk.demo.glib.Variant): Unit = stub("ActionGroup default impl")
+
+    fun activateAction(action_name: String, parameter: com.charlag.kgtk.demo.glib.Variant): Unit = stub("ActionGroup default impl")
+
+    fun changeActionState(action_name: String, value: com.charlag.kgtk.demo.glib.Variant): Unit = stub("ActionGroup default impl")
+
+    fun getActionEnabled(action_name: String): Boolean = stub("ActionGroup default impl")
+
+    fun getActionParameterType(action_name: String): com.charlag.kgtk.demo.glib.VariantType = stub("ActionGroup default impl")
+
+    fun getActionState(action_name: String): com.charlag.kgtk.demo.glib.Variant = stub("ActionGroup default impl")
+
+    fun getActionStateHint(action_name: String): com.charlag.kgtk.demo.glib.Variant = stub("ActionGroup default impl")
+
+    fun getActionStateType(action_name: String): com.charlag.kgtk.demo.glib.VariantType = stub("ActionGroup default impl")
+
+    fun hasAction(action_name: String): Boolean = stub("ActionGroup default impl")
+
+    fun listActions(): List<String> = stub("ActionGroup default impl")
+
+    fun queryAction(action_name: String, enabled: Boolean, parameter_type: com.charlag.kgtk.demo.glib.VariantType, state_type: com.charlag.kgtk.demo.glib.VariantType, state_hint: com.charlag.kgtk.demo.glib.Variant, state: com.charlag.kgtk.demo.glib.Variant): Boolean = stub("ActionGroup default impl")
+
     companion object {
         fun cptr(obj: ActionGroup): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -46,6 +96,14 @@ class ActionInterface(private val cptr: CPointer<cnames.structs._GActionInterfac
 }
 
 interface ActionMap : InteropWrapper {
+    fun addAction(action: Action): Unit = stub("ActionMap default impl")
+
+    fun addActionEntries(entries: List<ActionEntry>, n_entries: Int, user_data: Any): Unit = stub("ActionMap default impl")
+
+    fun lookupAction(action_name: String): Action = stub("ActionMap default impl")
+
+    fun removeAction(action_name: String): Unit = stub("ActionMap default impl")
+
     companion object {
         fun cptr(obj: ActionMap): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -62,6 +120,78 @@ class ActionMapInterface(private val cptr: CPointer<cnames.structs._GActionMapIn
 }
 
 interface AppInfo : InteropWrapper {
+    fun createFromCommandline(commandline: String, application_name: String, flags: AppInfoCreateFlags): AppInfo = stub("AppInfo default impl")
+
+    fun getAll(): List<AppInfo> = stub("AppInfo default impl")
+
+    fun getAllForType(content_type: String): List<AppInfo> = stub("AppInfo default impl")
+
+    fun getDefaultForType(content_type: String, must_support_uris: Boolean): AppInfo = stub("AppInfo default impl")
+
+    fun getDefaultForUriScheme(uri_scheme: String): AppInfo = stub("AppInfo default impl")
+
+    fun getFallbackForType(content_type: String): List<AppInfo> = stub("AppInfo default impl")
+
+    fun getRecommendedForType(content_type: String): List<AppInfo> = stub("AppInfo default impl")
+
+    fun launchDefaultForUri(uri: String, context: AppLaunchContext): Boolean = stub("AppInfo default impl")
+
+    fun launchDefaultForUriAsync(uri: String, context: AppLaunchContext, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("AppInfo default impl")
+
+    fun launchDefaultForUriFinish(result: AsyncResult): Boolean = stub("AppInfo default impl")
+
+    fun resetTypeAssociations(content_type: String): Unit = stub("AppInfo default impl")
+
+    fun addSupportsType(content_type: String): Boolean = stub("AppInfo default impl")
+
+    fun canDelete(): Boolean = stub("AppInfo default impl")
+
+    fun canRemoveSupportsType(): Boolean = stub("AppInfo default impl")
+
+    fun delete(): Boolean = stub("AppInfo default impl")
+
+    fun dup(): AppInfo = stub("AppInfo default impl")
+
+    fun equal(appinfo2: AppInfo): Boolean = stub("AppInfo default impl")
+
+    fun getCommandline(): String = stub("AppInfo default impl")
+
+    fun getDescription(): String = stub("AppInfo default impl")
+
+    fun getDisplayName(): String = stub("AppInfo default impl")
+
+    fun getExecutable(): String = stub("AppInfo default impl")
+
+    fun getIcon(): Icon = stub("AppInfo default impl")
+
+    fun getId(): String = stub("AppInfo default impl")
+
+    fun getName(): String = stub("AppInfo default impl")
+
+    fun getSupportedTypes(): List<String> = stub("AppInfo default impl")
+
+    fun launch(files: List<File>, context: AppLaunchContext): Boolean = stub("AppInfo default impl")
+
+    fun launchUris(uris: List<String>, context: AppLaunchContext): Boolean = stub("AppInfo default impl")
+
+    fun launchUrisAsync(uris: List<String>, context: AppLaunchContext, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("AppInfo default impl")
+
+    fun launchUrisFinish(result: AsyncResult): Boolean = stub("AppInfo default impl")
+
+    fun removeSupportsType(content_type: String): Boolean = stub("AppInfo default impl")
+
+    fun setAsDefaultForExtension(extension: String): Boolean = stub("AppInfo default impl")
+
+    fun setAsDefaultForType(content_type: String): Boolean = stub("AppInfo default impl")
+
+    fun setAsLastUsedForType(content_type: String): Boolean = stub("AppInfo default impl")
+
+    fun shouldShow(): Boolean = stub("AppInfo default impl")
+
+    fun supportsFiles(): Boolean = stub("AppInfo default impl")
+
+    fun supportsUris(): Boolean = stub("AppInfo default impl")
+
     companion object {
         fun cptr(obj: AppInfo): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -86,7 +216,7 @@ open class AppInfoMonitor internal constructor (private val cptr: CPointer<GAppI
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6630880UL
+        const val G_TYPE: gtk3.GType = 32311456UL
         fun cptr(obj: AppInfoMonitor): CPointer<GAppInfoMonitor> = obj.cptr
         fun get(): AppInfoMonitor {
     return stub()
@@ -125,7 +255,7 @@ open class AppLaunchContext internal constructor (private val cptr: CPointer<GAp
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5539136UL
+        const val G_TYPE: gtk3.GType = 33773456UL
         fun cptr(obj: AppLaunchContext): CPointer<GAppLaunchContext> = obj.cptr
     }
 }
@@ -211,9 +341,6 @@ open class Application internal constructor (private val cptr: CPointer<GApplica
     open fun sendNotification(id: String, notification: Notification): Unit {
          return memScoped { g_application_send_notification(cptr, id, Notification.cptr(notification))!! }
     }
-    open fun setActionGroup(action_group: ActionGroup): Unit {
-         return memScoped { g_application_set_action_group(cptr, stub("Passing interfaces"))!! }
-    }
     open fun setApplicationId(application_id: String): Unit {
          return memScoped { g_application_set_application_id(cptr, application_id)!! }
     }
@@ -276,7 +403,7 @@ open class Application internal constructor (private val cptr: CPointer<GApplica
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5246512UL
+        const val G_TYPE: gtk3.GType = 30879744UL
         fun cptr(obj: Application): CPointer<GApplication> = obj.cptr
         fun getDefault(): Application {
     return Application(memScoped { g_application_get_default()!! })
@@ -329,7 +456,7 @@ open class ApplicationCommandLine internal constructor (private val cptr: CPoint
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6418288UL
+        const val G_TYPE: gtk3.GType = 31580256UL
         fun cptr(obj: ApplicationCommandLine): CPointer<GApplicationCommandLine> = obj.cptr
     }
 }
@@ -345,6 +472,12 @@ typealias ApplicationFlags = GApplicationFlags
 typealias AskPasswordFlags = GAskPasswordFlags
 
 interface AsyncInitable : InteropWrapper {
+    fun initAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("AsyncInitable default impl")
+
+    fun initFinish(res: AsyncResult): Boolean = stub("AsyncInitable default impl")
+
+    fun newFinish(res: AsyncResult): com.charlag.kgtk.demo.gobject.Object = stub("AsyncInitable default impl")
+
     companion object {
         fun cptr(obj: AsyncInitable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -363,6 +496,14 @@ class AsyncInitableIface(private val cptr: CPointer<cnames.structs._GAsyncInitab
 typealias AsyncReadyCallback = (source_object:  com.charlag.kgtk.demo.gobject.Object, res:  AsyncResult, user_data:  Any) -> Unit
 
 interface AsyncResult : InteropWrapper {
+    fun getSourceObject(): com.charlag.kgtk.demo.gobject.Object = stub("AsyncResult default impl")
+
+    fun getUserData(): Any = stub("AsyncResult default impl")
+
+    fun isTagged(source_tag: Any): Boolean = stub("AsyncResult default impl")
+
+    fun legacyPropagateError(): Boolean = stub("AsyncResult default impl")
+
     companion object {
         fun cptr(obj: AsyncResult): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -410,7 +551,7 @@ open class BufferedInputStream internal constructor (private val cptr: CPointer<
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 8604976UL
+        const val G_TYPE: gtk3.GType = 31938176UL
         fun cptr(obj: BufferedInputStream): CPointer<GBufferedInputStream> = obj.cptr
         fun newSized(base_stream: InputStream, size: ULong): BufferedInputStream = BufferedInputStream(stub<CPointer<GBufferedInputStream>>()) 
     }
@@ -439,7 +580,7 @@ open class BufferedOutputStream internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5271712UL
+        const val G_TYPE: gtk3.GType = 31911648UL
         fun cptr(obj: BufferedOutputStream): CPointer<GBufferedOutputStream> = obj.cptr
         fun newSized(base_stream: OutputStream, size: ULong): BufferedOutputStream = BufferedOutputStream(stub<CPointer<GBufferedOutputStream>>()) 
     }
@@ -475,7 +616,7 @@ open class BytesIcon internal constructor (private val cptr: CPointer<GBytesIcon
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6180864UL
+        const val G_TYPE: gtk3.GType = 31301696UL
         fun cptr(obj: BytesIcon): CPointer<GBytesIcon> = obj.cptr
     }
 }
@@ -525,7 +666,7 @@ open class Cancellable internal constructor (private val cptr: CPointer<GCancell
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5906816UL
+        const val G_TYPE: gtk3.GType = 33390256UL
         fun cptr(obj: Cancellable): CPointer<GCancellable> = obj.cptr
         fun getCurrent(): Cancellable {
     return stub()
@@ -555,7 +696,7 @@ open class CharsetConverter internal constructor (private val cptr: CPointer<GCh
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5121536UL
+        const val G_TYPE: gtk3.GType = 32572592UL
         fun cptr(obj: CharsetConverter): CPointer<GCharsetConverter> = obj.cptr
     }
 }
@@ -567,6 +708,10 @@ class CharsetConverterClass(private val cptr: CPointer<cnames.structs._GCharsetC
 }
 
 interface Converter : InteropWrapper {
+    fun convert(inbuf: List<UByte>, inbuf_size: ULong, outbuf: List<UByte>, outbuf_size: ULong, flags: ConverterFlags, bytes_read: ULong, bytes_written: ULong): ConverterResult = stub("Converter default impl")
+
+    fun reset(): Unit = stub("Converter default impl")
+
     companion object {
         fun cptr(obj: Converter): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -592,7 +737,7 @@ open class ConverterInputStream internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4050752UL
+        const val G_TYPE: gtk3.GType = 31398256UL
         fun cptr(obj: ConverterInputStream): CPointer<GConverterInputStream> = obj.cptr
     }
 }
@@ -611,7 +756,7 @@ open class ConverterOutputStream internal constructor (private val cptr: CPointe
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5756224UL
+        const val G_TYPE: gtk3.GType = 31217104UL
         fun cptr(obj: ConverterOutputStream): CPointer<GConverterOutputStream> = obj.cptr
     }
 }
@@ -647,7 +792,7 @@ open class Credentials internal constructor (private val cptr: CPointer<GCredent
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4897088UL
+        const val G_TYPE: gtk3.GType = 32326816UL
         fun cptr(obj: Credentials): CPointer<GCredentials> = obj.cptr
     }
 }
@@ -663,7 +808,7 @@ typealias CredentialsType = GCredentialsType
 open class DBusActionGroup internal constructor (private val cptr: CPointer<GDBusActionGroup>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), ActionGroup, RemoteActionGroup, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 4508384UL
+        const val G_TYPE: gtk3.GType = 39004368UL
         fun cptr(obj: DBusActionGroup): CPointer<GDBusActionGroup> = obj.cptr
         fun get(connection: DBusConnection, bus_name: String, object_path: String): DBusActionGroup {
     return stub()
@@ -717,7 +862,7 @@ open class DBusAuthObserver internal constructor (private val cptr: CPointer<GDB
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4756896UL
+        const val G_TYPE: gtk3.GType = 33448352UL
         fun cptr(obj: DBusAuthObserver): CPointer<GDBusAuthObserver> = obj.cptr
     }
 }
@@ -853,7 +998,7 @@ open class DBusConnection internal constructor (private val cptr: CPointer<GDBus
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6822976UL
+        const val G_TYPE: gtk3.GType = 35031616UL
         fun cptr(obj: DBusConnection): CPointer<GDBusConnection> = obj.cptr
         fun newFinish(res: AsyncResult): DBusConnection = DBusConnection(stub<CPointer<GDBusConnection>>()) 
         fun newForAddressFinish(res: AsyncResult): DBusConnection = DBusConnection(stub<CPointer<GDBusConnection>>()) 
@@ -879,6 +1024,12 @@ class DBusErrorEntry(private val cptr: CPointer<cnames.structs._GDBusErrorEntry>
 }
 
 interface DBusInterface : InteropWrapper {
+    fun getObject(): DBusObject = stub("DBusInterface default impl")
+
+    fun getInfo(): DBusInterfaceInfo = stub("DBusInterface default impl")
+
+    fun setObject(`object`: DBusObject): Unit = stub("DBusInterface default impl")
+
     companion object {
         fun cptr(obj: DBusInterface): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -947,7 +1098,7 @@ open class DBusInterfaceSkeleton internal constructor (private val cptr: CPointe
     open fun getFlags(): DBusInterfaceSkeletonFlags {
          return stub()
     }
-    open fun getInfo(): DBusInterfaceInfo {
+    override fun getInfo(): DBusInterfaceInfo {
          return stub()
     }
     open fun getObjectPath(): String {
@@ -973,7 +1124,7 @@ open class DBusInterfaceSkeleton internal constructor (private val cptr: CPointe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4176304UL
+        const val G_TYPE: gtk3.GType = 32329360UL
         fun cptr(obj: DBusInterfaceSkeleton): CPointer<GDBusInterfaceSkeleton> = obj.cptr
     }
 }
@@ -995,7 +1146,7 @@ class DBusInterfaceVTable(private val cptr: CPointer<cnames.structs._GDBusInterf
 open class DBusMenuModel internal constructor (private val cptr: CPointer<GDBusMenuModel>) : MenuModel(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 4357472UL
+        const val G_TYPE: gtk3.GType = 32550720UL
         fun cptr(obj: DBusMenuModel): CPointer<GDBusMenuModel> = obj.cptr
         fun get(connection: DBusConnection, bus_name: String, object_path: String): DBusMenuModel {
     return stub()
@@ -1134,7 +1285,7 @@ open class DBusMessage internal constructor (private val cptr: CPointer<GDBusMes
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5827248UL
+        const val G_TYPE: gtk3.GType = 30552656UL
         fun cptr(obj: DBusMessage): CPointer<GDBusMessage> = obj.cptr
         fun newFromBlob(blob: List<UByte>, blob_len: ULong, capabilities: DBusCapabilityFlags): DBusMessage = DBusMessage(stub<CPointer<GDBusMessage>>()) 
         fun newMethodCall(`name`: String, path: String, interface_: String, method: String): DBusMessage = DBusMessage(stub<CPointer<GDBusMessage>>()) 
@@ -1212,7 +1363,7 @@ open class DBusMethodInvocation internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 8878720UL
+        const val G_TYPE: gtk3.GType = 31037088UL
         fun cptr(obj: DBusMethodInvocation): CPointer<GDBusMethodInvocation> = obj.cptr
     }
 }
@@ -1239,6 +1390,12 @@ class DBusNodeInfo(private val cptr: CPointer<cnames.structs._GDBusNodeInfo>) /*
 }
 
 interface DBusObject : InteropWrapper {
+    fun getInterface(interface_name: String): DBusInterface = stub("DBusObject default impl")
+
+    fun getInterfaces(): List<DBusInterface> = stub("DBusObject default impl")
+
+    fun getObjectPath(): String = stub("DBusObject default impl")
+
     companion object {
         fun cptr(obj: DBusObject): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1255,6 +1412,14 @@ class DBusObjectIface(private val cptr: CPointer<cnames.structs._GDBusObjectIfac
 }
 
 interface DBusObjectManager : InteropWrapper {
+    fun getInterface(object_path: String, interface_name: String): DBusInterface = stub("DBusObjectManager default impl")
+
+    fun getObject(object_path: String): DBusObject = stub("DBusObjectManager default impl")
+
+    fun getObjectPath(): String = stub("DBusObjectManager default impl")
+
+    fun getObjects(): List<DBusObject> = stub("DBusObjectManager default impl")
+
     companion object {
         fun cptr(obj: DBusObjectManager): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1287,7 +1452,7 @@ open class DBusObjectManagerClient internal constructor (private val cptr: CPoin
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 3979120UL
+        const val G_TYPE: gtk3.GType = 34015824UL
         fun cptr(obj: DBusObjectManagerClient): CPointer<GDBusObjectManagerClient> = obj.cptr
         fun newFinish(res: AsyncResult): DBusObjectManagerClient = DBusObjectManagerClient(stub<CPointer<GDBusObjectManagerClient>>()) 
         fun newForBusFinish(res: AsyncResult): DBusObjectManagerClient = DBusObjectManagerClient(stub<CPointer<GDBusObjectManagerClient>>()) 
@@ -1339,7 +1504,7 @@ open class DBusObjectManagerServer internal constructor (private val cptr: CPoin
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6232064UL
+        const val G_TYPE: gtk3.GType = 37635792UL
         fun cptr(obj: DBusObjectManagerServer): CPointer<GDBusObjectManagerServer> = obj.cptr
     }
 }
@@ -1358,7 +1523,7 @@ open class DBusObjectProxy internal constructor (private val cptr: CPointer<GDBu
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5668256UL
+        const val G_TYPE: gtk3.GType = 39150448UL
         fun cptr(obj: DBusObjectProxy): CPointer<GDBusObjectProxy> = obj.cptr
     }
 }
@@ -1393,7 +1558,7 @@ open class DBusObjectSkeleton internal constructor (private val cptr: CPointer<G
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4986528UL
+        const val G_TYPE: gtk3.GType = 33689440UL
         fun cptr(obj: DBusObjectSkeleton): CPointer<GDBusObjectSkeleton> = obj.cptr
     }
 }
@@ -1486,7 +1651,7 @@ open class DBusProxy internal constructor (private val cptr: CPointer<GDBusProxy
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5166064UL
+        const val G_TYPE: gtk3.GType = 36049536UL
         fun cptr(obj: DBusProxy): CPointer<GDBusProxy> = obj.cptr
         fun newFinish(res: AsyncResult): DBusProxy = DBusProxy(stub<CPointer<GDBusProxy>>()) 
         fun newForBusFinish(res: AsyncResult): DBusProxy = DBusProxy(stub<CPointer<GDBusProxy>>()) 
@@ -1538,7 +1703,7 @@ open class DBusServer internal constructor (private val cptr: CPointer<GDBusServ
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4258480UL
+        const val G_TYPE: gtk3.GType = 38661824UL
         fun cptr(obj: DBusServer): CPointer<GDBusServer> = obj.cptr
         fun newSync(address: String, flags: DBusServerFlags, guid: String, observer: DBusAuthObserver, cancellable: Cancellable): DBusServer = DBusServer(stub<CPointer<GDBusServer>>()) 
     }
@@ -1613,7 +1778,7 @@ open class DataOutputStream internal constructor (private val cptr: CPointer<GDa
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4253360UL
+        const val G_TYPE: gtk3.GType = 35436992UL
         fun cptr(obj: DataOutputStream): CPointer<GDataOutputStream> = obj.cptr
     }
 }
@@ -1629,6 +1794,16 @@ typealias DataStreamByteOrder = GDataStreamByteOrder
 typealias DataStreamNewlineType = GDataStreamNewlineType
 
 interface DatagramBased : InteropWrapper {
+    fun conditionCheck(condition: com.charlag.kgtk.demo.glib.IOCondition): com.charlag.kgtk.demo.glib.IOCondition = stub("DatagramBased default impl")
+
+    fun conditionWait(condition: com.charlag.kgtk.demo.glib.IOCondition, timeout: Long, cancellable: Cancellable): Boolean = stub("DatagramBased default impl")
+
+    fun createSource(condition: com.charlag.kgtk.demo.glib.IOCondition, cancellable: Cancellable): com.charlag.kgtk.demo.glib.Source = stub("DatagramBased default impl")
+
+    fun receiveMessages(messages: List<InputMessage>, num_messages: UInt, flags: Int, timeout: Long, cancellable: Cancellable): Int = stub("DatagramBased default impl")
+
+    fun sendMessages(messages: List<OutputMessage>, num_messages: UInt, flags: Int, timeout: Long, cancellable: Cancellable): Int = stub("DatagramBased default impl")
+
     companion object {
         fun cptr(obj: DatagramBased): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1647,6 +1822,58 @@ class DatagramBasedInterface(private val cptr: CPointer<cnames.structs._GDatagra
 typealias DatagramBasedSourceFunc = (datagram_based:  DatagramBased, condition:  com.charlag.kgtk.demo.glib.IOCondition, user_data:  Any) -> Boolean
 
 interface Drive : InteropWrapper {
+    fun canEject(): Boolean = stub("Drive default impl")
+
+    fun canPollForMedia(): Boolean = stub("Drive default impl")
+
+    fun canStart(): Boolean = stub("Drive default impl")
+
+    fun canStartDegraded(): Boolean = stub("Drive default impl")
+
+    fun canStop(): Boolean = stub("Drive default impl")
+
+    fun ejectWithOperation(flags: MountUnmountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Drive default impl")
+
+    fun ejectWithOperationFinish(result: AsyncResult): Boolean = stub("Drive default impl")
+
+    fun enumerateIdentifiers(): List<String> = stub("Drive default impl")
+
+    fun getIcon(): Icon = stub("Drive default impl")
+
+    fun getIdentifier(kind: String): String = stub("Drive default impl")
+
+    fun getName(): String = stub("Drive default impl")
+
+    fun getSortKey(): String = stub("Drive default impl")
+
+    fun getStartStopType(): DriveStartStopType = stub("Drive default impl")
+
+    fun getSymbolicIcon(): Icon = stub("Drive default impl")
+
+    fun getVolumes(): List<Volume> = stub("Drive default impl")
+
+    fun hasMedia(): Boolean = stub("Drive default impl")
+
+    fun hasVolumes(): Boolean = stub("Drive default impl")
+
+    fun isMediaCheckAutomatic(): Boolean = stub("Drive default impl")
+
+    fun isMediaRemovable(): Boolean = stub("Drive default impl")
+
+    fun isRemovable(): Boolean = stub("Drive default impl")
+
+    fun pollForMedia(cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Drive default impl")
+
+    fun pollForMediaFinish(result: AsyncResult): Boolean = stub("Drive default impl")
+
+    fun start(flags: DriveStartFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Drive default impl")
+
+    fun startFinish(result: AsyncResult): Boolean = stub("Drive default impl")
+
+    fun stop(flags: MountUnmountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Drive default impl")
+
+    fun stopFinish(result: AsyncResult): Boolean = stub("Drive default impl")
+
     companion object {
         fun cptr(obj: Drive): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1666,7 +1893,19 @@ typealias DriveStartFlags = GDriveStartFlags
 
 typealias DriveStartStopType = GDriveStartStopType
 
-interface DtlsClientConnection : InteropWrapper {
+interface DtlsClientConnection : DatagramBased, DtlsConnection, InteropWrapper {
+    fun new(base_socket: DatagramBased, server_identity: SocketConnectable): DtlsClientConnection = stub("DtlsClientConnection default impl")
+
+    fun getAcceptedCas(): List<List<UByte>> = stub("DtlsClientConnection default impl")
+
+    fun getServerIdentity(): SocketConnectable = stub("DtlsClientConnection default impl")
+
+    fun getValidationFlags(): TlsCertificateFlags = stub("DtlsClientConnection default impl")
+
+    fun setServerIdentity(identity: SocketConnectable): Unit = stub("DtlsClientConnection default impl")
+
+    fun setValidationFlags(flags: TlsCertificateFlags): Unit = stub("DtlsClientConnection default impl")
+
     companion object {
         fun cptr(obj: DtlsClientConnection): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1682,7 +1921,51 @@ class DtlsClientConnectionInterface(private val cptr: CPointer<cnames.structs._G
     }
 }
 
-interface DtlsConnection : InteropWrapper {
+interface DtlsConnection : DatagramBased, InteropWrapper {
+    fun close(cancellable: Cancellable): Boolean = stub("DtlsConnection default impl")
+
+    fun closeAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("DtlsConnection default impl")
+
+    fun closeFinish(result: AsyncResult): Boolean = stub("DtlsConnection default impl")
+
+    fun emitAcceptCertificate(peer_cert: TlsCertificate, errors: TlsCertificateFlags): Boolean = stub("DtlsConnection default impl")
+
+    fun getCertificate(): TlsCertificate = stub("DtlsConnection default impl")
+
+    fun getDatabase(): TlsDatabase = stub("DtlsConnection default impl")
+
+    fun getInteraction(): TlsInteraction = stub("DtlsConnection default impl")
+
+    fun getNegotiatedProtocol(): String = stub("DtlsConnection default impl")
+
+    fun getPeerCertificate(): TlsCertificate = stub("DtlsConnection default impl")
+
+    fun getPeerCertificateErrors(): TlsCertificateFlags = stub("DtlsConnection default impl")
+
+    fun getRequireCloseNotify(): Boolean = stub("DtlsConnection default impl")
+
+    fun handshake(cancellable: Cancellable): Boolean = stub("DtlsConnection default impl")
+
+    fun handshakeAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("DtlsConnection default impl")
+
+    fun handshakeFinish(result: AsyncResult): Boolean = stub("DtlsConnection default impl")
+
+    fun setAdvertisedProtocols(protocols: List<String>): Unit = stub("DtlsConnection default impl")
+
+    fun setCertificate(certificate: TlsCertificate): Unit = stub("DtlsConnection default impl")
+
+    fun setDatabase(database: TlsDatabase): Unit = stub("DtlsConnection default impl")
+
+    fun setInteraction(interaction: TlsInteraction): Unit = stub("DtlsConnection default impl")
+
+    fun setRequireCloseNotify(require_close_notify: Boolean): Unit = stub("DtlsConnection default impl")
+
+    fun shutdown(shutdown_read: Boolean, shutdown_write: Boolean, cancellable: Cancellable): Boolean = stub("DtlsConnection default impl")
+
+    fun shutdownAsync(shutdown_read: Boolean, shutdown_write: Boolean, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("DtlsConnection default impl")
+
+    fun shutdownFinish(result: AsyncResult): Boolean = stub("DtlsConnection default impl")
+
     companion object {
         fun cptr(obj: DtlsConnection): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1698,7 +1981,9 @@ class DtlsConnectionInterface(private val cptr: CPointer<cnames.structs._GDtlsCo
     }
 }
 
-interface DtlsServerConnection : InteropWrapper {
+interface DtlsServerConnection : DatagramBased, DtlsConnection, InteropWrapper {
+    fun new(base_socket: DatagramBased, certificate: TlsCertificate): DtlsServerConnection = stub("DtlsServerConnection default impl")
+
     companion object {
         fun cptr(obj: DtlsServerConnection): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -1725,7 +2010,7 @@ open class Emblem internal constructor (private val cptr: CPointer<GEmblem>) : c
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4553248UL
+        const val G_TYPE: gtk3.GType = 31402112UL
         fun cptr(obj: Emblem): CPointer<GEmblem> = obj.cptr
         fun newWithOrigin(icon: Icon, origin: EmblemOrigin): Emblem = Emblem(stub<CPointer<GEmblem>>()) 
     }
@@ -1756,7 +2041,7 @@ open class EmblemedIcon internal constructor (private val cptr: CPointer<GEmblem
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6631040UL
+        const val G_TYPE: gtk3.GType = 34762832UL
         fun cptr(obj: EmblemedIcon): CPointer<GEmblemedIcon> = obj.cptr
     }
 }
@@ -1934,6 +2219,252 @@ val FILE_ATTRIBUTE_UNIX_RDEV: String get() = TODO()
 val FILE_ATTRIBUTE_UNIX_UID: String get() = TODO()
 
 interface File : InteropWrapper {
+    fun newForCommandlineArg(arg: String): File = stub("File default impl")
+
+    fun newForCommandlineArgAndCwd(arg: String, cwd: String): File = stub("File default impl")
+
+    fun newForPath(path: String): File = stub("File default impl")
+
+    fun newForUri(uri: String): File = stub("File default impl")
+
+    fun newTmp(tmpl: String, iostream: FileIOStream): File = stub("File default impl")
+
+    fun parseName(parse_name: String): File = stub("File default impl")
+
+    fun appendTo(flags: FileCreateFlags, cancellable: Cancellable): FileOutputStream = stub("File default impl")
+
+    fun appendToAsync(flags: FileCreateFlags, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun appendToFinish(res: AsyncResult): FileOutputStream = stub("File default impl")
+
+    fun copy(destination: File, flags: FileCopyFlags, cancellable: Cancellable, progress_callback: FileProgressCallback, progress_callback_data: Any): Boolean = stub("File default impl")
+
+    fun copyAsync(destination: File, flags: FileCopyFlags, io_priority: Int, cancellable: Cancellable, progress_callback: FileProgressCallback, progress_callback_data: Any, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun copyAttributes(destination: File, flags: FileCopyFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun copyFinish(res: AsyncResult): Boolean = stub("File default impl")
+
+    fun create(flags: FileCreateFlags, cancellable: Cancellable): FileOutputStream = stub("File default impl")
+
+    fun createAsync(flags: FileCreateFlags, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun createFinish(res: AsyncResult): FileOutputStream = stub("File default impl")
+
+    fun createReadwrite(flags: FileCreateFlags, cancellable: Cancellable): FileIOStream = stub("File default impl")
+
+    fun createReadwriteAsync(flags: FileCreateFlags, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun createReadwriteFinish(res: AsyncResult): FileIOStream = stub("File default impl")
+
+    fun delete(cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun deleteAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun deleteFinish(result: AsyncResult): Boolean = stub("File default impl")
+
+    fun dup(): File = stub("File default impl")
+
+    fun ejectMountableWithOperation(flags: MountUnmountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun ejectMountableWithOperationFinish(result: AsyncResult): Boolean = stub("File default impl")
+
+    fun enumerateChildren(attributes: String, flags: FileQueryInfoFlags, cancellable: Cancellable): FileEnumerator = stub("File default impl")
+
+    fun enumerateChildrenAsync(attributes: String, flags: FileQueryInfoFlags, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun enumerateChildrenFinish(res: AsyncResult): FileEnumerator = stub("File default impl")
+
+    fun equal(file2: File): Boolean = stub("File default impl")
+
+    fun findEnclosingMount(cancellable: Cancellable): Mount = stub("File default impl")
+
+    fun findEnclosingMountAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun findEnclosingMountFinish(res: AsyncResult): Mount = stub("File default impl")
+
+    fun getBasename(): String = stub("File default impl")
+
+    fun getChild(`name`: String): File = stub("File default impl")
+
+    fun getChildForDisplayName(display_name: String): File = stub("File default impl")
+
+    fun getParent(): File = stub("File default impl")
+
+    fun getParseName(): String = stub("File default impl")
+
+    fun getPath(): String = stub("File default impl")
+
+    fun getRelativePath(descendant: File): String = stub("File default impl")
+
+    fun getUri(): String = stub("File default impl")
+
+    fun getUriScheme(): String = stub("File default impl")
+
+    fun hasParent(parent: File): Boolean = stub("File default impl")
+
+    fun hasPrefix(prefix: File): Boolean = stub("File default impl")
+
+    fun hasUriScheme(uri_scheme: String): Boolean = stub("File default impl")
+
+    fun hash(): UInt = stub("File default impl")
+
+    fun isNative(): Boolean = stub("File default impl")
+
+    fun loadBytes(cancellable: Cancellable, etag_out: String): com.charlag.kgtk.demo.glib.Bytes = stub("File default impl")
+
+    fun loadBytesAsync(cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun loadBytesFinish(result: AsyncResult, etag_out: String): com.charlag.kgtk.demo.glib.Bytes = stub("File default impl")
+
+    fun loadContents(cancellable: Cancellable, contents: List<UByte>, length: ULong, etag_out: String): Boolean = stub("File default impl")
+
+    fun loadContentsAsync(cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun loadContentsFinish(res: AsyncResult, contents: List<UByte>, length: ULong, etag_out: String): Boolean = stub("File default impl")
+
+    fun loadPartialContentsFinish(res: AsyncResult, contents: List<UByte>, length: ULong, etag_out: String): Boolean = stub("File default impl")
+
+    fun makeDirectory(cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun makeDirectoryAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun makeDirectoryFinish(result: AsyncResult): Boolean = stub("File default impl")
+
+    fun makeDirectoryWithParents(cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun makeSymbolicLink(symlink_value: String, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun measureDiskUsageFinish(result: AsyncResult, disk_usage: ULong, num_dirs: ULong, num_files: ULong): Boolean = stub("File default impl")
+
+    fun monitor(flags: FileMonitorFlags, cancellable: Cancellable): FileMonitor = stub("File default impl")
+
+    fun monitorDirectory(flags: FileMonitorFlags, cancellable: Cancellable): FileMonitor = stub("File default impl")
+
+    fun monitorFile(flags: FileMonitorFlags, cancellable: Cancellable): FileMonitor = stub("File default impl")
+
+    fun mountEnclosingVolume(flags: MountMountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun mountEnclosingVolumeFinish(result: AsyncResult): Boolean = stub("File default impl")
+
+    fun mountMountable(flags: MountMountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun mountMountableFinish(result: AsyncResult): File = stub("File default impl")
+
+    fun move(destination: File, flags: FileCopyFlags, cancellable: Cancellable, progress_callback: FileProgressCallback, progress_callback_data: Any): Boolean = stub("File default impl")
+
+    fun openReadwrite(cancellable: Cancellable): FileIOStream = stub("File default impl")
+
+    fun openReadwriteAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun openReadwriteFinish(res: AsyncResult): FileIOStream = stub("File default impl")
+
+    fun peekPath(): String = stub("File default impl")
+
+    fun pollMountable(cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun pollMountableFinish(result: AsyncResult): Boolean = stub("File default impl")
+
+    fun queryDefaultHandler(cancellable: Cancellable): AppInfo = stub("File default impl")
+
+    fun queryDefaultHandlerAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun queryDefaultHandlerFinish(result: AsyncResult): AppInfo = stub("File default impl")
+
+    fun queryExists(cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun queryFileType(flags: FileQueryInfoFlags, cancellable: Cancellable): FileType = stub("File default impl")
+
+    fun queryFilesystemInfo(attributes: String, cancellable: Cancellable): FileInfo = stub("File default impl")
+
+    fun queryFilesystemInfoAsync(attributes: String, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun queryFilesystemInfoFinish(res: AsyncResult): FileInfo = stub("File default impl")
+
+    fun queryInfo(attributes: String, flags: FileQueryInfoFlags, cancellable: Cancellable): FileInfo = stub("File default impl")
+
+    fun queryInfoAsync(attributes: String, flags: FileQueryInfoFlags, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun queryInfoFinish(res: AsyncResult): FileInfo = stub("File default impl")
+
+    fun querySettableAttributes(cancellable: Cancellable): FileAttributeInfoList = stub("File default impl")
+
+    fun queryWritableNamespaces(cancellable: Cancellable): FileAttributeInfoList = stub("File default impl")
+
+    fun read(cancellable: Cancellable): FileInputStream = stub("File default impl")
+
+    fun readAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun readFinish(res: AsyncResult): FileInputStream = stub("File default impl")
+
+    fun replace(etag: String, make_backup: Boolean, flags: FileCreateFlags, cancellable: Cancellable): FileOutputStream = stub("File default impl")
+
+    fun replaceAsync(etag: String, make_backup: Boolean, flags: FileCreateFlags, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun replaceContents(contents: List<UByte>, length: ULong, etag: String, make_backup: Boolean, flags: FileCreateFlags, new_etag: String, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun replaceContentsAsync(contents: List<UByte>, length: ULong, etag: String, make_backup: Boolean, flags: FileCreateFlags, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun replaceContentsBytesAsync(contents: com.charlag.kgtk.demo.glib.Bytes, etag: String, make_backup: Boolean, flags: FileCreateFlags, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun replaceContentsFinish(res: AsyncResult, new_etag: String): Boolean = stub("File default impl")
+
+    fun replaceFinish(res: AsyncResult): FileOutputStream = stub("File default impl")
+
+    fun replaceReadwrite(etag: String, make_backup: Boolean, flags: FileCreateFlags, cancellable: Cancellable): FileIOStream = stub("File default impl")
+
+    fun replaceReadwriteAsync(etag: String, make_backup: Boolean, flags: FileCreateFlags, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun replaceReadwriteFinish(res: AsyncResult): FileIOStream = stub("File default impl")
+
+    fun resolveRelativePath(relative_path: String): File = stub("File default impl")
+
+    fun setAttribute(attribute: String, type: FileAttributeType, value_p: Any, flags: FileQueryInfoFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun setAttributeByteString(attribute: String, value: String, flags: FileQueryInfoFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun setAttributeInt32(attribute: String, value: Int, flags: FileQueryInfoFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun setAttributeInt64(attribute: String, value: Long, flags: FileQueryInfoFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun setAttributeString(attribute: String, value: String, flags: FileQueryInfoFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun setAttributeUint32(attribute: String, value: UInt, flags: FileQueryInfoFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun setAttributeUint64(attribute: String, value: ULong, flags: FileQueryInfoFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun setAttributesAsync(info: FileInfo, flags: FileQueryInfoFlags, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun setAttributesFinish(result: AsyncResult, info: FileInfo): Boolean = stub("File default impl")
+
+    fun setAttributesFromInfo(info: FileInfo, flags: FileQueryInfoFlags, cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun setDisplayName(display_name: String, cancellable: Cancellable): File = stub("File default impl")
+
+    fun setDisplayNameAsync(display_name: String, io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun setDisplayNameFinish(res: AsyncResult): File = stub("File default impl")
+
+    fun startMountable(flags: DriveStartFlags, start_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun startMountableFinish(result: AsyncResult): Boolean = stub("File default impl")
+
+    fun stopMountable(flags: MountUnmountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun stopMountableFinish(result: AsyncResult): Boolean = stub("File default impl")
+
+    fun supportsThreadContexts(): Boolean = stub("File default impl")
+
+    fun trash(cancellable: Cancellable): Boolean = stub("File default impl")
+
+    fun trashAsync(io_priority: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun trashFinish(result: AsyncResult): Boolean = stub("File default impl")
+
+    fun unmountMountableWithOperation(flags: MountUnmountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("File default impl")
+
+    fun unmountMountableWithOperationFinish(result: AsyncResult): Boolean = stub("File default impl")
+
     companion object {
         fun cptr(obj: File): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -2055,7 +2586,7 @@ open class FileEnumerator internal constructor (private val cptr: CPointer<GFile
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5111200UL
+        const val G_TYPE: gtk3.GType = 31195440UL
         fun cptr(obj: FileEnumerator): CPointer<GFileEnumerator> = obj.cptr
     }
 }
@@ -2081,7 +2612,7 @@ open class FileIOStream internal constructor (private val cptr: CPointer<GFileIO
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 10048896UL
+        const val G_TYPE: gtk3.GType = 32228224UL
         fun cptr(obj: FileIOStream): CPointer<GFileIOStream> = obj.cptr
     }
 }
@@ -2100,7 +2631,7 @@ open class FileIcon internal constructor (private val cptr: CPointer<GFileIcon>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4360064UL
+        const val G_TYPE: gtk3.GType = 32593088UL
         fun cptr(obj: FileIcon): CPointer<GFileIcon> = obj.cptr
     }
 }
@@ -2202,9 +2733,6 @@ open class FileInfo internal constructor (private val cptr: CPointer<GFileInfo>)
     open fun getModificationDateTime(): com.charlag.kgtk.demo.glib.DateTime {
          return stub()
     }
-    open fun getModificationTime(result: com.charlag.kgtk.demo.glib.TimeVal): Unit {
-         return stub()
-    }
     open fun getName(): String {
          return stub()
     }
@@ -2292,9 +2820,6 @@ open class FileInfo internal constructor (private val cptr: CPointer<GFileInfo>)
     open fun setModificationDateTime(mtime: com.charlag.kgtk.demo.glib.DateTime): Unit {
          return stub()
     }
-    open fun setModificationTime(mtime: com.charlag.kgtk.demo.glib.TimeVal): Unit {
-         return stub()
-    }
     open fun setName(`name`: String): Unit {
          return stub()
     }
@@ -2314,7 +2839,7 @@ open class FileInfo internal constructor (private val cptr: CPointer<GFileInfo>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5998800UL
+        const val G_TYPE: gtk3.GType = 30690304UL
         fun cptr(obj: FileInfo): CPointer<GFileInfo> = obj.cptr
     }
 }
@@ -2337,7 +2862,7 @@ open class FileInputStream internal constructor (private val cptr: CPointer<GFil
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4436368UL
+        const val G_TYPE: gtk3.GType = 31751424UL
         fun cptr(obj: FileInputStream): CPointer<GFileInputStream> = obj.cptr
     }
 }
@@ -2371,7 +2896,7 @@ open class FileMonitor internal constructor (private val cptr: CPointer<GFileMon
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4272912UL
+        const val G_TYPE: gtk3.GType = 32689008UL
         fun cptr(obj: FileMonitor): CPointer<GFileMonitor> = obj.cptr
     }
 }
@@ -2401,7 +2926,7 @@ open class FileOutputStream internal constructor (private val cptr: CPointer<GFi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4598128UL
+        const val G_TYPE: gtk3.GType = 36981616UL
         fun cptr(obj: FileOutputStream): CPointer<GFileOutputStream> = obj.cptr
     }
 }
@@ -2438,7 +2963,7 @@ open class FilenameCompleter internal constructor (private val cptr: CPointer<GF
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6450176UL
+        const val G_TYPE: gtk3.GType = 34008864UL
         fun cptr(obj: FilenameCompleter): CPointer<GFilenameCompleter> = obj.cptr
     }
 }
@@ -2463,7 +2988,7 @@ open class FilterInputStream internal constructor (private val cptr: CPointer<GF
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6032384UL
+        const val G_TYPE: gtk3.GType = 31937936UL
         fun cptr(obj: FilterInputStream): CPointer<GFilterInputStream> = obj.cptr
     }
 }
@@ -2486,7 +3011,7 @@ open class FilterOutputStream internal constructor (private val cptr: CPointer<G
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 3964736UL
+        const val G_TYPE: gtk3.GType = 31911408UL
         fun cptr(obj: FilterOutputStream): CPointer<GFilterOutputStream> = obj.cptr
     }
 }
@@ -2552,7 +3077,7 @@ open class IOModule internal constructor (private val cptr: CPointer<GIOModule>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5057984UL
+        const val G_TYPE: gtk3.GType = 32141776UL
         fun cptr(obj: IOModule): CPointer<GIOModule> = obj.cptr
         fun query(): List<String> {
     return stub()
@@ -2627,7 +3152,7 @@ open class IOStream internal constructor (private val cptr: CPointer<GIOStream>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 10048656UL
+        const val G_TYPE: gtk3.GType = 32227984UL
         fun cptr(obj: IOStream): CPointer<GIOStream> = obj.cptr
         fun spliceFinish(result: AsyncResult): Boolean {
     return stub()
@@ -2650,6 +3175,16 @@ class IOStreamClass(private val cptr: CPointer<cnames.structs._GIOStreamClass>) 
 typealias IOStreamSpliceFlags = GIOStreamSpliceFlags
 
 interface Icon : InteropWrapper {
+    fun deserialize(value: com.charlag.kgtk.demo.glib.Variant): Icon = stub("Icon default impl")
+
+    fun hash(icon: Any): UInt = stub("Icon default impl")
+
+    fun newForString(str: String): Icon = stub("Icon default impl")
+
+    fun equal(icon2: Icon): Boolean = stub("Icon default impl")
+
+    fun serialize(): com.charlag.kgtk.demo.glib.Variant = stub("Icon default impl")
+
     companion object {
         fun cptr(obj: Icon): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -2710,7 +3245,7 @@ open class InetAddress internal constructor (private val cptr: CPointer<GInetAdd
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 7210544UL
+        const val G_TYPE: gtk3.GType = 31966624UL
         fun cptr(obj: InetAddress): CPointer<GInetAddress> = obj.cptr
         fun newAny(family: SocketFamily): InetAddress = InetAddress(stub<CPointer<GInetAddress>>()) 
         fun newFromBytes(bytes: List<UByte>, family: SocketFamily): InetAddress = InetAddress(stub<CPointer<GInetAddress>>()) 
@@ -2748,7 +3283,7 @@ open class InetAddressMask internal constructor (private val cptr: CPointer<GIne
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 9408608UL
+        const val G_TYPE: gtk3.GType = 30762928UL
         fun cptr(obj: InetAddressMask): CPointer<GInetAddressMask> = obj.cptr
         fun newFromString(mask_string: String): InetAddressMask = InetAddressMask(stub<CPointer<GInetAddressMask>>()) 
     }
@@ -2777,7 +3312,7 @@ open class InetSocketAddress internal constructor (private val cptr: CPointer<GI
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 3958624UL
+        const val G_TYPE: gtk3.GType = 32212256UL
         fun cptr(obj: InetSocketAddress): CPointer<GInetSocketAddress> = obj.cptr
         fun newFromString(address: String, port: UInt): InetSocketAddress = InetSocketAddress(stub<CPointer<GInetSocketAddress>>()) 
     }
@@ -2790,6 +3325,8 @@ class InetSocketAddressClass(private val cptr: CPointer<cnames.structs._GInetSoc
 }
 
 interface Initable : InteropWrapper {
+    fun init(cancellable: Cancellable): Boolean = stub("Initable default impl")
+
     companion object {
         fun cptr(obj: Initable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -2871,7 +3408,7 @@ open class InputStream internal constructor (private val cptr: CPointer<GInputSt
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6592512UL
+        const val G_TYPE: gtk3.GType = 33038624UL
         fun cptr(obj: InputStream): CPointer<GInputStream> = obj.cptr
     }
 }
@@ -2889,6 +3426,14 @@ class InputVector(private val cptr: CPointer<cnames.structs._GInputVector>) /* s
 }
 
 interface ListModel : InteropWrapper {
+    fun getItemType(): GType = stub("ListModel default impl")
+
+    fun getNItems(): UInt = stub("ListModel default impl")
+
+    fun getItem(position: UInt): com.charlag.kgtk.demo.gobject.Object = stub("ListModel default impl")
+
+    fun itemsChanged(position: UInt, removed: UInt, added: UInt): Unit = stub("ListModel default impl")
+
     companion object {
         fun cptr(obj: ListModel): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -2936,7 +3481,7 @@ open class ListStore internal constructor (private val cptr: CPointer<GListStore
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 7003968UL
+        const val G_TYPE: gtk3.GType = 33810752UL
         fun cptr(obj: ListStore): CPointer<GListStore> = obj.cptr
     }
 }
@@ -2947,7 +3492,13 @@ class ListStoreClass(private val cptr: CPointer<cnames.structs._GListStoreClass>
     }
 }
 
-interface LoadableIcon : InteropWrapper {
+interface LoadableIcon : Icon, InteropWrapper {
+    fun load(size: Int, type: String, cancellable: Cancellable): InputStream = stub("LoadableIcon default impl")
+
+    fun loadAsync(size: Int, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("LoadableIcon default impl")
+
+    fun loadFinish(res: AsyncResult, type: String): InputStream = stub("LoadableIcon default impl")
+
     companion object {
         fun cptr(obj: LoadableIcon): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -2990,7 +3541,7 @@ open class MemoryInputStream internal constructor (private val cptr: CPointer<GM
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5126224UL
+        const val G_TYPE: gtk3.GType = 32147024UL
         fun cptr(obj: MemoryInputStream): CPointer<GMemoryInputStream> = obj.cptr
         fun newFromBytes(bytes: com.charlag.kgtk.demo.glib.Bytes): MemoryInputStream = MemoryInputStream(stub<CPointer<GMemoryInputStream>>()) 
         fun newFromData(data: List<UByte>, len: Long, destroy: com.charlag.kgtk.demo.glib.DestroyNotify): MemoryInputStream = MemoryInputStream(stub<CPointer<GMemoryInputStream>>()) 
@@ -3003,7 +3554,9 @@ class MemoryInputStreamClass(private val cptr: CPointer<cnames.structs._GMemoryI
     }
 }
 
-interface MemoryMonitor : InteropWrapper {
+interface MemoryMonitor : Initable, InteropWrapper {
+    fun dupDefault(): MemoryMonitor = stub("MemoryMonitor default impl")
+
     companion object {
         fun cptr(obj: MemoryMonitor): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3039,7 +3592,7 @@ open class MemoryOutputStream internal constructor (private val cptr: CPointer<G
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4876432UL
+        const val G_TYPE: gtk3.GType = 30909488UL
         fun cptr(obj: MemoryOutputStream): CPointer<GMemoryOutputStream> = obj.cptr
         fun newResizable(): MemoryOutputStream = MemoryOutputStream(stub<CPointer<GMemoryOutputStream>>()) 
     }
@@ -3101,7 +3654,7 @@ open class Menu internal constructor (private val cptr: CPointer<GMenu>) : MenuM
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4930640UL
+        const val G_TYPE: gtk3.GType = 32546384UL
         fun cptr(obj: Menu): CPointer<GMenu> = obj.cptr
     }
 }
@@ -3121,7 +3674,7 @@ open class MenuAttributeIter internal constructor (private val cptr: CPointer<GM
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6263888UL
+        const val G_TYPE: gtk3.GType = 31626704UL
         fun cptr(obj: MenuAttributeIter): CPointer<GMenuAttributeIter> = obj.cptr
     }
 }
@@ -3167,7 +3720,7 @@ open class MenuItem internal constructor (private val cptr: CPointer<GMenuItem>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4314528UL
+        const val G_TYPE: gtk3.GType = 31765920UL
         fun cptr(obj: MenuItem): CPointer<GMenuItem> = obj.cptr
         fun newFromModel(model: MenuModel, item_index: Int): MenuItem = MenuItem(stub<CPointer<GMenuItem>>()) 
         fun newSection(label: String, section: MenuModel): MenuItem = MenuItem(stub<CPointer<GMenuItem>>()) 
@@ -3190,7 +3743,7 @@ open class MenuLinkIter internal constructor (private val cptr: CPointer<GMenuLi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 9043344UL
+        const val G_TYPE: gtk3.GType = 31358192UL
         fun cptr(obj: MenuLinkIter): CPointer<GMenuLinkIter> = obj.cptr
     }
 }
@@ -3229,7 +3782,7 @@ open class MenuModel internal constructor (private val cptr: CPointer<GMenuModel
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6800736UL
+        const val G_TYPE: gtk3.GType = 31429312UL
         fun cptr(obj: MenuModel): CPointer<GMenuModel> = obj.cptr
     }
 }
@@ -3241,6 +3794,52 @@ class MenuModelClass(private val cptr: CPointer<cnames.structs._GMenuModelClass>
 }
 
 interface Mount : InteropWrapper {
+    fun canEject(): Boolean = stub("Mount default impl")
+
+    fun canUnmount(): Boolean = stub("Mount default impl")
+
+    fun ejectWithOperation(flags: MountUnmountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Mount default impl")
+
+    fun ejectWithOperationFinish(result: AsyncResult): Boolean = stub("Mount default impl")
+
+    fun getDefaultLocation(): File = stub("Mount default impl")
+
+    fun getDrive(): Drive = stub("Mount default impl")
+
+    fun getIcon(): Icon = stub("Mount default impl")
+
+    fun getName(): String = stub("Mount default impl")
+
+    fun getRoot(): File = stub("Mount default impl")
+
+    fun getSortKey(): String = stub("Mount default impl")
+
+    fun getSymbolicIcon(): Icon = stub("Mount default impl")
+
+    fun getUuid(): String = stub("Mount default impl")
+
+    fun getVolume(): Volume = stub("Mount default impl")
+
+    fun guessContentType(force_rescan: Boolean, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Mount default impl")
+
+    fun guessContentTypeFinish(result: AsyncResult): List<String> = stub("Mount default impl")
+
+    fun guessContentTypeSync(force_rescan: Boolean, cancellable: Cancellable): List<String> = stub("Mount default impl")
+
+    fun isShadowed(): Boolean = stub("Mount default impl")
+
+    fun remount(flags: MountMountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Mount default impl")
+
+    fun remountFinish(result: AsyncResult): Boolean = stub("Mount default impl")
+
+    fun shadow(): Unit = stub("Mount default impl")
+
+    fun unmountWithOperation(flags: MountUnmountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Mount default impl")
+
+    fun unmountWithOperationFinish(result: AsyncResult): Boolean = stub("Mount default impl")
+
+    fun unshadow(): Unit = stub("Mount default impl")
+
     companion object {
         fun cptr(obj: Mount): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3344,7 +3943,7 @@ open class MountOperation internal constructor (private val cptr: CPointer<GMoun
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4842176UL
+        const val G_TYPE: gtk3.GType = 31857664UL
         fun cptr(obj: MountOperation): CPointer<GMountOperation> = obj.cptr
     }
 }
@@ -3368,7 +3967,7 @@ open class NativeSocketAddress internal constructor (private val cptr: CPointer<
     constructor(native: Any, len: ULong) : this(stub<CPointer<GNativeSocketAddress>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 8964912UL
+        const val G_TYPE: gtk3.GType = 35742768UL
         fun cptr(obj: NativeSocketAddress): CPointer<GNativeSocketAddress> = obj.cptr
     }
 }
@@ -3382,7 +3981,7 @@ class NativeSocketAddressClass(private val cptr: CPointer<cnames.structs._GNativ
 open class NativeVolumeMonitor internal constructor (private val cptr: CPointer<GNativeVolumeMonitor>) : VolumeMonitor(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 6181776UL
+        const val G_TYPE: gtk3.GType = 31484160UL
         fun cptr(obj: NativeVolumeMonitor): CPointer<GNativeVolumeMonitor> = obj.cptr
     }
 }
@@ -3407,7 +4006,7 @@ open class NetworkAddress internal constructor (private val cptr: CPointer<GNetw
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5382736UL
+        const val G_TYPE: gtk3.GType = 38235920UL
         fun cptr(obj: NetworkAddress): CPointer<GNetworkAddress> = obj.cptr
         fun newLoopback(port: UShort): NetworkAddress = NetworkAddress(stub<CPointer<GNetworkAddress>>()) 
         fun parse(host_and_port: String, default_port: UShort): NetworkAddress {
@@ -3427,7 +4026,21 @@ class NetworkAddressClass(private val cptr: CPointer<cnames.structs._GNetworkAdd
 
 typealias NetworkConnectivity = GNetworkConnectivity
 
-interface NetworkMonitor : InteropWrapper {
+interface NetworkMonitor : Initable, InteropWrapper {
+    fun getDefault(): NetworkMonitor = stub("NetworkMonitor default impl")
+
+    fun canReach(connectable: SocketConnectable, cancellable: Cancellable): Boolean = stub("NetworkMonitor default impl")
+
+    fun canReachAsync(connectable: SocketConnectable, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("NetworkMonitor default impl")
+
+    fun canReachFinish(result: AsyncResult): Boolean = stub("NetworkMonitor default impl")
+
+    fun getConnectivity(): NetworkConnectivity = stub("NetworkMonitor default impl")
+
+    fun getNetworkAvailable(): Boolean = stub("NetworkMonitor default impl")
+
+    fun getNetworkMetered(): Boolean = stub("NetworkMonitor default impl")
+
     companion object {
         fun cptr(obj: NetworkMonitor): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3463,7 +4076,7 @@ open class NetworkService internal constructor (private val cptr: CPointer<GNetw
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5871744UL
+        const val G_TYPE: gtk3.GType = 31557024UL
         fun cptr(obj: NetworkService): CPointer<GNetworkService> = obj.cptr
     }
 }
@@ -3502,11 +4115,8 @@ open class Notification internal constructor (private val cptr: CPointer<GNotifi
     open fun setTitle(title: String): Unit {
          return stub()
     }
-    open fun setUrgent(urgent: Boolean): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 8578192UL
+        const val G_TYPE: gtk3.GType = 32631376UL
         fun cptr(obj: Notification): CPointer<GNotification> = obj.cptr
     }
 }
@@ -3609,7 +4219,7 @@ open class OutputStream internal constructor (private val cptr: CPointer<GOutput
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4729856UL
+        const val G_TYPE: gtk3.GType = 31911168UL
         fun cptr(obj: OutputStream): CPointer<GOutputStream> = obj.cptr
     }
 }
@@ -3667,7 +4277,7 @@ open class Permission internal constructor (private val cptr: CPointer<GPermissi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5210352UL
+        const val G_TYPE: gtk3.GType = 31291904UL
         fun cptr(obj: Permission): CPointer<GPermission> = obj.cptr
     }
 }
@@ -3679,6 +4289,14 @@ class PermissionClass(private val cptr: CPointer<cnames.structs._GPermissionClas
 }
 
 interface PollableInputStream : InteropWrapper {
+    fun canPoll(): Boolean = stub("PollableInputStream default impl")
+
+    fun createSource(cancellable: Cancellable): com.charlag.kgtk.demo.glib.Source = stub("PollableInputStream default impl")
+
+    fun isReadable(): Boolean = stub("PollableInputStream default impl")
+
+    fun readNonblocking(buffer: List<UByte>, count: ULong, cancellable: Cancellable): Long = stub("PollableInputStream default impl")
+
     companion object {
         fun cptr(obj: PollableInputStream): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3695,6 +4313,16 @@ class PollableInputStreamInterface(private val cptr: CPointer<cnames.structs._GP
 }
 
 interface PollableOutputStream : InteropWrapper {
+    fun canPoll(): Boolean = stub("PollableOutputStream default impl")
+
+    fun createSource(cancellable: Cancellable): com.charlag.kgtk.demo.glib.Source = stub("PollableOutputStream default impl")
+
+    fun isWritable(): Boolean = stub("PollableOutputStream default impl")
+
+    fun writeNonblocking(buffer: List<UByte>, count: ULong, cancellable: Cancellable): Long = stub("PollableOutputStream default impl")
+
+    fun writevNonblocking(vectors: List<OutputVector>, n_vectors: ULong, bytes_written: ULong, cancellable: Cancellable): PollableReturn = stub("PollableOutputStream default impl")
+
     companion object {
         fun cptr(obj: PollableOutputStream): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3719,12 +4347,22 @@ open class PropertyAction internal constructor (private val cptr: CPointer<GProp
     constructor(`name`: String, `object`: com.charlag.kgtk.demo.gobject.Object, property_name: String) : this(stub<CPointer<GPropertyAction>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 8597504UL
+        const val G_TYPE: gtk3.GType = 31022704UL
         fun cptr(obj: PropertyAction): CPointer<GPropertyAction> = obj.cptr
     }
 }
 
 interface Proxy : InteropWrapper {
+    fun getDefaultForProtocol(protocol: String): Proxy = stub("Proxy default impl")
+
+    fun connect(connection: IOStream, proxy_address: ProxyAddress, cancellable: Cancellable): IOStream = stub("Proxy default impl")
+
+    fun connectAsync(connection: IOStream, proxy_address: ProxyAddress, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Proxy default impl")
+
+    fun connectFinish(result: AsyncResult): IOStream = stub("Proxy default impl")
+
+    fun supportsHostname(): Boolean = stub("Proxy default impl")
+
     companion object {
         fun cptr(obj: Proxy): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3760,7 +4398,7 @@ open class ProxyAddress internal constructor (private val cptr: CPointer<GProxyA
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4835520UL
+        const val G_TYPE: gtk3.GType = 30816592UL
         fun cptr(obj: ProxyAddress): CPointer<GProxyAddress> = obj.cptr
     }
 }
@@ -3774,7 +4412,7 @@ class ProxyAddressClass(private val cptr: CPointer<cnames.structs._GProxyAddress
 open class ProxyAddressEnumerator internal constructor (private val cptr: CPointer<GProxyAddressEnumerator>) : SocketAddressEnumerator(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 8603536UL
+        const val G_TYPE: gtk3.GType = 36925584UL
         fun cptr(obj: ProxyAddressEnumerator): CPointer<GProxyAddressEnumerator> = obj.cptr
     }
 }
@@ -3792,6 +4430,16 @@ class ProxyInterface(private val cptr: CPointer<cnames.structs._GProxyInterface>
 }
 
 interface ProxyResolver : InteropWrapper {
+    fun getDefault(): ProxyResolver = stub("ProxyResolver default impl")
+
+    fun isSupported(): Boolean = stub("ProxyResolver default impl")
+
+    fun lookup(uri: String, cancellable: Cancellable): List<String> = stub("ProxyResolver default impl")
+
+    fun lookupAsync(uri: String, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("ProxyResolver default impl")
+
+    fun lookupFinish(result: AsyncResult): List<String> = stub("ProxyResolver default impl")
+
     companion object {
         fun cptr(obj: ProxyResolver): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3809,7 +4457,11 @@ class ProxyResolverInterface(private val cptr: CPointer<cnames.structs._GProxyRe
 
 typealias ReallocFunc = (data:  Any, size:  ULong) -> Any
 
-interface RemoteActionGroup : InteropWrapper {
+interface RemoteActionGroup : ActionGroup, InteropWrapper {
+    fun activateActionFull(action_name: String, parameter: com.charlag.kgtk.demo.glib.Variant, platform_data: com.charlag.kgtk.demo.glib.Variant): Unit = stub("RemoteActionGroup default impl")
+
+    fun changeActionStateFull(action_name: String, value: com.charlag.kgtk.demo.glib.Variant, platform_data: com.charlag.kgtk.demo.glib.Variant): Unit = stub("RemoteActionGroup default impl")
+
     companion object {
         fun cptr(obj: RemoteActionGroup): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -3880,7 +4532,7 @@ open class Resolver internal constructor (private val cptr: CPointer<GResolver>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4439200UL
+        const val G_TYPE: gtk3.GType = 32696128UL
         fun cptr(obj: Resolver): CPointer<GResolver> = obj.cptr
         fun getDefault(): Resolver {
     return stub()
@@ -3945,6 +4597,16 @@ typealias ResourceLookupFlags = GResourceLookupFlags
 val SETTINGS_BACKEND_EXTENSION_POINT_NAME: String get() = TODO()
 
 interface Seekable : InteropWrapper {
+    fun canSeek(): Boolean = stub("Seekable default impl")
+
+    fun canTruncate(): Boolean = stub("Seekable default impl")
+
+    fun seek(offset: Long, type: com.charlag.kgtk.demo.glib.SeekType, cancellable: Cancellable): Boolean = stub("Seekable default impl")
+
+    fun tell(): Long = stub("Seekable default impl")
+
+    fun truncate(offset: Long, cancellable: Cancellable): Boolean = stub("Seekable default impl")
+
     companion object {
         fun cptr(obj: Seekable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -4077,7 +4739,7 @@ open class SimpleAction internal constructor (private val cptr: CPointer<GSimple
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5677856UL
+        const val G_TYPE: gtk3.GType = 33592176UL
         fun cptr(obj: SimpleAction): CPointer<GSimpleAction> = obj.cptr
         fun newStateful(`name`: String, parameter_type: com.charlag.kgtk.demo.glib.VariantType, state: com.charlag.kgtk.demo.glib.Variant): SimpleAction = SimpleAction(stub<CPointer<GSimpleAction>>()) 
     }
@@ -4087,20 +4749,8 @@ open class SimpleActionGroup internal constructor (private val cptr: CPointer<GS
     override val rawPtr: COpaquePointer = cptr
     constructor() : this(stub<CPointer<GSimpleActionGroup>>())
 
-    open fun addEntries(entries: List<ActionEntry>, n_entries: Int, user_data: Any): Unit {
-         return stub()
-    }
-    open fun insert(action: Action): Unit {
-         return stub()
-    }
-    open fun lookup(action_name: String): Action {
-         return stub()
-    }
-    open fun remove(action_name: String): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 5526160UL
+        const val G_TYPE: gtk3.GType = 32590000UL
         fun cptr(obj: SimpleActionGroup): CPointer<GSimpleActionGroup> = obj.cptr
     }
 }
@@ -4113,45 +4763,9 @@ class SimpleActionGroupClass(private val cptr: CPointer<cnames.structs._GSimpleA
 
 open class SimpleAsyncResult internal constructor (private val cptr: CPointer<GSimpleAsyncResult>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), AsyncResult, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(source_object: com.charlag.kgtk.demo.gobject.Object, callback: AsyncReadyCallback, user_data: Any, source_tag: Any) : this(stub<CPointer<GSimpleAsyncResult>>())
-
-    open fun complete(): Unit {
-         return stub()
-    }
-    open fun completeInIdle(): Unit {
-         return stub()
-    }
-    open fun getOpResGboolean(): Boolean {
-         return stub()
-    }
-    open fun getOpResGssize(): Long {
-         return stub()
-    }
-    open fun propagateError(): Boolean {
-         return stub()
-    }
-    open fun setCheckCancellable(check_cancellable: Cancellable): Unit {
-         return stub()
-    }
-    open fun setFromError(error: Error): Unit {
-         return stub()
-    }
-    open fun setHandleCancellation(handle_cancellation: Boolean): Unit {
-         return stub()
-    }
-    open fun setOpResGboolean(op_res: Boolean): Unit {
-         return stub()
-    }
-    open fun setOpResGssize(op_res: Long): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 6613120UL
+        const val G_TYPE: gtk3.GType = 38664752UL
         fun cptr(obj: SimpleAsyncResult): CPointer<GSimpleAsyncResult> = obj.cptr
-        fun newFromError(source_object: com.charlag.kgtk.demo.gobject.Object, callback: AsyncReadyCallback, user_data: Any, error: Error): SimpleAsyncResult = SimpleAsyncResult(stub<CPointer<GSimpleAsyncResult>>()) 
-        fun isValid(result: AsyncResult, source: com.charlag.kgtk.demo.gobject.Object, source_tag: Any): Boolean {
-    return stub()
-}
     }
 }
 
@@ -4168,7 +4782,7 @@ open class SimpleIOStream internal constructor (private val cptr: CPointer<GSimp
     constructor(input_stream: InputStream, output_stream: OutputStream) : this(stub<CPointer<GSimpleIOStream>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4364432UL
+        const val G_TYPE: gtk3.GType = 41135360UL
         fun cptr(obj: SimpleIOStream): CPointer<GSimpleIOStream> = obj.cptr
     }
 }
@@ -4178,7 +4792,7 @@ open class SimplePermission internal constructor (private val cptr: CPointer<GSi
     constructor(allowed: Boolean) : this(stub<CPointer<GSimplePermission>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6067328UL
+        const val G_TYPE: gtk3.GType = 35740528UL
         fun cptr(obj: SimplePermission): CPointer<GSimplePermission> = obj.cptr
     }
 }
@@ -4195,7 +4809,7 @@ open class SimpleProxyResolver internal constructor (private val cptr: CPointer<
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5073984UL
+        const val G_TYPE: gtk3.GType = 35866704UL
         fun cptr(obj: SimpleProxyResolver): CPointer<GSimpleProxyResolver> = obj.cptr
         fun new(default_proxy: String, ignore_hosts: String): ProxyResolver {
     return stub()
@@ -4225,7 +4839,7 @@ open class Socket internal constructor (private val cptr: CPointer<GSocket>) : c
     open fun close(): Boolean {
          return stub()
     }
-    open fun conditionCheck(condition: com.charlag.kgtk.demo.glib.IOCondition): com.charlag.kgtk.demo.glib.IOCondition {
+    override fun conditionCheck(condition: com.charlag.kgtk.demo.glib.IOCondition): com.charlag.kgtk.demo.glib.IOCondition {
          return stub()
     }
     open fun conditionTimedWait(condition: com.charlag.kgtk.demo.glib.IOCondition, timeout_us: Long, cancellable: Cancellable): Boolean {
@@ -4379,7 +4993,7 @@ open class Socket internal constructor (private val cptr: CPointer<GSocket>) : c
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5670560UL
+        const val G_TYPE: gtk3.GType = 33031872UL
         fun cptr(obj: Socket): CPointer<GSocket> = obj.cptr
         fun newFromFd(fd: Int): Socket = Socket(stub<CPointer<GSocket>>()) 
     }
@@ -4397,7 +5011,7 @@ open class SocketAddress internal constructor (private val cptr: CPointer<GSocke
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4159888UL
+        const val G_TYPE: gtk3.GType = 31424544UL
         fun cptr(obj: SocketAddress): CPointer<GSocketAddress> = obj.cptr
         fun newFromNative(native: Any, len: ULong): SocketAddress = SocketAddress(stub<CPointer<GSocketAddress>>()) 
     }
@@ -4421,7 +5035,7 @@ open class SocketAddressEnumerator internal constructor (private val cptr: CPoin
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 9046928UL
+        const val G_TYPE: gtk3.GType = 36925440UL
         fun cptr(obj: SocketAddressEnumerator): CPointer<GSocketAddressEnumerator> = obj.cptr
     }
 }
@@ -4540,7 +5154,7 @@ open class SocketClient internal constructor (private val cptr: CPointer<GSocket
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4705680UL
+        const val G_TYPE: gtk3.GType = 30964992UL
         fun cptr(obj: SocketClient): CPointer<GSocketClient> = obj.cptr
     }
 }
@@ -4554,6 +5168,10 @@ class SocketClientClass(private val cptr: CPointer<cnames.structs._GSocketClient
 typealias SocketClientEvent = GSocketClientEvent
 
 interface SocketConnectable : InteropWrapper {
+    fun enumerate(): SocketAddressEnumerator = stub("SocketConnectable default impl")
+
+    fun proxyEnumerate(): SocketAddressEnumerator = stub("SocketConnectable default impl")
+
     companion object {
         fun cptr(obj: SocketConnectable): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -4593,7 +5211,7 @@ open class SocketConnection internal constructor (private val cptr: CPointer<GSo
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6451808UL
+        const val G_TYPE: gtk3.GType = 32311904UL
         fun cptr(obj: SocketConnection): CPointer<GSocketConnection> = obj.cptr
         fun factoryLookupType(family: SocketFamily, type: SocketType, protocol_id: Int): GType {
     return stub()
@@ -4625,7 +5243,7 @@ open class SocketControlMessage internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6864320UL
+        const val G_TYPE: gtk3.GType = 32206992UL
         fun cptr(obj: SocketControlMessage): CPointer<GSocketControlMessage> = obj.cptr
         fun deserialize(level: Int, type: Int, size: ULong, data: List<UByte>): SocketControlMessage {
     return stub()
@@ -4686,7 +5304,7 @@ open class SocketListener internal constructor (private val cptr: CPointer<GSock
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5664240UL
+        const val G_TYPE: gtk3.GType = 30832080UL
         fun cptr(obj: SocketListener): CPointer<GSocketListener> = obj.cptr
     }
 }
@@ -4721,7 +5339,7 @@ open class SocketService internal constructor (private val cptr: CPointer<GSocke
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4813152UL
+        const val G_TYPE: gtk3.GType = 32326576UL
         fun cptr(obj: SocketService): CPointer<GSocketService> = obj.cptr
     }
 }
@@ -4855,7 +5473,7 @@ open class Subprocess internal constructor (private val cptr: CPointer<GSubproce
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5237632UL
+        const val G_TYPE: gtk3.GType = 39428304UL
         fun cptr(obj: Subprocess): CPointer<GSubprocess> = obj.cptr
     }
 }
@@ -4909,7 +5527,7 @@ open class SubprocessLauncher internal constructor (private val cptr: CPointer<G
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5242768UL
+        const val G_TYPE: gtk3.GType = 33480544UL
         fun cptr(obj: SubprocessLauncher): CPointer<GSubprocessLauncher> = obj.cptr
     }
 }
@@ -4945,7 +5563,7 @@ open class Task internal constructor (private val cptr: CPointer<GTask>) : com.c
     open fun getReturnOnCancel(): Boolean {
          return stub()
     }
-    open fun getSourceObject(): com.charlag.kgtk.demo.gobject.Object {
+    override fun getSourceObject(): com.charlag.kgtk.demo.gobject.Object {
          return stub()
     }
     open fun getSourceTag(): Any {
@@ -5012,7 +5630,7 @@ open class Task internal constructor (private val cptr: CPointer<GTask>) : com.c
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6593568UL
+        const val G_TYPE: gtk3.GType = 39340496UL
         fun cptr(obj: Task): CPointer<GTask> = obj.cptr
         fun isValid(result: AsyncResult, source_object: com.charlag.kgtk.demo.gobject.Object): Boolean {
     return stub()
@@ -5040,7 +5658,7 @@ open class TcpConnection internal constructor (private val cptr: CPointer<GTcpCo
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6597280UL
+        const val G_TYPE: gtk3.GType = 32728400UL
         fun cptr(obj: TcpConnection): CPointer<GTcpConnection> = obj.cptr
     }
 }
@@ -5059,7 +5677,7 @@ open class TcpWrapperConnection internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4012016UL
+        const val G_TYPE: gtk3.GType = 38413696UL
         fun cptr(obj: TcpWrapperConnection): CPointer<GTcpWrapperConnection> = obj.cptr
     }
 }
@@ -5093,7 +5711,7 @@ open class TestDBus internal constructor (private val cptr: CPointer<GTestDBus>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5600528UL
+        const val G_TYPE: gtk3.GType = 40527392UL
         fun cptr(obj: TestDBus): CPointer<GTestDBus> = obj.cptr
         fun unset(): Unit {
     return stub()
@@ -5117,7 +5735,7 @@ open class ThemedIcon internal constructor (private val cptr: CPointer<GThemedIc
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 8981040UL
+        const val G_TYPE: gtk3.GType = 32719760UL
         fun cptr(obj: ThemedIcon): CPointer<GThemedIcon> = obj.cptr
         fun newFromNames(iconnames: List<String>, len: Int): ThemedIcon = ThemedIcon(stub<CPointer<GThemedIcon>>()) 
         fun newWithDefaultFallbacks(iconname: String): ThemedIcon = ThemedIcon(stub<CPointer<GThemedIcon>>()) 
@@ -5139,7 +5757,7 @@ open class ThreadedSocketService internal constructor (private val cptr: CPointe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6042448UL
+        const val G_TYPE: gtk3.GType = 30694112UL
         fun cptr(obj: ThreadedSocketService): CPointer<GThreadedSocketService> = obj.cptr
     }
 }
@@ -5153,6 +5771,28 @@ class ThreadedSocketServiceClass(private val cptr: CPointer<cnames.structs._GThr
 typealias TlsAuthenticationMode = GTlsAuthenticationMode
 
 interface TlsBackend : InteropWrapper {
+    fun getDefault(): TlsBackend = stub("TlsBackend default impl")
+
+    fun getCertificateType(): GType = stub("TlsBackend default impl")
+
+    fun getClientConnectionType(): GType = stub("TlsBackend default impl")
+
+    fun getDefaultDatabase(): TlsDatabase = stub("TlsBackend default impl")
+
+    fun getDtlsClientConnectionType(): GType = stub("TlsBackend default impl")
+
+    fun getDtlsServerConnectionType(): GType = stub("TlsBackend default impl")
+
+    fun getFileDatabaseType(): GType = stub("TlsBackend default impl")
+
+    fun getServerConnectionType(): GType = stub("TlsBackend default impl")
+
+    fun setDefaultDatabase(database: TlsDatabase): Unit = stub("TlsBackend default impl")
+
+    fun supportsDtls(): Boolean = stub("TlsBackend default impl")
+
+    fun supportsTls(): Boolean = stub("TlsBackend default impl")
+
     companion object {
         fun cptr(obj: TlsBackend): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -5180,7 +5820,7 @@ open class TlsCertificate internal constructor (private val cptr: CPointer<GTlsC
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5321712UL
+        const val G_TYPE: gtk3.GType = 33031504UL
         fun cptr(obj: TlsCertificate): CPointer<GTlsCertificate> = obj.cptr
         fun newFromFile(file: String): TlsCertificate = TlsCertificate(stub<CPointer<GTlsCertificate>>()) 
         fun newFromFiles(cert_file: String, key_file: String): TlsCertificate = TlsCertificate(stub<CPointer<GTlsCertificate>>()) 
@@ -5202,6 +5842,20 @@ typealias TlsCertificateFlags = GTlsCertificateFlags
 typealias TlsCertificateRequestFlags = GTlsCertificateRequestFlags
 
 interface TlsClientConnection : InteropWrapper {
+    fun new(base_io_stream: IOStream, server_identity: SocketConnectable): TlsClientConnection = stub("TlsClientConnection default impl")
+
+    fun copySessionState(source: TlsClientConnection): Unit = stub("TlsClientConnection default impl")
+
+    fun getAcceptedCas(): List<List<UByte>> = stub("TlsClientConnection default impl")
+
+    fun getServerIdentity(): SocketConnectable = stub("TlsClientConnection default impl")
+
+    fun getValidationFlags(): TlsCertificateFlags = stub("TlsClientConnection default impl")
+
+    fun setServerIdentity(identity: SocketConnectable): Unit = stub("TlsClientConnection default impl")
+
+    fun setValidationFlags(flags: TlsCertificateFlags): Unit = stub("TlsClientConnection default impl")
+
     companion object {
         fun cptr(obj: TlsClientConnection): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -5240,13 +5894,7 @@ open class TlsConnection internal constructor (private val cptr: CPointer<GTlsCo
     open fun getPeerCertificateErrors(): TlsCertificateFlags {
          return stub()
     }
-    open fun getRehandshakeMode(): TlsRehandshakeMode {
-         return stub()
-    }
     open fun getRequireCloseNotify(): Boolean {
-         return stub()
-    }
-    open fun getUseSystemCertdb(): Boolean {
          return stub()
     }
     open fun handshake(cancellable: Cancellable): Boolean {
@@ -5270,13 +5918,7 @@ open class TlsConnection internal constructor (private val cptr: CPointer<GTlsCo
     open fun setInteraction(interaction: TlsInteraction): Unit {
          return stub()
     }
-    open fun setRehandshakeMode(mode: TlsRehandshakeMode): Unit {
-         return stub()
-    }
     open fun setRequireCloseNotify(require_close_notify: Boolean): Unit {
-         return stub()
-    }
-    open fun setUseSystemCertdb(use_system_certdb: Boolean): Unit {
          return stub()
     }
     fun setOnAcceptCertificate(cb: () -> Unit) {
@@ -5284,7 +5926,7 @@ open class TlsConnection internal constructor (private val cptr: CPointer<GTlsCo
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 8666864UL
+        const val G_TYPE: gtk3.GType = 33475216UL
         fun cptr(obj: TlsConnection): CPointer<GTlsConnection> = obj.cptr
     }
 }
@@ -5337,7 +5979,7 @@ open class TlsDatabase internal constructor (private val cptr: CPointer<GTlsData
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5297264UL
+        const val G_TYPE: gtk3.GType = 31851408UL
         fun cptr(obj: TlsDatabase): CPointer<GTlsDatabase> = obj.cptr
     }
 }
@@ -5355,6 +5997,8 @@ typealias TlsDatabaseVerifyFlags = GTlsDatabaseVerifyFlags
 typealias TlsError = GTlsError
 
 interface TlsFileDatabase : InteropWrapper {
+    fun new(anchors: String): TlsFileDatabase = stub("TlsFileDatabase default impl")
+
     companion object {
         fun cptr(obj: TlsFileDatabase): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -5397,7 +6041,7 @@ open class TlsInteraction internal constructor (private val cptr: CPointer<GTlsI
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 3992224UL
+        const val G_TYPE: gtk3.GType = 33667840UL
         fun cptr(obj: TlsInteraction): CPointer<GTlsInteraction> = obj.cptr
     }
 }
@@ -5442,7 +6086,7 @@ open class TlsPassword internal constructor (private val cptr: CPointer<GTlsPass
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4748544UL
+        const val G_TYPE: gtk3.GType = 31406752UL
         fun cptr(obj: TlsPassword): CPointer<GTlsPassword> = obj.cptr
     }
 }
@@ -5458,6 +6102,8 @@ typealias TlsPasswordFlags = GTlsPasswordFlags
 typealias TlsRehandshakeMode = GTlsRehandshakeMode
 
 interface TlsServerConnection : InteropWrapper {
+    fun new(base_io_stream: IOStream, certificate: TlsCertificate): TlsServerConnection = stub("TlsServerConnection default impl")
+
     companion object {
         fun cptr(obj: TlsServerConnection): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -5481,7 +6127,7 @@ open class UnixCredentialsMessage internal constructor (private val cptr: CPoint
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4092736UL
+        const val G_TYPE: gtk3.GType = 32117488UL
         fun cptr(obj: UnixCredentialsMessage): CPointer<GUnixCredentialsMessage> = obj.cptr
         fun newWithCredentials(credentials: Credentials): UnixCredentialsMessage = UnixCredentialsMessage(stub<CPointer<GUnixCredentialsMessage>>()) 
         fun isSupported(): Boolean {
@@ -5510,7 +6156,7 @@ open class UnixFDList internal constructor (private val cptr: CPointer<GUnixFDLi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 8879232UL
+        const val G_TYPE: gtk3.GType = 40468112UL
         fun cptr(obj: UnixFDList): CPointer<GUnixFDList> = obj.cptr
         fun newFromArray(fds: List<Int>, n_fds: Int): UnixFDList = UnixFDList(stub<CPointer<GUnixFDList>>()) 
     }
@@ -5558,7 +6204,7 @@ open class Vfs internal constructor (private val cptr: CPointer<GVfs>) : com.cha
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 7003312UL
+        const val G_TYPE: gtk3.GType = 31866176UL
         fun cptr(obj: Vfs): CPointer<GVfs> = obj.cptr
         fun getDefault(): Vfs {
     return stub()
@@ -5578,6 +6224,40 @@ class VfsClass(private val cptr: CPointer<cnames.structs._GVfsClass>) /* struct 
 typealias VfsFileLookupFunc = (vfs:  Vfs, identifier:  String, user_data:  Any) -> File
 
 interface Volume : InteropWrapper {
+    fun canEject(): Boolean = stub("Volume default impl")
+
+    fun canMount(): Boolean = stub("Volume default impl")
+
+    fun ejectWithOperation(flags: MountUnmountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Volume default impl")
+
+    fun ejectWithOperationFinish(result: AsyncResult): Boolean = stub("Volume default impl")
+
+    fun enumerateIdentifiers(): List<String> = stub("Volume default impl")
+
+    fun getActivationRoot(): File = stub("Volume default impl")
+
+    fun getDrive(): Drive = stub("Volume default impl")
+
+    fun getIcon(): Icon = stub("Volume default impl")
+
+    fun getIdentifier(kind: String): String = stub("Volume default impl")
+
+    fun getMount(): Mount = stub("Volume default impl")
+
+    fun getName(): String = stub("Volume default impl")
+
+    fun getSortKey(): String = stub("Volume default impl")
+
+    fun getSymbolicIcon(): Icon = stub("Volume default impl")
+
+    fun getUuid(): String = stub("Volume default impl")
+
+    fun mount(flags: MountMountFlags, mount_operation: MountOperation, cancellable: Cancellable, callback: AsyncReadyCallback, user_data: Any): Unit = stub("Volume default impl")
+
+    fun mountFinish(result: AsyncResult): Boolean = stub("Volume default impl")
+
+    fun shouldAutomount(): Boolean = stub("Volume default impl")
+
     companion object {
         fun cptr(obj: Volume): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -5659,11 +6339,8 @@ open class VolumeMonitor internal constructor (private val cptr: CPointer<GVolum
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5505472UL
+        const val G_TYPE: gtk3.GType = 31483952UL
         fun cptr(obj: VolumeMonitor): CPointer<GVolumeMonitor> = obj.cptr
-        fun adoptOrphanMount(mount: Mount): Volume {
-    return stub()
-}
         fun get(): VolumeMonitor {
     return stub()
 }
@@ -5687,7 +6364,7 @@ open class ZlibCompressor internal constructor (private val cptr: CPointer<GZlib
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 3945456UL
+        const val G_TYPE: gtk3.GType = 41115088UL
         fun cptr(obj: ZlibCompressor): CPointer<GZlibCompressor> = obj.cptr
     }
 }
@@ -5708,7 +6385,7 @@ open class ZlibDecompressor internal constructor (private val cptr: CPointer<GZl
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6055696UL
+        const val G_TYPE: gtk3.GType = 33763472UL
         fun cptr(obj: ZlibDecompressor): CPointer<GZlibDecompressor> = obj.cptr
     }
 }

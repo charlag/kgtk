@@ -19,17 +19,21 @@ fun main(args: Array<String>) {
             print("No param for query")
             return
         }
-        val (namespace, clazz, method) = definition.split('.', limit = 3)
-        val objectInfo = repository.infos(namespace).find { it.name == clazz } as? ObjectInfo
-                ?: run {
-                    println("No such class: ${clazz}")
-                    return
-                }
-        val methodInfo = objectInfo.findMethod(method) ?: run {
-            println("No such method: ${method}")
+        val (namespace, clazz, methodName) = definition.split('.', limit = 3)
+        val baseInfo = repository.infos(namespace).find { it.name == clazz }
+        val (methodInfo, overrides) = if (baseInfo is ObjectInfo) {
+            val method = baseInfo.findMethodByInterfaces(methodName)
+            method to (method?.let { overridesInterfaceMethod(baseInfo, it) } ?: false)
+        } else if (baseInfo is InterfaceInfo) {
+            baseInfo.methods.find { it.name == methodName } to false
+        } else {
+            null
+        } ?: run {
+            println("No such method: $methodName")
             return
         }
         println("$methodInfo")
+        println("overrides inreface: $overrides")
         return
     } else if (args.firstOrNull() == "--query-all") {
         val definition = args.getOrNull(1) ?: run {
@@ -42,6 +46,7 @@ fun main(args: Array<String>) {
                     println("No such class: ${clazz}")
                     return
                 }
+        println(objectInfo)
         for (method in objectInfo.methods) {
             println(method)
         }
@@ -143,16 +148,24 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
         if (namespace == "GModule" || namespace == "xlib") continue
 
         val skippedNames = mapOf(
+                "Atk" to setOf(
+                        // Weirdness with interfaces
+                        "NoOpObject"
+                ),
                 "GLib" to setOf(
                         // Not needed hopefully
                         "Array", "List",
                         // Cannot find C symbol
                         "StatBuf"),
-                // weird VA thing
-                "GObject" to setOf("signal_set_va_marshaller"),
-                // Bad override
+                "GObject" to setOf(
+                        // weird VA thing
+                        "signal_set_va_marshaller",
+                ),
                 "Gio" to setOf(
+                        // Bad override
                         "DataInputStream",
+                        "ioModulesLoadAllInDirectory", "ioModulesLoadAllInDirectoryWithScope",
+                        "ioModulesScanAllInDirectoryWithScope",
                         // Need special header for unix
                         "DesktopAppInfo", "DesktopAppInfoLookup", "FileDescriptorBased",
                         "UnixConnection", "UnixCredentialsMessageClass", "UnixFDListClass",
@@ -355,7 +368,16 @@ val customMethods = mapOf(
         "Gtk.Container.forall" to "// TODO: method forall(), user_data param",
         "Gtk.Container.foreach" to "// TODO: method foreach(), user_data param",
         "Gtk.Container.set_focus_chain" to "// TODO: method set_focus_chain(), passing lists",
+        "GObject.TypePlugin.use" to "    fun use(): Any = stub(\"use(): Incompatible override\")",
+        // Conflicts with Widget.get_font_map and I don't want manual overrides everywhere so we
+        // just rename it but it's not true renaming, it's just changing one place so
+        // TODO: make it consistent across implementations
+        "Gtk.FontChooser.get_font_map" to "    fun getChooserFontMap(): com.charlag.kgtk.demo.pango.FontMap = stub(\"getChooserFontMap() default impl\")",
+        "Gtk.FontChooser.set_font_map" to "    fun setChooserFontMap(fontmap: com.charlag.kgtk.demo.pango.FontMap): Unit = stub(\"setChooserFontMap() default impl\")",
+        "Gtk.ToolShell.get_icon_size" to "    fun getIconSize(): GtkIconSize = stub(\"getIconSize() default impl\")"
 )
+
+val additionalMethods = mapOf("Gtk.Toolbar" to listOf("    override fun getOrientation(): Orientation = stub(\"Needs manual resolution because of multiple interfaces\")"))
 
 val methodNeedsCast = setOf("Gtk.Window.new", "Gtk.ApplicationWindow.new",
         "Gtk.Button.new", "Gtk.ButtonBox.new",
@@ -367,8 +389,13 @@ val methodNeedsCast = setOf("Gtk.Window.new", "Gtk.ApplicationWindow.new",
 //val additonalConstructors = mapOf("Gtk.Message")
 
 fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String, builder: StringBuilder, generateImpls: Boolean = false) {
+    if (objectInfo.isDeprecated) {
+        return
+    }
     val objectName = objectInfo.name
     val cStructName = cname(namespace, objectName)
+    // "Abstract" means you cannot call g_object_new on it, it still has constructors and can be
+    // kinda instantiated (it's like Erased for interfaces)
     builder.append("open class $objectName internal constructor (private val cptr: CPointer<$cStructName>)")
     val parent = objectInfo.parent
     val interfaces = mutableListOf<String>()
@@ -408,31 +435,26 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
             builder.appendLine(customMethod)
             continue
         }
-
-        val params = mutableListOf<Pair<String, String>>()
-        for (param in method.args) {
-            val paramType = param.argType
-            val paramTypeName = serializeType(paramType, namespace, packageName)
-            params += param.name to paramTypeName
+        if (method.isDeprecated) {
+            continue
         }
-        fun paramsInDecl(): String = params.joinToString(separator = ", ") { (name, type) -> "${escapeName(name)}: $type" }
+
         val cast = if ("$namespace.$objectName.${cName}" in methodNeedsCast)
             ".reinterpret()" else ""
+        val paramsInDecl = method.paramsDecl(packageName)
 
-        if (method.flags.testFlag(GI_FUNCTION_IS_CONSTRUCTOR)) {
+        if (method.isConstructor) {
             val call = if (generateImpls) generateFunctionCall(method, namespace, packageName) else "stub<CPointer<$cStructName>>()"
-
-
             if (cName == "new") {
-                if (params.isNotEmpty()) {
-                    builder.appendLine("    constructor(${paramsInDecl()}) : this($call$cast)")
+                if (paramsInDecl.isNotEmpty()) {
+                    builder.appendLine("    constructor(${paramsInDecl}) : this($call$cast)")
                     builder.appendLine()
                 } else {
                     builder.appendLine("    constructor() : this($call$cast)")
                     builder.appendLine()
                 }
             } else {
-                factories.add("fun ${method.kName}(${paramsInDecl()}): $objectName = ${objectName}($call$cast) ")
+                factories.add("fun ${method.kName}(${paramsInDecl}): $objectName = ${objectName}($call$cast) ")
             }
         } else {
             val retType = method.returnType
@@ -443,17 +465,21 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
 
             if (!method.flags.testFlag(GI_FUNCTION_IS_METHOD)) {
                 val fn = """
-                |fun $methodName(${paramsInDecl()}): ${serializeType(retType, namespace, packageName)} {
+                |fun $methodName(${paramsInDecl}): ${serializeType(retType, namespace, packageName)} {
                 |    return $call
                 |}
             """.trimMargin()
                 factories.add(fn)
             } else {
-                builder.appendLine("    $modifier fun $methodName(${paramsInDecl()}): ${serializeType(retType, namespace, packageName)} {")
+                builder.appendLine("    $modifier fun $methodName(${paramsInDecl}): ${serializeType(retType, namespace, packageName)} {")
                 builder.appendLine("         return $call")
                 builder.appendLine("    }")
             }
         }
+    }
+
+    for (method in additionalMethods["$namespace.$objectName"] ?: listOf()) {
+        builder.appendLine(method)
     }
 
     for (signal in objectInfo.signals) {
@@ -496,6 +522,7 @@ fun makeMethodName(objectInfo: ObjectInfo, method: FunctionInfo): MethodDeclInfo
 
     val modifier = if (replacementName == null &&
             ((name == "toString" && method.args.none()) ||
+                    overridesInterfaceMethod(objectInfo, method) ||
                     objectInfo.parent?.getOrInheritsMethod(gName, method.args.toList().map { it.argType }) != null)
     ) "override" else "open"
     return MethodDeclInfo(name, modifier)
@@ -576,7 +603,7 @@ private fun decorateWithKTypeConversion(
     }
 }
 
-val FunctionInfo.kName: String get() = escapeName(snakeToCamel(this.name))
+val CallableInfo.kName: String get() = escapeName(snakeToCamel(this.name))
 
 private fun generateFunctionCall(
         method: FunctionInfo,
@@ -651,15 +678,21 @@ private fun generateFunctionCall(
 }
 
 tailrec fun ObjectInfo.getOrInheritsMethod(methodName: String, types: List<TypeInfo>): FunctionInfo? {
-    val method = findMethod(methodName)
+    val method = findMethodByInterfaces(methodName)
     if (method != null) {
-        val methodArgTags = method.args.map { it.argType.tag }.toList()
-        val passedArgTags = types.map { it.tag }
-        if (methodArgTags == passedArgTags) {
+        val methodArgTags = method.args.map { it.argType }.toList()
+        if (methodArgTags == types) {
             return method
         }
     }
     return parent?.getOrInheritsMethod(methodName, types)
+}
+
+fun overridesInterfaceMethod(objectInfo: ObjectInfo, method: FunctionInfo): Boolean {
+    val args = method.args.map { it.argType }.toList()
+    return objectInfo.interfaces.any {
+        it.methods.any { it.name == method.name && it.args.map { it.argType } .toList() == args }
+    }
 }
 
 fun processFunction(function: FunctionInfo, namespace: String, packageName: String, builder: StringBuilder) {
@@ -677,7 +710,32 @@ fun processFunction(function: FunctionInfo, namespace: String, packageName: Stri
 fun processInterface(int: InterfaceInfo, namespace: String, packageName: String, builder: StringBuilder) {
     // TODO: everything
     val name = int.name
-    builder.appendLine("interface $name : InteropWrapper {")
+    val prerequisites = int.prerequisites.filter { it.type == GIInfoType.GI_INFO_TYPE_INTERFACE }
+            .map { interfaceName(it.downcastToInterface(), namespace, packageName) }
+            .plus("InteropWrapper")
+            .joinToString(", ")
+    builder.appendLine("interface $name : $prerequisites {")
+    for (method in int.methods) {
+        if (method.isDeprecated) continue
+        val customMethod = customMethods["$namespace.$name.${method.name}"]
+        if (customMethod != null) {
+            builder.appendLine(customMethod)
+            builder.appendLine()
+            continue
+        }
+        if (method.name == "to_string") {
+            continue
+        }
+
+        val params = method.paramsDecl(packageName)
+        builder.appendLine("    fun ${method.kName}(${params}): ${serializeType(method.returnType, namespace, packageName)} = stub(\"$name default impl\")")
+        builder.appendLine()
+    }
+
+    for (method in additionalMethods["$namespace.$name"] ?: listOf()) {
+        builder.appendLine(method)
+    }
+
     builder.appendLine("    companion object {")
     builder.appendLine("        fun cptr(obj: $name): CPointer<GActionGroup> = obj.rawPtr.reinterpret()")
     builder.appendLine("    }")
@@ -723,6 +781,12 @@ fun structPointerName(namespace: String, name: String): String {
     }
 }
 
+fun CallableInfo.paramsDecl(packageName: String): String {
+    return args.joinToString(", ") {
+        "${escapeName(it.name)}: ${serializeType(it.argType, namespace, packageName)}"
+    }
+}
+
 fun generateStructWrapper(name: String, methods: Sequence<FunctionInfo>, gKind: String,
                           namespace: String, packageName: String, builder: StringBuilder) {
     val cName = cname(namespace, name)
@@ -738,9 +802,7 @@ fun generateStructWrapper(name: String, methods: Sequence<FunctionInfo>, gKind: 
 //                if (generateImpls) generateMethodCall(method, namespace, packageName)
 //        else
                 "stub()"
-        val paramsInDecl = method.args.joinToString(", ") {
-            "${escapeName(it.name)}: ${serializeType(it.argType, namespace, packageName)}"
-        }
+        val paramsInDecl = method.paramsDecl(packageName)
         val methodName = method.kName
         val modifier = if (methodName == "toString") "override " else ""
         builder.appendLine("    ${modifier}fun ${methodName}(${paramsInDecl}): ${serializeType(retType, namespace, packageName)} {")

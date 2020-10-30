@@ -8,6 +8,20 @@ import kotlinx.cinterop.*
 import com.charlag.kgtk.demo.prelude.GType
 
 interface Action : InteropWrapper {
+    fun doAction(i: Int): Boolean = stub("Action default impl")
+
+    fun getDescription(i: Int): String = stub("Action default impl")
+
+    fun getKeybinding(i: Int): String = stub("Action default impl")
+
+    fun getLocalizedName(i: Int): String = stub("Action default impl")
+
+    fun getNActions(): Int = stub("Action default impl")
+
+    fun getName(i: Int): String = stub("Action default impl")
+
+    fun setDescription(i: Int, desc: String): Boolean = stub("Action default impl")
+
     companion object {
         fun cptr(obj: Action): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -35,6 +49,30 @@ class Attribute(private val cptr: CPointer<cnames.structs._AtkAttribute>) /* str
 val BINARY_AGE: Int get() = TODO()
 
 interface Component : InteropWrapper {
+    fun contains(x: Int, y: Int, coord_type: CoordType): Boolean = stub("Component default impl")
+
+    fun getAlpha(): Double = stub("Component default impl")
+
+    fun getExtents(x: Int, y: Int, width: Int, height: Int, coord_type: CoordType): Unit = stub("Component default impl")
+
+    fun getLayer(): Layer = stub("Component default impl")
+
+    fun getMdiZorder(): Int = stub("Component default impl")
+
+    fun grabFocus(): Boolean = stub("Component default impl")
+
+    fun refAccessibleAtPoint(x: Int, y: Int, coord_type: CoordType): Object = stub("Component default impl")
+
+    fun scrollTo(type: ScrollType): Boolean = stub("Component default impl")
+
+    fun scrollToPoint(coords: CoordType, x: Int, y: Int): Boolean = stub("Component default impl")
+
+    fun setExtents(x: Int, y: Int, width: Int, height: Int, coord_type: CoordType): Boolean = stub("Component default impl")
+
+    fun setPosition(x: Int, y: Int, coord_type: CoordType): Boolean = stub("Component default impl")
+
+    fun setSize(width: Int, height: Int): Boolean = stub("Component default impl")
+
     companion object {
         fun cptr(obj: Component): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -53,6 +91,16 @@ class ComponentIface(private val cptr: CPointer<cnames.structs._AtkComponentIfac
 typealias CoordType = AtkCoordType
 
 interface Document : InteropWrapper {
+    fun getAttributeValue(attribute_name: String): String = stub("Document default impl")
+
+    fun getAttributes(): List<Any> = stub("Document default impl")
+
+    fun getCurrentPageNumber(): Int = stub("Document default impl")
+
+    fun getPageCount(): Int = stub("Document default impl")
+
+    fun setAttributeValue(attribute_name: String, attribute_value: String): Boolean = stub("Document default impl")
+
     companion object {
         fun cptr(obj: Document): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -69,6 +117,20 @@ class DocumentIface(private val cptr: CPointer<cnames.structs._AtkDocumentIface>
 }
 
 interface EditableText : InteropWrapper {
+    fun copyText(start_pos: Int, end_pos: Int): Unit = stub("EditableText default impl")
+
+    fun cutText(start_pos: Int, end_pos: Int): Unit = stub("EditableText default impl")
+
+    fun deleteText(start_pos: Int, end_pos: Int): Unit = stub("EditableText default impl")
+
+    fun insertText(string: String, length: Int, position: Int): Unit = stub("EditableText default impl")
+
+    fun pasteText(position: Int): Unit = stub("EditableText default impl")
+
+    fun setRunAttributes(attrib_set: List<Any>, start_offset: Int, end_offset: Int): Boolean = stub("EditableText default impl")
+
+    fun setTextContents(string: String): Unit = stub("EditableText default impl")
+
     companion object {
         fun cptr(obj: EditableText): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -98,7 +160,7 @@ open class GObjectAccessible internal constructor (private val cptr: CPointer<At
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 7244240UL
+        const val G_TYPE: gtk3.GType = 32388144UL
         fun cptr(obj: GObjectAccessible): CPointer<AtkGObjectAccessible> = obj.cptr
         fun forObject(obj: com.charlag.kgtk.demo.gobject.Object): Object {
     return stub()
@@ -132,9 +194,6 @@ open class Hyperlink internal constructor (private val cptr: CPointer<AtkHyperli
     open fun isInline(): Boolean {
          return stub()
     }
-    open fun isSelectedLink(): Boolean {
-         return stub()
-    }
     open fun isValid(): Boolean {
          return stub()
     }
@@ -143,7 +202,7 @@ open class Hyperlink internal constructor (private val cptr: CPointer<AtkHyperli
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 6316240UL
+        const val G_TYPE: gtk3.GType = 38412624UL
         fun cptr(obj: Hyperlink): CPointer<AtkHyperlink> = obj.cptr
     }
 }
@@ -155,6 +214,8 @@ class HyperlinkClass(private val cptr: CPointer<cnames.structs._AtkHyperlinkClas
 }
 
 interface HyperlinkImpl : InteropWrapper {
+    fun getHyperlink(): Hyperlink = stub("HyperlinkImpl default impl")
+
     companion object {
         fun cptr(obj: HyperlinkImpl): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -173,6 +234,12 @@ class HyperlinkImplIface(private val cptr: CPointer<cnames.structs._AtkHyperlink
 typealias HyperlinkStateFlags = AtkHyperlinkStateFlags
 
 interface Hypertext : InteropWrapper {
+    fun getLink(link_index: Int): Hyperlink = stub("Hypertext default impl")
+
+    fun getLinkIndex(char_index: Int): Int = stub("Hypertext default impl")
+
+    fun getNLinks(): Int = stub("Hypertext default impl")
+
     companion object {
         fun cptr(obj: Hypertext): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -191,6 +258,16 @@ class HypertextIface(private val cptr: CPointer<cnames.structs._AtkHypertextIfac
 val INTERFACE_AGE: Int get() = TODO()
 
 interface Image : InteropWrapper {
+    fun getImageDescription(): String = stub("Image default impl")
+
+    fun getImageLocale(): String = stub("Image default impl")
+
+    fun getImagePosition(x: Int, y: Int, coord_type: CoordType): Unit = stub("Image default impl")
+
+    fun getImageSize(width: Int, height: Int): Unit = stub("Image default impl")
+
+    fun setImageDescription(description: String): Boolean = stub("Image default impl")
+
     companion object {
         fun cptr(obj: Image): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -245,18 +322,9 @@ val MINOR_VERSION: Int get() = TODO()
 
 open class Misc internal constructor (private val cptr: CPointer<AtkMisc>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    open fun threadsEnter(): Unit {
-         return stub()
-    }
-    open fun threadsLeave(): Unit {
-         return stub()
-    }
     companion object {
-        const val G_TYPE: gtk3.GType = 5861248UL
+        const val G_TYPE: gtk3.GType = 30906544UL
         fun cptr(obj: Misc): CPointer<AtkMisc> = obj.cptr
-        fun getInstance(): Misc {
-    return stub()
-}
     }
 }
 
@@ -266,28 +334,12 @@ class MiscClass(private val cptr: CPointer<cnames.structs._AtkMiscClass>) /* str
     }
 }
 
-open class NoOpObject internal constructor (private val cptr: CPointer<AtkNoOpObject>) : Object(cptr.reinterpret()), Action, Component, Document, EditableText, Hypertext, Image, Selection, Table, TableCell, Text, Value, Window, InteropWrapper {
-    override val rawPtr: COpaquePointer = cptr
-    constructor(obj: com.charlag.kgtk.demo.gobject.Object) : this(stub<CPointer<AtkNoOpObject>>())
-
-    companion object {
-        const val G_TYPE: gtk3.GType = 4247024UL
-        fun cptr(obj: NoOpObject): CPointer<AtkNoOpObject> = obj.cptr
-    }
-}
-
-class NoOpObjectClass(private val cptr: CPointer<cnames.structs._AtkNoOpObjectClass>) /* struct */ {
-    companion object {
-        fun cptr(obj: NoOpObjectClass): CPointer<cnames.structs._AtkNoOpObjectClass> = obj.cptr
-    }
-}
-
 open class NoOpObjectFactory internal constructor (private val cptr: CPointer<AtkNoOpObjectFactory>) : ObjectFactory(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     constructor() : this(stub<CPointer<AtkNoOpObjectFactory>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 5711776UL
+        const val G_TYPE: gtk3.GType = 31526608UL
         fun cptr(obj: NoOpObjectFactory): CPointer<AtkNoOpObjectFactory> = obj.cptr
     }
 }
@@ -313,12 +365,6 @@ open class Object internal constructor (private val cptr: CPointer<AtkObject>) :
          return stub()
     }
     open fun getIndexInParent(): Int {
-         return stub()
-    }
-    open fun getLayer(): Layer {
-         return stub()
-    }
-    open fun getMdiZorder(): Int {
          return stub()
     }
     open fun getNAccessibleChildren(): Int {
@@ -352,9 +398,6 @@ open class Object internal constructor (private val cptr: CPointer<AtkObject>) :
          return stub()
     }
     open fun refStateSet(): StateSet {
-         return stub()
-    }
-    open fun removePropertyChangeHandler(handler_id: UInt): Unit {
          return stub()
     }
     open fun removeRelationship(relationship: RelationType, target: Object): Boolean {
@@ -400,7 +443,7 @@ open class Object internal constructor (private val cptr: CPointer<AtkObject>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 4153344UL
+        const val G_TYPE: gtk3.GType = 31693328UL
         fun cptr(obj: Object): CPointer<AtkObject> = obj.cptr
     }
 }
@@ -423,7 +466,7 @@ open class ObjectFactory internal constructor (private val cptr: CPointer<AtkObj
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5711536UL
+        const val G_TYPE: gtk3.GType = 31949216UL
         fun cptr(obj: ObjectFactory): CPointer<AtkObjectFactory> = obj.cptr
     }
 }
@@ -445,7 +488,7 @@ open class Plug internal constructor (private val cptr: CPointer<AtkPlug>) : Obj
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4901632UL
+        const val G_TYPE: gtk3.GType = 38244544UL
         fun cptr(obj: Plug): CPointer<AtkPlug> = obj.cptr
     }
 }
@@ -506,7 +549,7 @@ open class Registry internal constructor (private val cptr: CPointer<AtkRegistry
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4397952UL
+        const val G_TYPE: gtk3.GType = 36264928UL
         fun cptr(obj: Registry): CPointer<AtkRegistry> = obj.cptr
     }
 }
@@ -534,7 +577,7 @@ open class Relation internal constructor (private val cptr: CPointer<AtkRelation
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4326704UL
+        const val G_TYPE: gtk3.GType = 34755552UL
         fun cptr(obj: Relation): CPointer<AtkRelation> = obj.cptr
     }
 }
@@ -574,7 +617,7 @@ open class RelationSet internal constructor (private val cptr: CPointer<AtkRelat
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6300080UL
+        const val G_TYPE: gtk3.GType = 39729488UL
         fun cptr(obj: RelationSet): CPointer<AtkRelationSet> = obj.cptr
     }
 }
@@ -592,6 +635,20 @@ typealias Role = AtkRole
 typealias ScrollType = AtkScrollType
 
 interface Selection : InteropWrapper {
+    fun addSelection(i: Int): Boolean = stub("Selection default impl")
+
+    fun clearSelection(): Boolean = stub("Selection default impl")
+
+    fun getSelectionCount(): Int = stub("Selection default impl")
+
+    fun isChildSelected(i: Int): Boolean = stub("Selection default impl")
+
+    fun refSelection(i: Int): Object = stub("Selection default impl")
+
+    fun removeSelection(i: Int): Boolean = stub("Selection default impl")
+
+    fun selectAllSelection(): Boolean = stub("Selection default impl")
+
     companion object {
         fun cptr(obj: Selection): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -618,7 +675,7 @@ open class Socket internal constructor (private val cptr: CPointer<AtkSocket>) :
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 9043504UL
+        const val G_TYPE: gtk3.GType = 30962032UL
         fun cptr(obj: Socket): CPointer<AtkSocket> = obj.cptr
     }
 }
@@ -664,7 +721,7 @@ open class StateSet internal constructor (private val cptr: CPointer<AtkStateSet
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4557792UL
+        const val G_TYPE: gtk3.GType = 32364128UL
         fun cptr(obj: StateSet): CPointer<AtkStateSet> = obj.cptr
     }
 }
@@ -678,6 +735,14 @@ class StateSetClass(private val cptr: CPointer<cnames.structs._AtkStateSetClass>
 typealias StateType = AtkStateType
 
 interface StreamableContent : InteropWrapper {
+    fun getMimeType(i: Int): String = stub("StreamableContent default impl")
+
+    fun getNMimeTypes(): Int = stub("StreamableContent default impl")
+
+    fun getStream(mime_type: String): com.charlag.kgtk.demo.glib.IOChannel = stub("StreamableContent default impl")
+
+    fun getUri(mime_type: String): String = stub("StreamableContent default impl")
+
     companion object {
         fun cptr(obj: StreamableContent): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -694,6 +759,58 @@ class StreamableContentIface(private val cptr: CPointer<cnames.structs._AtkStrea
 }
 
 interface Table : InteropWrapper {
+    fun addColumnSelection(column: Int): Boolean = stub("Table default impl")
+
+    fun addRowSelection(row: Int): Boolean = stub("Table default impl")
+
+    fun getCaption(): Object = stub("Table default impl")
+
+    fun getColumnDescription(column: Int): String = stub("Table default impl")
+
+    fun getColumnExtentAt(row: Int, column: Int): Int = stub("Table default impl")
+
+    fun getColumnHeader(column: Int): Object = stub("Table default impl")
+
+    fun getNColumns(): Int = stub("Table default impl")
+
+    fun getNRows(): Int = stub("Table default impl")
+
+    fun getRowDescription(row: Int): String = stub("Table default impl")
+
+    fun getRowExtentAt(row: Int, column: Int): Int = stub("Table default impl")
+
+    fun getRowHeader(row: Int): Object = stub("Table default impl")
+
+    fun getSelectedColumns(selected: Int): Int = stub("Table default impl")
+
+    fun getSelectedRows(selected: Int): Int = stub("Table default impl")
+
+    fun getSummary(): Object = stub("Table default impl")
+
+    fun isColumnSelected(column: Int): Boolean = stub("Table default impl")
+
+    fun isRowSelected(row: Int): Boolean = stub("Table default impl")
+
+    fun isSelected(row: Int, column: Int): Boolean = stub("Table default impl")
+
+    fun refAt(row: Int, column: Int): Object = stub("Table default impl")
+
+    fun removeColumnSelection(column: Int): Boolean = stub("Table default impl")
+
+    fun removeRowSelection(row: Int): Boolean = stub("Table default impl")
+
+    fun setCaption(caption: Object): Unit = stub("Table default impl")
+
+    fun setColumnDescription(column: Int, description: String): Unit = stub("Table default impl")
+
+    fun setColumnHeader(column: Int, header: Object): Unit = stub("Table default impl")
+
+    fun setRowDescription(row: Int, description: String): Unit = stub("Table default impl")
+
+    fun setRowHeader(row: Int, header: Object): Unit = stub("Table default impl")
+
+    fun setSummary(accessible: Object): Unit = stub("Table default impl")
+
     companion object {
         fun cptr(obj: Table): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -704,6 +821,20 @@ interface Table : InteropWrapper {
 }
 
 interface TableCell : InteropWrapper {
+    fun getColumnHeaderCells(): List<Object> = stub("TableCell default impl")
+
+    fun getColumnSpan(): Int = stub("TableCell default impl")
+
+    fun getPosition(row: Int, column: Int): Boolean = stub("TableCell default impl")
+
+    fun getRowColumnSpan(row: Int, column: Int, row_span: Int, column_span: Int): Boolean = stub("TableCell default impl")
+
+    fun getRowHeaderCells(): List<Object> = stub("TableCell default impl")
+
+    fun getRowSpan(): Int = stub("TableCell default impl")
+
+    fun getTable(): Object = stub("TableCell default impl")
+
     companion object {
         fun cptr(obj: TableCell): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -726,6 +857,46 @@ class TableIface(private val cptr: CPointer<cnames.structs._AtkTableIface>) /* s
 }
 
 interface Text : InteropWrapper {
+    fun freeRanges(ranges: List<TextRange>): Unit = stub("Text default impl")
+
+    fun addSelection(start_offset: Int, end_offset: Int): Boolean = stub("Text default impl")
+
+    fun getBoundedRanges(rect: TextRectangle, coord_type: CoordType, x_clip_type: TextClipType, y_clip_type: TextClipType): List<TextRange> = stub("Text default impl")
+
+    fun getCaretOffset(): Int = stub("Text default impl")
+
+    fun getCharacterAtOffset(offset: Int): Char = stub("Text default impl")
+
+    fun getCharacterCount(): Int = stub("Text default impl")
+
+    fun getCharacterExtents(offset: Int, x: Int, y: Int, width: Int, height: Int, coords: CoordType): Unit = stub("Text default impl")
+
+    fun getDefaultAttributes(): List<Any> = stub("Text default impl")
+
+    fun getNSelections(): Int = stub("Text default impl")
+
+    fun getOffsetAtPoint(x: Int, y: Int, coords: CoordType): Int = stub("Text default impl")
+
+    fun getRangeExtents(start_offset: Int, end_offset: Int, coord_type: CoordType, rect: TextRectangle): Unit = stub("Text default impl")
+
+    fun getRunAttributes(offset: Int, start_offset: Int, end_offset: Int): List<Any> = stub("Text default impl")
+
+    fun getSelection(selection_num: Int, start_offset: Int, end_offset: Int): String = stub("Text default impl")
+
+    fun getStringAtOffset(offset: Int, granularity: TextGranularity, start_offset: Int, end_offset: Int): String = stub("Text default impl")
+
+    fun getText(start_offset: Int, end_offset: Int): String = stub("Text default impl")
+
+    fun removeSelection(selection_num: Int): Boolean = stub("Text default impl")
+
+    fun scrollSubstringTo(start_offset: Int, end_offset: Int, type: ScrollType): Boolean = stub("Text default impl")
+
+    fun scrollSubstringToPoint(start_offset: Int, end_offset: Int, coords: CoordType, x: Int, y: Int): Boolean = stub("Text default impl")
+
+    fun setCaretOffset(offset: Int): Boolean = stub("Text default impl")
+
+    fun setSelection(selection_num: Int, start_offset: Int, end_offset: Int): Boolean = stub("Text default impl")
+
     companion object {
         fun cptr(obj: Text): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }
@@ -764,7 +935,7 @@ class TextRectangle(private val cptr: CPointer<cnames.structs._AtkTextRectangle>
 open class Util internal constructor (private val cptr: CPointer<AtkUtil>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 5500080UL
+        const val G_TYPE: gtk3.GType = 31937824UL
         fun cptr(obj: Util): CPointer<AtkUtil> = obj.cptr
     }
 }
@@ -778,6 +949,16 @@ class UtilClass(private val cptr: CPointer<cnames.structs._AtkUtilClass>) /* str
 val VERSION_MIN_REQUIRED: Int get() = TODO()
 
 interface Value : InteropWrapper {
+    fun getIncrement(): Double = stub("Value default impl")
+
+    fun getRange(): Range = stub("Value default impl")
+
+    fun getSubRanges(): List<Range> = stub("Value default impl")
+
+    fun getValueAndText(value: Double, text: String): Unit = stub("Value default impl")
+
+    fun setValue(new_value: Double): Unit = stub("Value default impl")
+
     companion object {
         fun cptr(obj: Value): CPointer<GActionGroup> = obj.rawPtr.reinterpret()
     }

@@ -291,7 +291,7 @@ open class Context internal constructor (private val cptr: CPointer<PangoContext
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5921520UL
+        const val G_TYPE: gtk3.GType = 31140304UL
         fun cptr(obj: Context): CPointer<PangoContext> = obj.cptr
     }
 }
@@ -312,27 +312,18 @@ open class Coverage internal constructor (private val cptr: CPointer<PangoCovera
     open fun get(index_: Int): CoverageLevel {
          return stub()
     }
-    open fun max(other: Coverage): Unit {
-         return stub()
-    }
     override fun ref(): Coverage {
          return stub()
     }
     open fun set(index_: Int, level: CoverageLevel): Unit {
          return stub()
     }
-    open fun toBytes(bytes: List<UByte>, n_bytes: Int): Unit {
-         return stub()
-    }
     override fun unref(): Unit {
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6244496UL
+        const val G_TYPE: gtk3.GType = 32227776UL
         fun cptr(obj: Coverage): CPointer<PangoCoverage> = obj.cptr
-        fun fromBytes(bytes: List<UByte>, n_bytes: Int): Coverage {
-    return stub()
-}
     }
 }
 
@@ -346,14 +337,6 @@ val ENGINE_TYPE_SHAPE: String get() = TODO()
 
 typealias EllipsizeMode = PangoEllipsizeMode
 
-open class Engine internal constructor (private val cptr: CPointer<PangoEngine>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
-    override val rawPtr: COpaquePointer = cptr
-    companion object {
-        const val G_TYPE: gtk3.GType = 6813696UL
-        fun cptr(obj: Engine): CPointer<PangoEngine> = obj.cptr
-    }
-}
-
 class EngineClass(private val cptr: CPointer<cnames.structs._PangoEngineClass>) /* struct */ {
     companion object {
         fun cptr(obj: EngineClass): CPointer<cnames.structs._PangoEngineClass> = obj.cptr
@@ -363,14 +346,6 @@ class EngineClass(private val cptr: CPointer<cnames.structs._PangoEngineClass>) 
 class EngineInfo(private val cptr: CPointer<cnames.structs._PangoEngineInfo>) /* struct */ {
     companion object {
         fun cptr(obj: EngineInfo): CPointer<cnames.structs._PangoEngineInfo> = obj.cptr
-    }
-}
-
-open class EngineLang internal constructor (private val cptr: CPointer<PangoEngineLang>) : Engine(cptr.reinterpret()), InteropWrapper {
-    override val rawPtr: COpaquePointer = cptr
-    companion object {
-        const val G_TYPE: gtk3.GType = 4026496UL
-        fun cptr(obj: EngineLang): CPointer<PangoEngineLang> = obj.cptr
     }
 }
 
@@ -386,14 +361,6 @@ class EngineScriptInfo(private val cptr: CPointer<cnames.structs._PangoEngineScr
     }
 }
 
-open class EngineShape internal constructor (private val cptr: CPointer<PangoEngineShape>) : Engine(cptr.reinterpret()), InteropWrapper {
-    override val rawPtr: COpaquePointer = cptr
-    companion object {
-        const val G_TYPE: gtk3.GType = 5671824UL
-        fun cptr(obj: EngineShape): CPointer<PangoEngineShape> = obj.cptr
-    }
-}
-
 class EngineShapeClass(private val cptr: CPointer<cnames.structs._PangoEngineShapeClass>) /* struct */ {
     companion object {
         fun cptr(obj: EngineShapeClass): CPointer<cnames.structs._PangoEngineShapeClass> = obj.cptr
@@ -406,9 +373,6 @@ open class Font internal constructor (private val cptr: CPointer<PangoFont>) : c
          return stub()
     }
     open fun describeWithAbsoluteSize(): FontDescription {
-         return stub()
-    }
-    open fun findShaper(language: Language, ch: UInt): EngineShape {
          return stub()
     }
     open fun getCoverage(language: Language): Coverage {
@@ -427,7 +391,7 @@ open class Font internal constructor (private val cptr: CPointer<PangoFont>) : c
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4415456UL
+        const val G_TYPE: gtk3.GType = 38655024UL
         fun cptr(obj: Font): CPointer<PangoFont> = obj.cptr
         fun descriptionsFree(descs: List<FontDescription>, n_descs: Int): Unit {
     return stub()
@@ -564,7 +528,7 @@ open class FontFace internal constructor (private val cptr: CPointer<PangoFontFa
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5013184UL
+        const val G_TYPE: gtk3.GType = 31671136UL
         fun cptr(obj: FontFace): CPointer<PangoFontFace> = obj.cptr
     }
 }
@@ -590,7 +554,7 @@ open class FontFamily internal constructor (private val cptr: CPointer<PangoFont
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5034352UL
+        const val G_TYPE: gtk3.GType = 31039952UL
         fun cptr(obj: FontFamily): CPointer<PangoFontFamily> = obj.cptr
     }
 }
@@ -622,7 +586,7 @@ open class FontMap internal constructor (private val cptr: CPointer<PangoFontMap
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 7166976UL
+        const val G_TYPE: gtk3.GType = 32508096UL
         fun cptr(obj: FontMap): CPointer<PangoFontMap> = obj.cptr
     }
 }
@@ -686,7 +650,7 @@ open class Fontset internal constructor (private val cptr: CPointer<PangoFontset
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 5316768UL
+        const val G_TYPE: gtk3.GType = 30597584UL
         fun cptr(obj: Fontset): CPointer<PangoFontset> = obj.cptr
     }
 }
@@ -710,7 +674,7 @@ open class FontsetSimple internal constructor (private val cptr: CPointer<PangoF
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4463696UL
+        const val G_TYPE: gtk3.GType = 33432864UL
         fun cptr(obj: FontsetSimple): CPointer<PangoFontsetSimple> = obj.cptr
     }
 }
@@ -1060,7 +1024,7 @@ open class Layout internal constructor (private val cptr: CPointer<PangoLayout>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 6739056UL
+        const val G_TYPE: gtk3.GType = 38908112UL
         fun cptr(obj: Layout): CPointer<PangoLayout> = obj.cptr
     }
 }
@@ -1285,7 +1249,7 @@ open class Renderer internal constructor (private val cptr: CPointer<PangoRender
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4856512UL
+        const val G_TYPE: gtk3.GType = 35053056UL
         fun cptr(obj: Renderer): CPointer<PangoRenderer> = obj.cptr
     }
 }

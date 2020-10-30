@@ -47,8 +47,8 @@ fun main(args: Array<String>) {
 }
 
 fun Widget.setAllMargins(margin: Int) {
-    setMarginLeft(margin)
-    setMarginRight(margin)
+    setMarginStart(margin)
+    setMarginEnd(margin)
     setMarginTop(margin)
     setMarginBottom(margin)
 }

@@ -131,14 +131,13 @@ open class Pixbuf internal constructor (private val cptr: CPointer<GdkPixbuf>) :
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 4300640UL
+        const val G_TYPE: gtk3.GType = 30777200UL
         fun cptr(obj: Pixbuf): CPointer<GdkPixbuf> = obj.cptr
         fun newFromBytes(data: com.charlag.kgtk.demo.glib.Bytes, colorspace: Colorspace, has_alpha: Boolean, bits_per_sample: Int, width: Int, height: Int, rowstride: Int): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
         fun newFromData(data: List<UByte>, colorspace: Colorspace, has_alpha: Boolean, bits_per_sample: Int, width: Int, height: Int, rowstride: Int, destroy_fn: PixbufDestroyNotify, destroy_fn_data: Any): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
         fun newFromFile(filename: String): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
         fun newFromFileAtScale(filename: String, width: Int, height: Int, preserve_aspect_ratio: Boolean): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
         fun newFromFileAtSize(filename: String, width: Int, height: Int): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
-        fun newFromInline(data_length: Int, data: List<UByte>, copy_pixels: Boolean): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
         fun newFromResource(resource_path: String): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
         fun newFromResourceAtScale(resource_path: String, width: Int, height: Int, preserve_aspect_ratio: Boolean): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
         fun newFromStream(stream: com.charlag.kgtk.demo.gio.InputStream, cancellable: com.charlag.kgtk.demo.gio.Cancellable): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
