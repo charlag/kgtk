@@ -216,7 +216,7 @@ open class AppInfoMonitor internal constructor (private val cptr: CPointer<GAppI
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 32311456UL
+        const val G_TYPE: gtk3.GType = 27333504UL
         fun cptr(obj: AppInfoMonitor): CPointer<GAppInfoMonitor> = obj.cptr
         fun get(): AppInfoMonitor {
     return stub()
@@ -255,7 +255,7 @@ open class AppLaunchContext internal constructor (private val cptr: CPointer<GAp
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 33773456UL
+        const val G_TYPE: gtk3.GType = 27382096UL
         fun cptr(obj: AppLaunchContext): CPointer<GAppLaunchContext> = obj.cptr
     }
 }
@@ -268,61 +268,61 @@ class AppLaunchContextClass(private val cptr: CPointer<cnames.structs._GAppLaunc
 
 open class Application internal constructor (private val cptr: CPointer<GApplication>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), ActionGroup, ActionMap, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
-    constructor(application_id: String, flags: ApplicationFlags) : this(memScoped { g_application_new(application_id, flags)!! })
+    constructor(application_id: String, flags: ApplicationFlags) : this(memScoped { g_application_new(application_id, flags) }!!)
 
     open fun activate(): Unit {
-         return memScoped { g_application_activate(cptr)!! }
+         return memScoped { g_application_activate(cptr) }
     }
     open fun addMainOption(long_name: String, short_name: Byte, flags: com.charlag.kgtk.demo.glib.OptionFlags, arg: com.charlag.kgtk.demo.glib.OptionArg, description: String, arg_description: String): Unit {
-         return memScoped { g_application_add_main_option(cptr, long_name, short_name, flags, arg, description, arg_description)!! }
+         return memScoped { g_application_add_main_option(cptr, long_name, short_name, flags, arg, description, arg_description) }
     }
     open fun addMainOptionEntries(entries: List<com.charlag.kgtk.demo.glib.OptionEntry>): Unit {
-         return memScoped { g_application_add_main_option_entries(cptr, allocArray(entries.size) { com.charlag.kgtk.demo.glib.OptionEntry.cptr(entries[it]) })!! }
+         return memScoped { g_application_add_main_option_entries(cptr, allocArray(entries.size) { com.charlag.kgtk.demo.glib.OptionEntry.cptr(entries[it]) }) }
     }
     open fun addOptionGroup(group: com.charlag.kgtk.demo.glib.OptionGroup): Unit {
-         return memScoped { g_application_add_option_group(cptr, com.charlag.kgtk.demo.glib.OptionGroup.cptr(group))!! }
+         return memScoped { g_application_add_option_group(cptr, com.charlag.kgtk.demo.glib.OptionGroup.cptr(group)) }
     }
     open fun bindBusyProperty(`object`: com.charlag.kgtk.demo.gobject.Object, property: String): Unit {
-         return memScoped { g_application_bind_busy_property(cptr, com.charlag.kgtk.demo.gobject.Object.cptr(`object`), property)!! }
+         return memScoped { g_application_bind_busy_property(cptr, com.charlag.kgtk.demo.gobject.Object.cptr(`object`), property) }
     }
     open fun getApplicationId(): String {
-         return memScoped { g_application_get_application_id(cptr)!! }.toKString()
+         return memScoped { g_application_get_application_id(cptr) }!!.toKString()
     }
     open fun getDbusConnection(): DBusConnection {
-         return DBusConnection(memScoped { g_application_get_dbus_connection(cptr)!! })
+         return DBusConnection(memScoped { g_application_get_dbus_connection(cptr) }!!)
     }
     open fun getDbusObjectPath(): String {
-         return memScoped { g_application_get_dbus_object_path(cptr)!! }.toKString()
+         return memScoped { g_application_get_dbus_object_path(cptr) }!!.toKString()
     }
     open fun getFlags(): ApplicationFlags {
-         return /* TODO: ret int GI_INFO_TYPE_FLAGS*/ memScoped { g_application_get_flags(cptr)!! }
+         return /* TODO: ret int GI_INFO_TYPE_FLAGS*/ memScoped { g_application_get_flags(cptr) }
     }
     open fun getInactivityTimeout(): UInt {
-         return memScoped { g_application_get_inactivity_timeout(cptr)!! }
+         return memScoped { g_application_get_inactivity_timeout(cptr) }
     }
     open fun getIsBusy(): Boolean {
-         return memScoped { g_application_get_is_busy(cptr)!! } != 0
+         return memScoped { g_application_get_is_busy(cptr) } != 0
     }
     open fun getIsRegistered(): Boolean {
-         return memScoped { g_application_get_is_registered(cptr)!! } != 0
+         return memScoped { g_application_get_is_registered(cptr) } != 0
     }
     open fun getIsRemote(): Boolean {
-         return memScoped { g_application_get_is_remote(cptr)!! } != 0
+         return memScoped { g_application_get_is_remote(cptr) } != 0
     }
     open fun getResourceBasePath(): String {
-         return memScoped { g_application_get_resource_base_path(cptr)!! }.toKString()
+         return memScoped { g_application_get_resource_base_path(cptr) }!!.toKString()
     }
     open fun hold(): Unit {
-         return memScoped { g_application_hold(cptr)!! }
+         return memScoped { g_application_hold(cptr) }
     }
     open fun markBusy(): Unit {
-         return memScoped { g_application_mark_busy(cptr)!! }
+         return memScoped { g_application_mark_busy(cptr) }
     }
     open fun open(files: List<File>, n_files: Int, hint: String): Unit {
-         return memScoped { g_application_open(cptr, allocArray(files.size) { stub("Passing interfaces") }, n_files, hint)!! }
+         return memScoped { g_application_open(cptr, allocArray(files.size) { stub("Passing interfaces") }, n_files, hint) }
     }
     open fun quit(): Unit {
-         return memScoped { g_application_quit(cptr)!! }
+         return memScoped { g_application_quit(cptr) }
     }
     open fun register(cancellable: Cancellable): Boolean {
          return memScoped {
@@ -333,46 +333,46 @@ open class Application internal constructor (private val cptr: CPointer<GApplica
 } != 0
     }
     open fun release(): Unit {
-         return memScoped { g_application_release(cptr)!! }
+         return memScoped { g_application_release(cptr) }
     }
     open fun run(argc: Int, argv: List<String>): Int {
-         return memScoped { g_application_run(cptr, argc, argv.toCStringArray(this))!! }
+         return memScoped { g_application_run(cptr, argc, argv.toCStringArray(this)) }
     }
     open fun sendNotification(id: String, notification: Notification): Unit {
-         return memScoped { g_application_send_notification(cptr, id, Notification.cptr(notification))!! }
+         return memScoped { g_application_send_notification(cptr, id, Notification.cptr(notification)) }
     }
     open fun setApplicationId(application_id: String): Unit {
-         return memScoped { g_application_set_application_id(cptr, application_id)!! }
+         return memScoped { g_application_set_application_id(cptr, application_id) }
     }
     open fun setDefault(): Unit {
-         return memScoped { g_application_set_default(cptr)!! }
+         return memScoped { g_application_set_default(cptr) }
     }
     open fun setFlags(flags: ApplicationFlags): Unit {
-         return memScoped { g_application_set_flags(cptr, flags)!! }
+         return memScoped { g_application_set_flags(cptr, flags) }
     }
     open fun setInactivityTimeout(inactivity_timeout: UInt): Unit {
-         return memScoped { g_application_set_inactivity_timeout(cptr, inactivity_timeout)!! }
+         return memScoped { g_application_set_inactivity_timeout(cptr, inactivity_timeout) }
     }
     open fun setOptionContextDescription(description: String): Unit {
-         return memScoped { g_application_set_option_context_description(cptr, description)!! }
+         return memScoped { g_application_set_option_context_description(cptr, description) }
     }
     open fun setOptionContextParameterString(parameter_string: String): Unit {
-         return memScoped { g_application_set_option_context_parameter_string(cptr, parameter_string)!! }
+         return memScoped { g_application_set_option_context_parameter_string(cptr, parameter_string) }
     }
     open fun setOptionContextSummary(summary: String): Unit {
-         return memScoped { g_application_set_option_context_summary(cptr, summary)!! }
+         return memScoped { g_application_set_option_context_summary(cptr, summary) }
     }
     open fun setResourceBasePath(resource_path: String): Unit {
-         return memScoped { g_application_set_resource_base_path(cptr, resource_path)!! }
+         return memScoped { g_application_set_resource_base_path(cptr, resource_path) }
     }
     open fun unbindBusyProperty(`object`: com.charlag.kgtk.demo.gobject.Object, property: String): Unit {
-         return memScoped { g_application_unbind_busy_property(cptr, com.charlag.kgtk.demo.gobject.Object.cptr(`object`), property)!! }
+         return memScoped { g_application_unbind_busy_property(cptr, com.charlag.kgtk.demo.gobject.Object.cptr(`object`), property) }
     }
     open fun unmarkBusy(): Unit {
-         return memScoped { g_application_unmark_busy(cptr)!! }
+         return memScoped { g_application_unmark_busy(cptr) }
     }
     open fun withdrawNotification(id: String): Unit {
-         return memScoped { g_application_withdraw_notification(cptr, id)!! }
+         return memScoped { g_application_withdraw_notification(cptr, id) }
     }
     fun setOnActivate(cb: () -> Unit) {
         do_connect(cptr, "activate", cb)
@@ -403,13 +403,13 @@ open class Application internal constructor (private val cptr: CPointer<GApplica
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 30879744UL
+        const val G_TYPE: gtk3.GType = 25671712UL
         fun cptr(obj: Application): CPointer<GApplication> = obj.cptr
         fun getDefault(): Application {
-    return Application(memScoped { g_application_get_default()!! })
+    return Application(memScoped { g_application_get_default() }!!)
 }
         fun idIsValid(application_id: String): Boolean {
-    return memScoped { g_application_id_is_valid(application_id)!! } != 0
+    return memScoped { g_application_id_is_valid(application_id) } != 0
 }
     }
 }
@@ -456,7 +456,7 @@ open class ApplicationCommandLine internal constructor (private val cptr: CPoint
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31580256UL
+        const val G_TYPE: gtk3.GType = 26629456UL
         fun cptr(obj: ApplicationCommandLine): CPointer<GApplicationCommandLine> = obj.cptr
     }
 }
@@ -551,7 +551,7 @@ open class BufferedInputStream internal constructor (private val cptr: CPointer<
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31938176UL
+        const val G_TYPE: gtk3.GType = 26912352UL
         fun cptr(obj: BufferedInputStream): CPointer<GBufferedInputStream> = obj.cptr
         fun newSized(base_stream: InputStream, size: ULong): BufferedInputStream = BufferedInputStream(stub<CPointer<GBufferedInputStream>>()) 
     }
@@ -580,7 +580,7 @@ open class BufferedOutputStream internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31911648UL
+        const val G_TYPE: gtk3.GType = 26087232UL
         fun cptr(obj: BufferedOutputStream): CPointer<GBufferedOutputStream> = obj.cptr
         fun newSized(base_stream: OutputStream, size: ULong): BufferedOutputStream = BufferedOutputStream(stub<CPointer<GBufferedOutputStream>>()) 
     }
@@ -616,7 +616,7 @@ open class BytesIcon internal constructor (private val cptr: CPointer<GBytesIcon
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31301696UL
+        const val G_TYPE: gtk3.GType = 26299920UL
         fun cptr(obj: BytesIcon): CPointer<GBytesIcon> = obj.cptr
     }
 }
@@ -666,7 +666,7 @@ open class Cancellable internal constructor (private val cptr: CPointer<GCancell
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 33390256UL
+        const val G_TYPE: gtk3.GType = 26593968UL
         fun cptr(obj: Cancellable): CPointer<GCancellable> = obj.cptr
         fun getCurrent(): Cancellable {
     return stub()
@@ -696,7 +696,7 @@ open class CharsetConverter internal constructor (private val cptr: CPointer<GCh
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32572592UL
+        const val G_TYPE: gtk3.GType = 26569632UL
         fun cptr(obj: CharsetConverter): CPointer<GCharsetConverter> = obj.cptr
     }
 }
@@ -737,7 +737,7 @@ open class ConverterInputStream internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31398256UL
+        const val G_TYPE: gtk3.GType = 26109824UL
         fun cptr(obj: ConverterInputStream): CPointer<GConverterInputStream> = obj.cptr
     }
 }
@@ -756,7 +756,7 @@ open class ConverterOutputStream internal constructor (private val cptr: CPointe
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31217104UL
+        const val G_TYPE: gtk3.GType = 25402160UL
         fun cptr(obj: ConverterOutputStream): CPointer<GConverterOutputStream> = obj.cptr
     }
 }
@@ -792,7 +792,7 @@ open class Credentials internal constructor (private val cptr: CPointer<GCredent
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32326816UL
+        const val G_TYPE: gtk3.GType = 31483344UL
         fun cptr(obj: Credentials): CPointer<GCredentials> = obj.cptr
     }
 }
@@ -808,7 +808,7 @@ typealias CredentialsType = GCredentialsType
 open class DBusActionGroup internal constructor (private val cptr: CPointer<GDBusActionGroup>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), ActionGroup, RemoteActionGroup, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 39004368UL
+        const val G_TYPE: gtk3.GType = 25309664UL
         fun cptr(obj: DBusActionGroup): CPointer<GDBusActionGroup> = obj.cptr
         fun get(connection: DBusConnection, bus_name: String, object_path: String): DBusActionGroup {
     return stub()
@@ -862,7 +862,7 @@ open class DBusAuthObserver internal constructor (private val cptr: CPointer<GDB
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 33448352UL
+        const val G_TYPE: gtk3.GType = 25843616UL
         fun cptr(obj: DBusAuthObserver): CPointer<GDBusAuthObserver> = obj.cptr
     }
 }
@@ -998,7 +998,7 @@ open class DBusConnection internal constructor (private val cptr: CPointer<GDBus
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 35031616UL
+        const val G_TYPE: gtk3.GType = 26118176UL
         fun cptr(obj: DBusConnection): CPointer<GDBusConnection> = obj.cptr
         fun newFinish(res: AsyncResult): DBusConnection = DBusConnection(stub<CPointer<GDBusConnection>>()) 
         fun newForAddressFinish(res: AsyncResult): DBusConnection = DBusConnection(stub<CPointer<GDBusConnection>>()) 
@@ -1124,7 +1124,7 @@ open class DBusInterfaceSkeleton internal constructor (private val cptr: CPointe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 32329360UL
+        const val G_TYPE: gtk3.GType = 26892288UL
         fun cptr(obj: DBusInterfaceSkeleton): CPointer<GDBusInterfaceSkeleton> = obj.cptr
     }
 }
@@ -1146,7 +1146,7 @@ class DBusInterfaceVTable(private val cptr: CPointer<cnames.structs._GDBusInterf
 open class DBusMenuModel internal constructor (private val cptr: CPointer<GDBusMenuModel>) : MenuModel(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 32550720UL
+        const val G_TYPE: gtk3.GType = 27606016UL
         fun cptr(obj: DBusMenuModel): CPointer<GDBusMenuModel> = obj.cptr
         fun get(connection: DBusConnection, bus_name: String, object_path: String): DBusMenuModel {
     return stub()
@@ -1285,7 +1285,7 @@ open class DBusMessage internal constructor (private val cptr: CPointer<GDBusMes
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 30552656UL
+        const val G_TYPE: gtk3.GType = 27206736UL
         fun cptr(obj: DBusMessage): CPointer<GDBusMessage> = obj.cptr
         fun newFromBlob(blob: List<UByte>, blob_len: ULong, capabilities: DBusCapabilityFlags): DBusMessage = DBusMessage(stub<CPointer<GDBusMessage>>()) 
         fun newMethodCall(`name`: String, path: String, interface_: String, method: String): DBusMessage = DBusMessage(stub<CPointer<GDBusMessage>>()) 
@@ -1363,7 +1363,7 @@ open class DBusMethodInvocation internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31037088UL
+        const val G_TYPE: gtk3.GType = 25727472UL
         fun cptr(obj: DBusMethodInvocation): CPointer<GDBusMethodInvocation> = obj.cptr
     }
 }
@@ -1452,7 +1452,7 @@ open class DBusObjectManagerClient internal constructor (private val cptr: CPoin
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 34015824UL
+        const val G_TYPE: gtk3.GType = 25856608UL
         fun cptr(obj: DBusObjectManagerClient): CPointer<GDBusObjectManagerClient> = obj.cptr
         fun newFinish(res: AsyncResult): DBusObjectManagerClient = DBusObjectManagerClient(stub<CPointer<GDBusObjectManagerClient>>()) 
         fun newForBusFinish(res: AsyncResult): DBusObjectManagerClient = DBusObjectManagerClient(stub<CPointer<GDBusObjectManagerClient>>()) 
@@ -1504,7 +1504,7 @@ open class DBusObjectManagerServer internal constructor (private val cptr: CPoin
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 37635792UL
+        const val G_TYPE: gtk3.GType = 25982512UL
         fun cptr(obj: DBusObjectManagerServer): CPointer<GDBusObjectManagerServer> = obj.cptr
     }
 }
@@ -1523,7 +1523,7 @@ open class DBusObjectProxy internal constructor (private val cptr: CPointer<GDBu
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 39150448UL
+        const val G_TYPE: gtk3.GType = 26649248UL
         fun cptr(obj: DBusObjectProxy): CPointer<GDBusObjectProxy> = obj.cptr
     }
 }
@@ -1558,7 +1558,7 @@ open class DBusObjectSkeleton internal constructor (private val cptr: CPointer<G
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 33689440UL
+        const val G_TYPE: gtk3.GType = 27200480UL
         fun cptr(obj: DBusObjectSkeleton): CPointer<GDBusObjectSkeleton> = obj.cptr
     }
 }
@@ -1651,7 +1651,7 @@ open class DBusProxy internal constructor (private val cptr: CPointer<GDBusProxy
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 36049536UL
+        const val G_TYPE: gtk3.GType = 26890112UL
         fun cptr(obj: DBusProxy): CPointer<GDBusProxy> = obj.cptr
         fun newFinish(res: AsyncResult): DBusProxy = DBusProxy(stub<CPointer<GDBusProxy>>()) 
         fun newForBusFinish(res: AsyncResult): DBusProxy = DBusProxy(stub<CPointer<GDBusProxy>>()) 
@@ -1703,7 +1703,7 @@ open class DBusServer internal constructor (private val cptr: CPointer<GDBusServ
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 38661824UL
+        const val G_TYPE: gtk3.GType = 26043808UL
         fun cptr(obj: DBusServer): CPointer<GDBusServer> = obj.cptr
         fun newSync(address: String, flags: DBusServerFlags, guid: String, observer: DBusAuthObserver, cancellable: Cancellable): DBusServer = DBusServer(stub<CPointer<GDBusServer>>()) 
     }
@@ -1778,7 +1778,7 @@ open class DataOutputStream internal constructor (private val cptr: CPointer<GDa
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 35436992UL
+        const val G_TYPE: gtk3.GType = 27306032UL
         fun cptr(obj: DataOutputStream): CPointer<GDataOutputStream> = obj.cptr
     }
 }
@@ -2010,7 +2010,7 @@ open class Emblem internal constructor (private val cptr: CPointer<GEmblem>) : c
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31402112UL
+        const val G_TYPE: gtk3.GType = 33075024UL
         fun cptr(obj: Emblem): CPointer<GEmblem> = obj.cptr
         fun newWithOrigin(icon: Icon, origin: EmblemOrigin): Emblem = Emblem(stub<CPointer<GEmblem>>()) 
     }
@@ -2041,7 +2041,7 @@ open class EmblemedIcon internal constructor (private val cptr: CPointer<GEmblem
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 34762832UL
+        const val G_TYPE: gtk3.GType = 25744720UL
         fun cptr(obj: EmblemedIcon): CPointer<GEmblemedIcon> = obj.cptr
     }
 }
@@ -2586,7 +2586,7 @@ open class FileEnumerator internal constructor (private val cptr: CPointer<GFile
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31195440UL
+        const val G_TYPE: gtk3.GType = 26429584UL
         fun cptr(obj: FileEnumerator): CPointer<GFileEnumerator> = obj.cptr
     }
 }
@@ -2612,7 +2612,7 @@ open class FileIOStream internal constructor (private val cptr: CPointer<GFileIO
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32228224UL
+        const val G_TYPE: gtk3.GType = 34999296UL
         fun cptr(obj: FileIOStream): CPointer<GFileIOStream> = obj.cptr
     }
 }
@@ -2631,7 +2631,7 @@ open class FileIcon internal constructor (private val cptr: CPointer<GFileIcon>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32593088UL
+        const val G_TYPE: gtk3.GType = 33948976UL
         fun cptr(obj: FileIcon): CPointer<GFileIcon> = obj.cptr
     }
 }
@@ -2839,7 +2839,7 @@ open class FileInfo internal constructor (private val cptr: CPointer<GFileInfo>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 30690304UL
+        const val G_TYPE: gtk3.GType = 25813232UL
         fun cptr(obj: FileInfo): CPointer<GFileInfo> = obj.cptr
     }
 }
@@ -2862,7 +2862,7 @@ open class FileInputStream internal constructor (private val cptr: CPointer<GFil
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31751424UL
+        const val G_TYPE: gtk3.GType = 27399296UL
         fun cptr(obj: FileInputStream): CPointer<GFileInputStream> = obj.cptr
     }
 }
@@ -2896,7 +2896,7 @@ open class FileMonitor internal constructor (private val cptr: CPointer<GFileMon
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 32689008UL
+        const val G_TYPE: gtk3.GType = 25412720UL
         fun cptr(obj: FileMonitor): CPointer<GFileMonitor> = obj.cptr
     }
 }
@@ -2926,7 +2926,7 @@ open class FileOutputStream internal constructor (private val cptr: CPointer<GFi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 36981616UL
+        const val G_TYPE: gtk3.GType = 25605872UL
         fun cptr(obj: FileOutputStream): CPointer<GFileOutputStream> = obj.cptr
     }
 }
@@ -2963,7 +2963,7 @@ open class FilenameCompleter internal constructor (private val cptr: CPointer<GF
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 34008864UL
+        const val G_TYPE: gtk3.GType = 27287552UL
         fun cptr(obj: FilenameCompleter): CPointer<GFilenameCompleter> = obj.cptr
     }
 }
@@ -2988,7 +2988,7 @@ open class FilterInputStream internal constructor (private val cptr: CPointer<GF
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31937936UL
+        const val G_TYPE: gtk3.GType = 28780304UL
         fun cptr(obj: FilterInputStream): CPointer<GFilterInputStream> = obj.cptr
     }
 }
@@ -3011,7 +3011,7 @@ open class FilterOutputStream internal constructor (private val cptr: CPointer<G
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31911408UL
+        const val G_TYPE: gtk3.GType = 27774080UL
         fun cptr(obj: FilterOutputStream): CPointer<GFilterOutputStream> = obj.cptr
     }
 }
@@ -3077,7 +3077,7 @@ open class IOModule internal constructor (private val cptr: CPointer<GIOModule>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32141776UL
+        const val G_TYPE: gtk3.GType = 25396896UL
         fun cptr(obj: IOModule): CPointer<GIOModule> = obj.cptr
         fun query(): List<String> {
     return stub()
@@ -3152,7 +3152,7 @@ open class IOStream internal constructor (private val cptr: CPointer<GIOStream>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32227984UL
+        const val G_TYPE: gtk3.GType = 27060032UL
         fun cptr(obj: IOStream): CPointer<GIOStream> = obj.cptr
         fun spliceFinish(result: AsyncResult): Boolean {
     return stub()
@@ -3245,7 +3245,7 @@ open class InetAddress internal constructor (private val cptr: CPointer<GInetAdd
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31966624UL
+        const val G_TYPE: gtk3.GType = 30730928UL
         fun cptr(obj: InetAddress): CPointer<GInetAddress> = obj.cptr
         fun newAny(family: SocketFamily): InetAddress = InetAddress(stub<CPointer<GInetAddress>>()) 
         fun newFromBytes(bytes: List<UByte>, family: SocketFamily): InetAddress = InetAddress(stub<CPointer<GInetAddress>>()) 
@@ -3283,7 +3283,7 @@ open class InetAddressMask internal constructor (private val cptr: CPointer<GIne
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 30762928UL
+        const val G_TYPE: gtk3.GType = 27445616UL
         fun cptr(obj: InetAddressMask): CPointer<GInetAddressMask> = obj.cptr
         fun newFromString(mask_string: String): InetAddressMask = InetAddressMask(stub<CPointer<GInetAddressMask>>()) 
     }
@@ -3312,7 +3312,7 @@ open class InetSocketAddress internal constructor (private val cptr: CPointer<GI
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32212256UL
+        const val G_TYPE: gtk3.GType = 28492144UL
         fun cptr(obj: InetSocketAddress): CPointer<GInetSocketAddress> = obj.cptr
         fun newFromString(address: String, port: UInt): InetSocketAddress = InetSocketAddress(stub<CPointer<GInetSocketAddress>>()) 
     }
@@ -3408,7 +3408,7 @@ open class InputStream internal constructor (private val cptr: CPointer<GInputSt
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 33038624UL
+        const val G_TYPE: gtk3.GType = 30241632UL
         fun cptr(obj: InputStream): CPointer<GInputStream> = obj.cptr
     }
 }
@@ -3481,7 +3481,7 @@ open class ListStore internal constructor (private val cptr: CPointer<GListStore
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 33810752UL
+        const val G_TYPE: gtk3.GType = 29809376UL
         fun cptr(obj: ListStore): CPointer<GListStore> = obj.cptr
     }
 }
@@ -3541,7 +3541,7 @@ open class MemoryInputStream internal constructor (private val cptr: CPointer<GM
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32147024UL
+        const val G_TYPE: gtk3.GType = 26453904UL
         fun cptr(obj: MemoryInputStream): CPointer<GMemoryInputStream> = obj.cptr
         fun newFromBytes(bytes: com.charlag.kgtk.demo.glib.Bytes): MemoryInputStream = MemoryInputStream(stub<CPointer<GMemoryInputStream>>()) 
         fun newFromData(data: List<UByte>, len: Long, destroy: com.charlag.kgtk.demo.glib.DestroyNotify): MemoryInputStream = MemoryInputStream(stub<CPointer<GMemoryInputStream>>()) 
@@ -3592,7 +3592,7 @@ open class MemoryOutputStream internal constructor (private val cptr: CPointer<G
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 30909488UL
+        const val G_TYPE: gtk3.GType = 26430448UL
         fun cptr(obj: MemoryOutputStream): CPointer<GMemoryOutputStream> = obj.cptr
         fun newResizable(): MemoryOutputStream = MemoryOutputStream(stub<CPointer<GMemoryOutputStream>>()) 
     }
@@ -3654,7 +3654,7 @@ open class Menu internal constructor (private val cptr: CPointer<GMenu>) : MenuM
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32546384UL
+        const val G_TYPE: gtk3.GType = 29615920UL
         fun cptr(obj: Menu): CPointer<GMenu> = obj.cptr
     }
 }
@@ -3674,7 +3674,7 @@ open class MenuAttributeIter internal constructor (private val cptr: CPointer<GM
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31626704UL
+        const val G_TYPE: gtk3.GType = 31105200UL
         fun cptr(obj: MenuAttributeIter): CPointer<GMenuAttributeIter> = obj.cptr
     }
 }
@@ -3720,7 +3720,7 @@ open class MenuItem internal constructor (private val cptr: CPointer<GMenuItem>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31765920UL
+        const val G_TYPE: gtk3.GType = 25688272UL
         fun cptr(obj: MenuItem): CPointer<GMenuItem> = obj.cptr
         fun newFromModel(model: MenuModel, item_index: Int): MenuItem = MenuItem(stub<CPointer<GMenuItem>>()) 
         fun newSection(label: String, section: MenuModel): MenuItem = MenuItem(stub<CPointer<GMenuItem>>()) 
@@ -3743,7 +3743,7 @@ open class MenuLinkIter internal constructor (private val cptr: CPointer<GMenuLi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31358192UL
+        const val G_TYPE: gtk3.GType = 27636832UL
         fun cptr(obj: MenuLinkIter): CPointer<GMenuLinkIter> = obj.cptr
     }
 }
@@ -3782,7 +3782,7 @@ open class MenuModel internal constructor (private val cptr: CPointer<GMenuModel
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 31429312UL
+        const val G_TYPE: gtk3.GType = 26661376UL
         fun cptr(obj: MenuModel): CPointer<GMenuModel> = obj.cptr
     }
 }
@@ -3943,7 +3943,7 @@ open class MountOperation internal constructor (private val cptr: CPointer<GMoun
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 31857664UL
+        const val G_TYPE: gtk3.GType = 28614272UL
         fun cptr(obj: MountOperation): CPointer<GMountOperation> = obj.cptr
     }
 }
@@ -3967,7 +3967,7 @@ open class NativeSocketAddress internal constructor (private val cptr: CPointer<
     constructor(native: Any, len: ULong) : this(stub<CPointer<GNativeSocketAddress>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 35742768UL
+        const val G_TYPE: gtk3.GType = 28705792UL
         fun cptr(obj: NativeSocketAddress): CPointer<GNativeSocketAddress> = obj.cptr
     }
 }
@@ -3981,7 +3981,7 @@ class NativeSocketAddressClass(private val cptr: CPointer<cnames.structs._GNativ
 open class NativeVolumeMonitor internal constructor (private val cptr: CPointer<GNativeVolumeMonitor>) : VolumeMonitor(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 31484160UL
+        const val G_TYPE: gtk3.GType = 30405088UL
         fun cptr(obj: NativeVolumeMonitor): CPointer<GNativeVolumeMonitor> = obj.cptr
     }
 }
@@ -4006,7 +4006,7 @@ open class NetworkAddress internal constructor (private val cptr: CPointer<GNetw
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 38235920UL
+        const val G_TYPE: gtk3.GType = 25516208UL
         fun cptr(obj: NetworkAddress): CPointer<GNetworkAddress> = obj.cptr
         fun newLoopback(port: UShort): NetworkAddress = NetworkAddress(stub<CPointer<GNetworkAddress>>()) 
         fun parse(host_and_port: String, default_port: UShort): NetworkAddress {
@@ -4076,7 +4076,7 @@ open class NetworkService internal constructor (private val cptr: CPointer<GNetw
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31557024UL
+        const val G_TYPE: gtk3.GType = 32908704UL
         fun cptr(obj: NetworkService): CPointer<GNetworkService> = obj.cptr
     }
 }
@@ -4116,7 +4116,7 @@ open class Notification internal constructor (private val cptr: CPointer<GNotifi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32631376UL
+        const val G_TYPE: gtk3.GType = 28537856UL
         fun cptr(obj: Notification): CPointer<GNotification> = obj.cptr
     }
 }
@@ -4219,7 +4219,7 @@ open class OutputStream internal constructor (private val cptr: CPointer<GOutput
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31911168UL
+        const val G_TYPE: gtk3.GType = 27071568UL
         fun cptr(obj: OutputStream): CPointer<GOutputStream> = obj.cptr
     }
 }
@@ -4277,7 +4277,7 @@ open class Permission internal constructor (private val cptr: CPointer<GPermissi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31291904UL
+        const val G_TYPE: gtk3.GType = 26763888UL
         fun cptr(obj: Permission): CPointer<GPermission> = obj.cptr
     }
 }
@@ -4347,7 +4347,7 @@ open class PropertyAction internal constructor (private val cptr: CPointer<GProp
     constructor(`name`: String, `object`: com.charlag.kgtk.demo.gobject.Object, property_name: String) : this(stub<CPointer<GPropertyAction>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 31022704UL
+        const val G_TYPE: gtk3.GType = 26186560UL
         fun cptr(obj: PropertyAction): CPointer<GPropertyAction> = obj.cptr
     }
 }
@@ -4398,7 +4398,7 @@ open class ProxyAddress internal constructor (private val cptr: CPointer<GProxyA
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 30816592UL
+        const val G_TYPE: gtk3.GType = 27846704UL
         fun cptr(obj: ProxyAddress): CPointer<GProxyAddress> = obj.cptr
     }
 }
@@ -4412,7 +4412,7 @@ class ProxyAddressClass(private val cptr: CPointer<cnames.structs._GProxyAddress
 open class ProxyAddressEnumerator internal constructor (private val cptr: CPointer<GProxyAddressEnumerator>) : SocketAddressEnumerator(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 36925584UL
+        const val G_TYPE: gtk3.GType = 26497504UL
         fun cptr(obj: ProxyAddressEnumerator): CPointer<GProxyAddressEnumerator> = obj.cptr
     }
 }
@@ -4532,7 +4532,7 @@ open class Resolver internal constructor (private val cptr: CPointer<GResolver>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 32696128UL
+        const val G_TYPE: gtk3.GType = 31444080UL
         fun cptr(obj: Resolver): CPointer<GResolver> = obj.cptr
         fun getDefault(): Resolver {
     return stub()
@@ -4739,7 +4739,7 @@ open class SimpleAction internal constructor (private val cptr: CPointer<GSimple
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 33592176UL
+        const val G_TYPE: gtk3.GType = 29803856UL
         fun cptr(obj: SimpleAction): CPointer<GSimpleAction> = obj.cptr
         fun newStateful(`name`: String, parameter_type: com.charlag.kgtk.demo.glib.VariantType, state: com.charlag.kgtk.demo.glib.Variant): SimpleAction = SimpleAction(stub<CPointer<GSimpleAction>>()) 
     }
@@ -4750,7 +4750,7 @@ open class SimpleActionGroup internal constructor (private val cptr: CPointer<GS
     constructor() : this(stub<CPointer<GSimpleActionGroup>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 32590000UL
+        const val G_TYPE: gtk3.GType = 27467488UL
         fun cptr(obj: SimpleActionGroup): CPointer<GSimpleActionGroup> = obj.cptr
     }
 }
@@ -4764,7 +4764,7 @@ class SimpleActionGroupClass(private val cptr: CPointer<cnames.structs._GSimpleA
 open class SimpleAsyncResult internal constructor (private val cptr: CPointer<GSimpleAsyncResult>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), AsyncResult, InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 38664752UL
+        const val G_TYPE: gtk3.GType = 33015536UL
         fun cptr(obj: SimpleAsyncResult): CPointer<GSimpleAsyncResult> = obj.cptr
     }
 }
@@ -4782,7 +4782,7 @@ open class SimpleIOStream internal constructor (private val cptr: CPointer<GSimp
     constructor(input_stream: InputStream, output_stream: OutputStream) : this(stub<CPointer<GSimpleIOStream>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 41135360UL
+        const val G_TYPE: gtk3.GType = 26773936UL
         fun cptr(obj: SimpleIOStream): CPointer<GSimpleIOStream> = obj.cptr
     }
 }
@@ -4792,7 +4792,7 @@ open class SimplePermission internal constructor (private val cptr: CPointer<GSi
     constructor(allowed: Boolean) : this(stub<CPointer<GSimplePermission>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 35740528UL
+        const val G_TYPE: gtk3.GType = 27510560UL
         fun cptr(obj: SimplePermission): CPointer<GSimplePermission> = obj.cptr
     }
 }
@@ -4809,7 +4809,7 @@ open class SimpleProxyResolver internal constructor (private val cptr: CPointer<
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 35866704UL
+        const val G_TYPE: gtk3.GType = 27432448UL
         fun cptr(obj: SimpleProxyResolver): CPointer<GSimpleProxyResolver> = obj.cptr
         fun new(default_proxy: String, ignore_hosts: String): ProxyResolver {
     return stub()
@@ -4993,7 +4993,7 @@ open class Socket internal constructor (private val cptr: CPointer<GSocket>) : c
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 33031872UL
+        const val G_TYPE: gtk3.GType = 29965664UL
         fun cptr(obj: Socket): CPointer<GSocket> = obj.cptr
         fun newFromFd(fd: Int): Socket = Socket(stub<CPointer<GSocket>>()) 
     }
@@ -5011,7 +5011,7 @@ open class SocketAddress internal constructor (private val cptr: CPointer<GSocke
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31424544UL
+        const val G_TYPE: gtk3.GType = 27155568UL
         fun cptr(obj: SocketAddress): CPointer<GSocketAddress> = obj.cptr
         fun newFromNative(native: Any, len: ULong): SocketAddress = SocketAddress(stub<CPointer<GSocketAddress>>()) 
     }
@@ -5035,7 +5035,7 @@ open class SocketAddressEnumerator internal constructor (private val cptr: CPoin
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 36925440UL
+        const val G_TYPE: gtk3.GType = 27435008UL
         fun cptr(obj: SocketAddressEnumerator): CPointer<GSocketAddressEnumerator> = obj.cptr
     }
 }
@@ -5154,7 +5154,7 @@ open class SocketClient internal constructor (private val cptr: CPointer<GSocket
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 30964992UL
+        const val G_TYPE: gtk3.GType = 31443840UL
         fun cptr(obj: SocketClient): CPointer<GSocketClient> = obj.cptr
     }
 }
@@ -5211,7 +5211,7 @@ open class SocketConnection internal constructor (private val cptr: CPointer<GSo
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32311904UL
+        const val G_TYPE: gtk3.GType = 27543168UL
         fun cptr(obj: SocketConnection): CPointer<GSocketConnection> = obj.cptr
         fun factoryLookupType(family: SocketFamily, type: SocketType, protocol_id: Int): GType {
     return stub()
@@ -5243,7 +5243,7 @@ open class SocketControlMessage internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32206992UL
+        const val G_TYPE: gtk3.GType = 33688880UL
         fun cptr(obj: SocketControlMessage): CPointer<GSocketControlMessage> = obj.cptr
         fun deserialize(level: Int, type: Int, size: ULong, data: List<UByte>): SocketControlMessage {
     return stub()
@@ -5304,7 +5304,7 @@ open class SocketListener internal constructor (private val cptr: CPointer<GSock
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 30832080UL
+        const val G_TYPE: gtk3.GType = 25489568UL
         fun cptr(obj: SocketListener): CPointer<GSocketListener> = obj.cptr
     }
 }
@@ -5339,7 +5339,7 @@ open class SocketService internal constructor (private val cptr: CPointer<GSocke
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 32326576UL
+        const val G_TYPE: gtk3.GType = 27177504UL
         fun cptr(obj: SocketService): CPointer<GSocketService> = obj.cptr
     }
 }
@@ -5473,7 +5473,7 @@ open class Subprocess internal constructor (private val cptr: CPointer<GSubproce
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 39428304UL
+        const val G_TYPE: gtk3.GType = 28088656UL
         fun cptr(obj: Subprocess): CPointer<GSubprocess> = obj.cptr
     }
 }
@@ -5527,7 +5527,7 @@ open class SubprocessLauncher internal constructor (private val cptr: CPointer<G
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 33480544UL
+        const val G_TYPE: gtk3.GType = 26339520UL
         fun cptr(obj: SubprocessLauncher): CPointer<GSubprocessLauncher> = obj.cptr
     }
 }
@@ -5630,7 +5630,7 @@ open class Task internal constructor (private val cptr: CPointer<GTask>) : com.c
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 39340496UL
+        const val G_TYPE: gtk3.GType = 25882512UL
         fun cptr(obj: Task): CPointer<GTask> = obj.cptr
         fun isValid(result: AsyncResult, source_object: com.charlag.kgtk.demo.gobject.Object): Boolean {
     return stub()
@@ -5658,7 +5658,7 @@ open class TcpConnection internal constructor (private val cptr: CPointer<GTcpCo
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32728400UL
+        const val G_TYPE: gtk3.GType = 26012304UL
         fun cptr(obj: TcpConnection): CPointer<GTcpConnection> = obj.cptr
     }
 }
@@ -5677,7 +5677,7 @@ open class TcpWrapperConnection internal constructor (private val cptr: CPointer
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 38413696UL
+        const val G_TYPE: gtk3.GType = 28373280UL
         fun cptr(obj: TcpWrapperConnection): CPointer<GTcpWrapperConnection> = obj.cptr
     }
 }
@@ -5711,7 +5711,7 @@ open class TestDBus internal constructor (private val cptr: CPointer<GTestDBus>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 40527392UL
+        const val G_TYPE: gtk3.GType = 26187440UL
         fun cptr(obj: TestDBus): CPointer<GTestDBus> = obj.cptr
         fun unset(): Unit {
     return stub()
@@ -5735,7 +5735,7 @@ open class ThemedIcon internal constructor (private val cptr: CPointer<GThemedIc
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32719760UL
+        const val G_TYPE: gtk3.GType = 33552672UL
         fun cptr(obj: ThemedIcon): CPointer<GThemedIcon> = obj.cptr
         fun newFromNames(iconnames: List<String>, len: Int): ThemedIcon = ThemedIcon(stub<CPointer<GThemedIcon>>()) 
         fun newWithDefaultFallbacks(iconname: String): ThemedIcon = ThemedIcon(stub<CPointer<GThemedIcon>>()) 
@@ -5757,7 +5757,7 @@ open class ThreadedSocketService internal constructor (private val cptr: CPointe
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 30694112UL
+        const val G_TYPE: gtk3.GType = 33188832UL
         fun cptr(obj: ThreadedSocketService): CPointer<GThreadedSocketService> = obj.cptr
     }
 }
@@ -5820,7 +5820,7 @@ open class TlsCertificate internal constructor (private val cptr: CPointer<GTlsC
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 33031504UL
+        const val G_TYPE: gtk3.GType = 26296128UL
         fun cptr(obj: TlsCertificate): CPointer<GTlsCertificate> = obj.cptr
         fun newFromFile(file: String): TlsCertificate = TlsCertificate(stub<CPointer<GTlsCertificate>>()) 
         fun newFromFiles(cert_file: String, key_file: String): TlsCertificate = TlsCertificate(stub<CPointer<GTlsCertificate>>()) 
@@ -5926,7 +5926,7 @@ open class TlsConnection internal constructor (private val cptr: CPointer<GTlsCo
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 33475216UL
+        const val G_TYPE: gtk3.GType = 25523200UL
         fun cptr(obj: TlsConnection): CPointer<GTlsConnection> = obj.cptr
     }
 }
@@ -5979,7 +5979,7 @@ open class TlsDatabase internal constructor (private val cptr: CPointer<GTlsData
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31851408UL
+        const val G_TYPE: gtk3.GType = 25560416UL
         fun cptr(obj: TlsDatabase): CPointer<GTlsDatabase> = obj.cptr
     }
 }
@@ -6041,7 +6041,7 @@ open class TlsInteraction internal constructor (private val cptr: CPointer<GTlsI
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 33667840UL
+        const val G_TYPE: gtk3.GType = 26231360UL
         fun cptr(obj: TlsInteraction): CPointer<GTlsInteraction> = obj.cptr
     }
 }
@@ -6086,7 +6086,7 @@ open class TlsPassword internal constructor (private val cptr: CPointer<GTlsPass
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31406752UL
+        const val G_TYPE: gtk3.GType = 33239024UL
         fun cptr(obj: TlsPassword): CPointer<GTlsPassword> = obj.cptr
     }
 }
@@ -6127,7 +6127,7 @@ open class UnixCredentialsMessage internal constructor (private val cptr: CPoint
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 32117488UL
+        const val G_TYPE: gtk3.GType = 27114608UL
         fun cptr(obj: UnixCredentialsMessage): CPointer<GUnixCredentialsMessage> = obj.cptr
         fun newWithCredentials(credentials: Credentials): UnixCredentialsMessage = UnixCredentialsMessage(stub<CPointer<GUnixCredentialsMessage>>()) 
         fun isSupported(): Boolean {
@@ -6156,7 +6156,7 @@ open class UnixFDList internal constructor (private val cptr: CPointer<GUnixFDLi
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 40468112UL
+        const val G_TYPE: gtk3.GType = 25377904UL
         fun cptr(obj: UnixFDList): CPointer<GUnixFDList> = obj.cptr
         fun newFromArray(fds: List<Int>, n_fds: Int): UnixFDList = UnixFDList(stub<CPointer<GUnixFDList>>()) 
     }
@@ -6204,7 +6204,7 @@ open class Vfs internal constructor (private val cptr: CPointer<GVfs>) : com.cha
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31866176UL
+        const val G_TYPE: gtk3.GType = 32986880UL
         fun cptr(obj: Vfs): CPointer<GVfs> = obj.cptr
         fun getDefault(): Vfs {
     return stub()
@@ -6339,7 +6339,7 @@ open class VolumeMonitor internal constructor (private val cptr: CPointer<GVolum
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 31483952UL
+        const val G_TYPE: gtk3.GType = 26902272UL
         fun cptr(obj: VolumeMonitor): CPointer<GVolumeMonitor> = obj.cptr
         fun get(): VolumeMonitor {
     return stub()
@@ -6364,7 +6364,7 @@ open class ZlibCompressor internal constructor (private val cptr: CPointer<GZlib
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 41115088UL
+        const val G_TYPE: gtk3.GType = 27510224UL
         fun cptr(obj: ZlibCompressor): CPointer<GZlibCompressor> = obj.cptr
     }
 }
@@ -6385,7 +6385,7 @@ open class ZlibDecompressor internal constructor (private val cptr: CPointer<GZl
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 33763472UL
+        const val G_TYPE: gtk3.GType = 26090496UL
         fun cptr(obj: ZlibDecompressor): CPointer<GZlibDecompressor> = obj.cptr
     }
 }

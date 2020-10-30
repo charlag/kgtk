@@ -662,9 +662,9 @@ private fun generateFunctionCall(
         }
     }
     val throws = method.flags.testFlag(GI_FUNCTION_THROWS)
-    if (throws) {
+    val withCatch = if (throws) {
         val argsWithError = args + "_err.ptr"
-        return """
+        """
             memScoped {
                 val _err = allocPointerTo<GError>()
                 val _result = ${method.symbol}(${argsWithError.joinToString(", ")})
@@ -673,8 +673,11 @@ private fun generateFunctionCall(
             }
         """.trimIndent()
     } else {
-        return "memScoped { ${method.symbol}(${args.joinToString(", ")})!! }"
+        "memScoped { ${method.symbol}(${args.joinToString(", ")}) }"
     }
+    val unwrap = if (method.returnType.isPointer) "!!" else ""
+    val withUnwrap = "$withCatch$unwrap"
+    return withUnwrap
 }
 
 tailrec fun ObjectInfo.getOrInheritsMethod(methodName: String, types: List<TypeInfo>): FunctionInfo? {
@@ -691,7 +694,7 @@ tailrec fun ObjectInfo.getOrInheritsMethod(methodName: String, types: List<TypeI
 fun overridesInterfaceMethod(objectInfo: ObjectInfo, method: FunctionInfo): Boolean {
     val args = method.args.map { it.argType }.toList()
     return objectInfo.interfaces.any {
-        it.methods.any { it.name == method.name && it.args.map { it.argType } .toList() == args }
+        it.methods.any { it.name == method.name && it.args.map { it.argType }.toList() == args }
     }
 }
 
