@@ -182,7 +182,7 @@ private fun processNamespace(repository: Repository, namespace: String, packageN
                         "unix_mount_is_system_internal", "unix_mount_points_changed_since",
                         "unix_mount_points_get", "unix_mounts_changed_since", "unix_mounts_get",
                         "keyfile_settings_backend_new", "null_settings_backend_new",
-                        "memory_settings_backend_new", "Settings",
+                        "memory_settings_backend_new", "Settings", "UnixCredentialsMessage",
                 ),
                 // Deprecated
                 "Gtk" to setOf(
@@ -374,7 +374,11 @@ val customMethods = mapOf(
         // TODO: make it consistent across implementations
         "Gtk.FontChooser.get_font_map" to "    fun getChooserFontMap(): com.charlag.kgtk.demo.pango.FontMap = stub(\"getChooserFontMap() default impl\")",
         "Gtk.FontChooser.set_font_map" to "    fun setChooserFontMap(fontmap: com.charlag.kgtk.demo.pango.FontMap): Unit = stub(\"setChooserFontMap() default impl\")",
-        "Gtk.ToolShell.get_icon_size" to "    fun getIconSize(): GtkIconSize = stub(\"getIconSize() default impl\")"
+        "Gtk.ToolShell.get_icon_size" to "    fun getIconSize(): GtkIconSize = stub(\"getIconSize() default impl\")",
+//        "Gio.DBusConnection.call_with_unix_fd_list" to "    // TODO method callWithUnixFdList() needs Unix headers",
+//        "Gio.DBusConnection.call_with_unix_fd_list_finish" to "    // TODO method callWithUnixFdListFinish() needs Unix headers",
+//        "Gio.DBusConnection.call_with_unix_fd_list_sync" to "    // TODO method callWithUnixFdListSync() needs Unix headers",
+//        "Gio.DBusMessage.get_unix_fd_list" to "    // TODO method getUnixFdList() needs Unix headers",
 )
 
 val additionalMethods = mapOf("Gtk.Toolbar" to listOf("    override fun getOrientation(): Orientation = stub(\"Needs manual resolution because of multiple interfaces\")"))
@@ -491,8 +495,8 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
     }
 
     builder.appendLine("    companion object {")
-    val gtype = objectInfo.gtype
-    builder.appendLine("        const val G_TYPE: gtk3.GType = ${gtype}UL")
+    val gtypeAcessor = getGTypeAccessor(objectInfo)
+    builder.appendLine("        val G_TYPE: gtk3.GType get() = $gtypeAcessor")
     builder.appendLine("        fun cptr(obj: $objectName): CPointer<$cStructName> = obj.cptr")
     for (factory in factories) {
         builder.append("        ")
@@ -500,6 +504,17 @@ fun processObject(objectInfo: ObjectInfo, namespace: String, packageName: String
     }
     builder.appendLine("    }")
     builder.appendLine("}\n")
+}
+
+private fun getGTypeAccessor(objectInfo: ObjectInfo): String {
+    if (objectInfo.name == "UnixFDList") {
+        return """stub("Not implemented, UnixFDList needs Unix headers")"""
+    }
+    val typeInit = objectInfo.typeInit
+    val gtypeAcessor =
+            if (typeInit == "intern") """stub("Not allowed to get GType")"""
+            else "${typeInit}()"
+    return gtypeAcessor
 }
 
 data class MethodDeclInfo(val name: String, val modifiers: String)
@@ -669,7 +684,7 @@ private fun generateFunctionCall(
                 val _err = allocPointerTo<GError>()
                 val _result = ${method.symbol}(${argsWithError.joinToString(", ")})
                 if (_err.value != null) { g_error_free(_err.value); error("GError") }
-                _result!!
+                _result
             }
         """.trimIndent()
     } else {

@@ -291,7 +291,7 @@ open class Context internal constructor (private val cptr: CPointer<PangoContext
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26417408UL
+        val G_TYPE: gtk3.GType get() = pango_context_get_type()
         fun cptr(obj: Context): CPointer<PangoContext> = obj.cptr
     }
 }
@@ -322,7 +322,7 @@ open class Coverage internal constructor (private val cptr: CPointer<PangoCovera
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26088784UL
+        val G_TYPE: gtk3.GType get() = pango_coverage_get_type()
         fun cptr(obj: Coverage): CPointer<PangoCoverage> = obj.cptr
     }
 }
@@ -391,7 +391,7 @@ open class Font internal constructor (private val cptr: CPointer<PangoFont>) : c
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26335440UL
+        val G_TYPE: gtk3.GType get() = pango_font_get_type()
         fun cptr(obj: Font): CPointer<PangoFont> = obj.cptr
         fun descriptionsFree(descs: List<FontDescription>, n_descs: Int): Unit {
     return stub()
@@ -528,7 +528,7 @@ open class FontFace internal constructor (private val cptr: CPointer<PangoFontFa
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 27650560UL
+        val G_TYPE: gtk3.GType get() = pango_font_face_get_type()
         fun cptr(obj: FontFace): CPointer<PangoFontFace> = obj.cptr
     }
 }
@@ -554,7 +554,7 @@ open class FontFamily internal constructor (private val cptr: CPointer<PangoFont
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 28102832UL
+        val G_TYPE: gtk3.GType get() = pango_font_family_get_type()
         fun cptr(obj: FontFamily): CPointer<PangoFontFamily> = obj.cptr
     }
 }
@@ -586,7 +586,7 @@ open class FontMap internal constructor (private val cptr: CPointer<PangoFontMap
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 25492480UL
+        val G_TYPE: gtk3.GType get() = pango_font_map_get_type()
         fun cptr(obj: FontMap): CPointer<PangoFontMap> = obj.cptr
     }
 }
@@ -650,7 +650,7 @@ open class Fontset internal constructor (private val cptr: CPointer<PangoFontset
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 25616096UL
+        val G_TYPE: gtk3.GType get() = pango_fontset_get_type()
         fun cptr(obj: Fontset): CPointer<PangoFontset> = obj.cptr
     }
 }
@@ -674,7 +674,7 @@ open class FontsetSimple internal constructor (private val cptr: CPointer<PangoF
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26629856UL
+        val G_TYPE: gtk3.GType get() = pango_fontset_simple_get_type()
         fun cptr(obj: FontsetSimple): CPointer<PangoFontsetSimple> = obj.cptr
     }
 }
@@ -1024,7 +1024,7 @@ open class Layout internal constructor (private val cptr: CPointer<PangoLayout>)
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 27598848UL
+        val G_TYPE: gtk3.GType get() = pango_layout_get_type()
         fun cptr(obj: Layout): CPointer<PangoLayout> = obj.cptr
     }
 }
@@ -1249,7 +1249,7 @@ open class Renderer internal constructor (private val cptr: CPointer<PangoRender
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26641056UL
+        val G_TYPE: gtk3.GType get() = pango_renderer_get_type()
         fun cptr(obj: Renderer): CPointer<PangoRenderer> = obj.cptr
     }
 }

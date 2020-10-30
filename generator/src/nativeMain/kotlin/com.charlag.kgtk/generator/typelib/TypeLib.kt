@@ -139,6 +139,8 @@ open class RegisteredTypeInfo(private val instance: CPointer<GITypeInfo>) : Base
         get() = g_registered_type_info_get_type_name(instance)?.toKString()
     val gtype: GType
         get() = g_registered_type_info_get_g_type(instance)
+    val typeInit: String
+        get() = g_registered_type_info_get_type_init(instance)!!.toKString()
 }
 
 class ObjectInfo(private val instance: CPointer<GIObjectInfo>) : RegisteredTypeInfo(instance) {

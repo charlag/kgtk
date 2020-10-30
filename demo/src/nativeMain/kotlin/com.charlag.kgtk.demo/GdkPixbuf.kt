@@ -131,7 +131,7 @@ open class Pixbuf internal constructor (private val cptr: CPointer<GdkPixbuf>) :
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26230784UL
+        val G_TYPE: gtk3.GType get() = gdk_pixbuf_get_type()
         fun cptr(obj: Pixbuf): CPointer<GdkPixbuf> = obj.cptr
         fun newFromBytes(data: com.charlag.kgtk.demo.glib.Bytes, colorspace: Colorspace, has_alpha: Boolean, bits_per_sample: Int, width: Int, height: Int, rowstride: Int): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 
         fun newFromData(data: List<UByte>, colorspace: Colorspace, has_alpha: Boolean, bits_per_sample: Int, width: Int, height: Int, rowstride: Int, destroy_fn: PixbufDestroyNotify, destroy_fn_data: Any): Pixbuf = Pixbuf(stub<CPointer<GdkPixbuf>>()) 

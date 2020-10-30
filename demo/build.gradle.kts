@@ -24,7 +24,8 @@ kotlin {
                             "$it/harfbuzz",
                             "$it/pango-1.0",
                             "$it/gtk-3.0",
-                            "$it/glib-2.0"
+                            "$it/glib-2.0",
+                            "$it/gio-unix-2.0"
                     )
                 }
                 includeDirs(

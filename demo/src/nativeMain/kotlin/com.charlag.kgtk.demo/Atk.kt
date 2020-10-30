@@ -160,7 +160,7 @@ open class GObjectAccessible internal constructor (private val cptr: CPointer<At
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 25871536UL
+        val G_TYPE: gtk3.GType get() = atk_gobject_accessible_get_type()
         fun cptr(obj: GObjectAccessible): CPointer<AtkGObjectAccessible> = obj.cptr
         fun forObject(obj: com.charlag.kgtk.demo.gobject.Object): Object {
     return stub()
@@ -202,7 +202,7 @@ open class Hyperlink internal constructor (private val cptr: CPointer<AtkHyperli
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 25977856UL
+        val G_TYPE: gtk3.GType get() = atk_hyperlink_get_type()
         fun cptr(obj: Hyperlink): CPointer<AtkHyperlink> = obj.cptr
     }
 }
@@ -323,7 +323,7 @@ val MINOR_VERSION: Int get() = TODO()
 open class Misc internal constructor (private val cptr: CPointer<AtkMisc>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 34749824UL
+        val G_TYPE: gtk3.GType get() = atk_misc_get_type()
         fun cptr(obj: Misc): CPointer<AtkMisc> = obj.cptr
     }
 }
@@ -339,7 +339,7 @@ open class NoOpObjectFactory internal constructor (private val cptr: CPointer<At
     constructor() : this(stub<CPointer<AtkNoOpObjectFactory>>())
 
     companion object {
-        const val G_TYPE: gtk3.GType = 27849856UL
+        val G_TYPE: gtk3.GType get() = atk_no_op_object_factory_get_type()
         fun cptr(obj: NoOpObjectFactory): CPointer<AtkNoOpObjectFactory> = obj.cptr
     }
 }
@@ -443,7 +443,7 @@ open class Object internal constructor (private val cptr: CPointer<AtkObject>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 26495504UL
+        val G_TYPE: gtk3.GType get() = atk_object_get_type()
         fun cptr(obj: Object): CPointer<AtkObject> = obj.cptr
     }
 }
@@ -466,7 +466,7 @@ open class ObjectFactory internal constructor (private val cptr: CPointer<AtkObj
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 27479936UL
+        val G_TYPE: gtk3.GType get() = atk_object_factory_get_type()
         fun cptr(obj: ObjectFactory): CPointer<AtkObjectFactory> = obj.cptr
     }
 }
@@ -488,7 +488,7 @@ open class Plug internal constructor (private val cptr: CPointer<AtkPlug>) : Obj
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26496080UL
+        val G_TYPE: gtk3.GType get() = atk_plug_get_type()
         fun cptr(obj: Plug): CPointer<AtkPlug> = obj.cptr
     }
 }
@@ -549,7 +549,7 @@ open class Registry internal constructor (private val cptr: CPointer<AtkRegistry
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 28577568UL
+        val G_TYPE: gtk3.GType get() = atk_registry_get_type()
         fun cptr(obj: Registry): CPointer<AtkRegistry> = obj.cptr
     }
 }
@@ -577,7 +577,7 @@ open class Relation internal constructor (private val cptr: CPointer<AtkRelation
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 28414800UL
+        val G_TYPE: gtk3.GType get() = atk_relation_get_type()
         fun cptr(obj: Relation): CPointer<AtkRelation> = obj.cptr
     }
 }
@@ -617,7 +617,7 @@ open class RelationSet internal constructor (private val cptr: CPointer<AtkRelat
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 25507200UL
+        val G_TYPE: gtk3.GType get() = atk_relation_set_get_type()
         fun cptr(obj: RelationSet): CPointer<AtkRelationSet> = obj.cptr
     }
 }
@@ -675,7 +675,7 @@ open class Socket internal constructor (private val cptr: CPointer<AtkSocket>) :
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 31106368UL
+        val G_TYPE: gtk3.GType get() = atk_socket_get_type()
         fun cptr(obj: Socket): CPointer<AtkSocket> = obj.cptr
     }
 }
@@ -721,7 +721,7 @@ open class StateSet internal constructor (private val cptr: CPointer<AtkStateSet
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 29753104UL
+        val G_TYPE: gtk3.GType get() = atk_state_set_get_type()
         fun cptr(obj: StateSet): CPointer<AtkStateSet> = obj.cptr
     }
 }
@@ -935,7 +935,7 @@ class TextRectangle(private val cptr: CPointer<cnames.structs._AtkTextRectangle>
 open class Util internal constructor (private val cptr: CPointer<AtkUtil>) : com.charlag.kgtk.demo.gobject.Object(cptr.reinterpret()), InteropWrapper {
     override val rawPtr: COpaquePointer = cptr
     companion object {
-        const val G_TYPE: gtk3.GType = 25631648UL
+        val G_TYPE: gtk3.GType get() = atk_util_get_type()
         fun cptr(obj: Util): CPointer<AtkUtil> = obj.cptr
     }
 }

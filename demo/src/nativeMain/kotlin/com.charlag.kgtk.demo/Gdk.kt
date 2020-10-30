@@ -27,7 +27,7 @@ open class AppLaunchContext internal constructor (private val cptr: CPointer<Gdk
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 36454752UL
+        val G_TYPE: gtk3.GType get() = gdk_app_launch_context_get_type()
         fun cptr(obj: AppLaunchContext): CPointer<GdkAppLaunchContext> = obj.cptr
     }
 }
@@ -102,7 +102,7 @@ open class Cursor internal constructor (private val cptr: CPointer<GdkCursor>) :
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 34720528UL
+        val G_TYPE: gtk3.GType get() = gdk_cursor_get_type()
         fun cptr(obj: Cursor): CPointer<GdkCursor> = obj.cptr
         fun newForDisplay(display: Display, cursor_type: CursorType): Cursor = Cursor(stub<CPointer<GdkCursor>>()) 
         fun newFromName(display: Display, `name`: String): Cursor = Cursor(stub<CPointer<GdkCursor>>()) 
@@ -202,7 +202,7 @@ open class Device internal constructor (private val cptr: CPointer<GdkDevice>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 28308336UL
+        val G_TYPE: gtk3.GType get() = gdk_device_get_type()
         fun cptr(obj: Device): CPointer<GdkDevice> = obj.cptr
     }
 }
@@ -225,7 +225,7 @@ open class DeviceManager internal constructor (private val cptr: CPointer<GdkDev
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 25660496UL
+        val G_TYPE: gtk3.GType get() = gdk_device_manager_get_type()
         fun cptr(obj: DeviceManager): CPointer<GdkDeviceManager> = obj.cptr
     }
 }
@@ -268,7 +268,7 @@ open class DeviceTool internal constructor (private val cptr: CPointer<GdkDevice
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26733440UL
+        val G_TYPE: gtk3.GType get() = gdk_device_tool_get_type()
         fun cptr(obj: DeviceTool): CPointer<GdkDeviceTool> = obj.cptr
     }
 }
@@ -406,7 +406,7 @@ open class Display internal constructor (private val cptr: CPointer<GdkDisplay>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 27287792UL
+        val G_TYPE: gtk3.GType get() = gdk_display_get_type()
         fun cptr(obj: Display): CPointer<GdkDisplay> = obj.cptr
         fun getDefault(): Display {
     return stub()
@@ -436,7 +436,7 @@ open class DisplayManager internal constructor (private val cptr: CPointer<GdkDi
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 28047792UL
+        val G_TYPE: gtk3.GType get() = gdk_display_manager_get_type()
         fun cptr(obj: DisplayManager): CPointer<GdkDisplayManager> = obj.cptr
         fun get(): DisplayManager {
     return stub()
@@ -503,7 +503,7 @@ open class DragContext internal constructor (private val cptr: CPointer<GdkDragC
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 26300272UL
+        val G_TYPE: gtk3.GType get() = gdk_drag_context_get_type()
         fun cptr(obj: DragContext): CPointer<GdkDragContext> = obj.cptr
     }
 }
@@ -525,7 +525,7 @@ open class DrawingContext internal constructor (private val cptr: CPointer<GdkDr
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 27509392UL
+        val G_TYPE: gtk3.GType get() = gdk_drawing_context_get_type()
         fun cptr(obj: DrawingContext): CPointer<GdkDrawingContext> = obj.cptr
     }
 }
@@ -878,7 +878,7 @@ open class FrameClock internal constructor (private val cptr: CPointer<GdkFrameC
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 26273248UL
+        val G_TYPE: gtk3.GType get() = gdk_frame_clock_get_type()
         fun cptr(obj: FrameClock): CPointer<GdkFrameClock> = obj.cptr
     }
 }
@@ -971,7 +971,7 @@ open class GLContext internal constructor (private val cptr: CPointer<GdkGLConte
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 25610560UL
+        val G_TYPE: gtk3.GType get() = gdk_gl_context_get_type()
         fun cptr(obj: GLContext): CPointer<GdkGLContext> = obj.cptr
         fun clearCurrent(): Unit {
     return stub()
@@ -5610,7 +5610,7 @@ open class Keymap internal constructor (private val cptr: CPointer<GdkKeymap>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 29049456UL
+        val G_TYPE: gtk3.GType get() = gdk_keymap_get_type()
         fun cptr(obj: Keymap): CPointer<GdkKeymap> = obj.cptr
         fun getForDisplay(display: Display): Keymap {
     return stub()
@@ -5676,7 +5676,7 @@ open class Monitor internal constructor (private val cptr: CPointer<GdkMonitor>)
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 26320704UL
+        val G_TYPE: gtk3.GType get() = gdk_monitor_get_type()
         fun cptr(obj: Monitor): CPointer<GdkMonitor> = obj.cptr
     }
 }
@@ -5798,7 +5798,7 @@ open class Screen internal constructor (private val cptr: CPointer<GdkScreen>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 26108768UL
+        val G_TYPE: gtk3.GType get() = gdk_screen_get_type()
         fun cptr(obj: Screen): CPointer<GdkScreen> = obj.cptr
         fun getDefault(): Screen {
     return stub()
@@ -5848,7 +5848,7 @@ open class Seat internal constructor (private val cptr: CPointer<GdkSeat>) : com
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 27013120UL
+        val G_TYPE: gtk3.GType get() = gdk_seat_get_type()
         fun cptr(obj: Seat): CPointer<GdkSeat> = obj.cptr
     }
 }
@@ -5894,7 +5894,7 @@ open class Visual internal constructor (private val cptr: CPointer<GdkVisual>) :
          return stub()
     }
     companion object {
-        const val G_TYPE: gtk3.GType = 26093984UL
+        val G_TYPE: gtk3.GType get() = gdk_visual_get_type()
         fun cptr(obj: Visual): CPointer<GdkVisual> = obj.cptr
     }
 }
@@ -6344,7 +6344,7 @@ open class Window internal constructor (private val cptr: CPointer<GdkWindow>) :
     }
 
     companion object {
-        const val G_TYPE: gtk3.GType = 26479872UL
+        val G_TYPE: gtk3.GType get() = gdk_window_get_type()
         fun cptr(obj: Window): CPointer<GdkWindow> = obj.cptr
         fun constrainSize(geometry: Geometry, flags: WindowHints, width: Int, height: Int, new_width: Int, new_height: Int): Unit {
     return stub()
